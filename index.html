@@ -23,6 +23,9 @@
       html.dark .text-quote-main {
         color: #ffffff;
       }
+      html.dark .text-links-custom {
+        color: #a1a1aa;
+      }
       html.dark .bg-card-custom {
         background-color: #0d0e12;
       }
@@ -45,6 +48,9 @@
       }
       html.light .text-quote-main {
         color: #000000;
+      }
+      html.light .text-links-custom {
+        color: #27272a;
       }
       html.light .bg-card-custom {
         background-color: #ffffff;
@@ -166,9 +172,7 @@
         >
           Ciao 🖐🏼 — I'm a software development engineer based in Sri Lanka,
           passionate about building high-performance systems.
-          <span
-            class="block mt-1 font-semibold leading-relaxed text-zinc-900 dark:text-white"
-          >
+          <span class="block mt-1 font-semibold leading-relaxed text-muted">
             My focus is on microservice architectures, relational normalization
             matrices, token verification layers, and crafting performant server
             environments that scale.
@@ -341,24 +345,24 @@
         </div>
 
         <div
-          class="flex flex-row justify-center items-center gap-x-4 text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-300"
+          class="flex flex-row justify-center items-center gap-x-4 text-xs font-semibold uppercase tracking-wider text-links-custom"
         >
           <a
-            class="hover:text-white transition-colors duration-200"
+            class="hover:text-zinc-500 dark:hover:text-white transition-colors duration-200"
             href="#"
             target="_blank"
             >LinkedIn</a
           >
-          <div class="h-3 w-px bg-zinc-800"></div>
+          <div class="h-3 w-px bg-zinc-300 dark:bg-zinc-800"></div>
           <a
-            class="hover:text-white transition-colors duration-200"
+            class="hover:text-zinc-500 dark:hover:text-white transition-colors duration-200"
             href="#"
             target="_blank"
             >Email</a
           >
-          <div class="h-3 w-px bg-zinc-800"></div>
+          <div class="h-3 w-px bg-zinc-300 dark:bg-zinc-800"></div>
           <a
-            class="hover:text-white transition-colors duration-200"
+            class="hover:text-zinc-500 dark:hover:text-white transition-colors duration-200"
             href="#"
             target="_blank"
             >GitHub</a
