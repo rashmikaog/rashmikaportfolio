@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/rashmika-portfolio.html" }
+    { "source": "/", "destination": "/index.html" }
   ]
 }

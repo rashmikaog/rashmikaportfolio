@@ -2,7 +2,7 @@ const CACHE_NAME = 'rashmika-portfolio-v1';
 
 const ASSETS_TO_CACHE = [
   '/',
-  '/rashmika-portfolio.html', // Now accurately pointing to your home layout target
+  '/index.html', // Now accurately pointing to your home layout target
   'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4',
   'https://i.postimg.cc/RZGLMYTb/Black-and-White-Minimalist-Laptop-Mockup-Instagram-Post-(672-x-504-px).png',
   'https://i.postimg.cc/3xVf5RF0/brainpath-mobile-(1).png',
