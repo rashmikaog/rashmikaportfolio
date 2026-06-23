@@ -4,13 +4,35 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rashmika - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      /* Force Tailwind's dark: utilities to follow the manually-toggled
+         .dark class on <html> instead of the OS prefers-color-scheme.
+         Without this, half the dark:/light: styling on this page was
+         silently following the OS theme instead of the in-page toggle,
+         which is why Light mode looked broken/unreadable. */
+      @variant dark (&:where(.dark, .dark *));
+    </style>
     <style>
       html,
       body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
         transition:
           background-color 0.3s ease,
           color 0.3s ease;
+      }
+      * {
+        font-family: inherit;
       }
       /* Dark Mode Theming Specifications */
       html.dark body {
@@ -151,8 +173,7 @@
       <section class="w-full flex flex-row justify-between items-center">
         <div class="flex flex-col">
           <h1 class="text-base font-bold tracking-tight">Rashmika</h1>
-          <span
-            class="text-xs text-zinc-500 font-semibold tracking-tight mt-0.5"
+          <span class="text-xs text-muted font-semibold tracking-tight mt-0.5"
             >Software Engineering & Data Science Student</span
           >
         </div>
@@ -303,7 +324,7 @@
       </section>
 
       <section
-        class="w-full text-center flex flex-col items-center justify-center gap-3 py-4 border-t border-b border-zinc-200/10 dark:border-zinc-800/50"
+        class="w-full text-center flex flex-col items-center justify-center gap-3 py-4 border-t border-b border-custom"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -337,7 +358,7 @@
             Let's Keep in Touch
           </h2>
           <p
-            class="text-xs text-zinc-400 max-w-xs mx-auto leading-relaxed font-semibold"
+            class="text-xs text-muted max-w-xs mx-auto leading-relaxed font-semibold"
           >
             Stay updated on my latest projects, insights, and offerings. Whether
             you have inquiries or system proposals, feel free to reach out.
@@ -371,13 +392,12 @@
       </section>
 
       <footer
-        class="w-full border-t border-zinc-200/10 dark:border-zinc-900 pt-6 flex flex-col items-center justify-center gap-1"
+        class="w-full border-t border-custom pt-6 flex flex-col items-center justify-center gap-1"
       >
-        <span
-          class="text-xs tracking-widest uppercase font-serif italic text-zinc-500"
+        <span class="text-xs tracking-widest uppercase font-bold text-muted"
           >Rashmika</span
         >
-        <span class="text-[10px] text-zinc-500 tracking-tight font-semibold"
+        <span class="text-[10px] text-muted tracking-tight font-semibold"
           >Copyright © 2026 — Made by Rashmika</span
         >
       </footer>
