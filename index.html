@@ -18,7 +18,10 @@
         color: #ffffff;
       }
       html.dark .text-muted {
-        color: #71717a;
+        color: #94a3b8;
+      }
+      html.dark .text-quote-main {
+        color: #ffffff;
       }
       html.dark .bg-card-custom {
         background-color: #0d0e12;
@@ -38,7 +41,10 @@
         color: #121214;
       }
       html.light .text-muted {
-        color: #71717a;
+        color: #52525b;
+      }
+      html.light .text-quote-main {
+        color: #000000;
       }
       html.light .bg-card-custom {
         background-color: #ffffff;
@@ -139,7 +145,8 @@
       <section class="w-full flex flex-row justify-between items-center">
         <div class="flex flex-col">
           <h1 class="text-base font-bold tracking-tight">Rashmika</h1>
-          <span class="text-xs text-zinc-500 font-medium tracking-tight mt-0.5"
+          <span
+            class="text-xs text-zinc-500 font-semibold tracking-tight mt-0.5"
             >Software Engineering & Data Science Student</span
           >
         </div>
@@ -154,10 +161,10 @@
       </section>
 
       <section class="w-full">
-        <h2 class="text-[15px] font-medium leading-relaxed tracking-tight">
+        <h2 class="text-[15px] font-semibold leading-relaxed tracking-tight">
           Ciao 🖐🏼 — I'm a software development engineer based in Sri Lanka,
           passionate about building high-performance systems.
-          <span class="text-muted block mt-1 font-normal">
+          <span class="text-muted block mt-1 font-semibold">
             My focus is on microservice architectures, relational normalization
             matrices, token verification layers, and crafting performant server
             environments that scale.
@@ -188,7 +195,7 @@
                 ArgiLease
               </h3>
               <p
-                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm"
+                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm font-semibold"
               >
                 Agricultural equipment leasing platform. Connects equipment
                 owners with farmers, handling listings, bookings, and rental
@@ -210,7 +217,7 @@
                 TechCare Services
               </h3>
               <p
-                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm"
+                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm font-semibold"
               >
                 Native Android app for device repair management. Users can book
                 repairs, track progress, browse services, and manage profiles
@@ -232,7 +239,7 @@
                 The Little Book Haven
               </h3>
               <p
-                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm"
+                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm font-semibold"
               >
                 Desktop bookstore management system. Features role-based access
                 control for managers and cashiers with full inventory tracking
@@ -254,7 +261,7 @@
                 Municipal Service Database
               </h3>
               <p
-                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm"
+                class="text-[13px] text-zinc-300 mt-1 leading-relaxed max-w-sm font-semibold"
               >
                 Relational database structure for city-level services. Handles
                 citizen logs, utility configurations, public complaints, and
@@ -276,7 +283,7 @@
                 LibGDX Game
               </h3>
               <p
-                class="text-[13px] text-zinc-200 mt-1 leading-relaxed max-w-sm"
+                class="text-[13px] text-zinc-200 mt-1 leading-relaxed max-w-sm font-semibold"
               >
                 2D game currently in active design phases. Powered by custom
                 interactive game states, sprite render animations, and modular
@@ -303,12 +310,12 @@
           ></path>
         </svg>
         <p
-          class="text-[15px] font-medium tracking-normal text-zinc-900 dark:text-white leading-relaxed max-w-md"
+          class="text-[15px] font-semibold tracking-normal text-quote-main leading-relaxed max-w-md"
         >
           Simplicity is the ultimate sophistication in engineering. Building a
           system that works is straightforward, but architecting an ecosystem
           that remains resilient under load requires true discipline.
-          <span class="text-muted block mt-1 font-normal text-sm"
+          <span class="text-muted block mt-1 font-semibold text-sm"
             >Whether optimizing backend relational lookups or refining
             verification layers, my goal is to deliver clean code that scales
             seamlessly.</span
@@ -321,7 +328,9 @@
           <h2 class="text-base font-bold tracking-tight">
             Let's Keep in Touch
           </h2>
-          <p class="text-xs text-zinc-400 max-w-xs mx-auto leading-relaxed">
+          <p
+            class="text-xs text-zinc-400 max-w-xs mx-auto leading-relaxed font-semibold"
+          >
             Stay updated on my latest projects, insights, and offerings. Whether
             you have inquiries or system proposals, feel free to reach out.
           </p>
@@ -360,11 +369,26 @@
           class="text-xs tracking-widest uppercase font-serif italic text-zinc-500"
           >Rashmika</span
         >
-        <span class="text-[10px] text-zinc-500 tracking-tight"
+        <span class="text-[10px] text-zinc-500 tracking-tight font-semibold"
           >Copyright © 2026 — Made by Rashmika</span
         >
       </footer>
     </main>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((reg) =>
+              console.log("Service Worker registered successfully.", reg),
+            )
+            .catch((err) =>
+              console.log("Service Worker registration failed:", err),
+            );
+        });
+      }
+    </script>
 
     <script>
       const menuBtn = document.getElementById("theme-menu-btn");
@@ -410,15 +434,6 @@
           }
         }
       };
-
-      // Register the service worker to allow offline caching functionality
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('Service Worker registered successfully.', reg))
-            .catch(err => console.log('Service Worker registration failed:', err));
-        });
-      }
 
       const savedTheme = localStorage.getItem("portfolio-theme") || "system";
       setTheme(savedTheme);
