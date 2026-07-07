@@ -508,23 +508,7 @@
         font-weight: 500;
       }
 
-      /* ---------- Pixel Trail background (hero section) ---------- */
-      .hero-section {
-        overflow: hidden;
-      }
-
-      .pixel-trail-canvas {
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        pointer-events: none;
-        display: block;
-      }
-
       @media (prefers-reduced-motion: reduce) {
-        .pixel-trail-canvas {
-          display: none;
-        }
         .tech-marquee-track {
           animation: none;
         }
@@ -554,12 +538,6 @@
       </header>
 
       <section class="hero-section" id="top">
-        <canvas
-          class="pixel-trail-canvas"
-          id="pixelTrailCanvas"
-          aria-hidden="true"
-        ></canvas>
-
         <div class="avatar-container">
           <div class="avatar-initials">RK</div>
         </div>
@@ -898,6 +876,7 @@
       })();
     </script>
 
+    <!-- ---------- Tech-stack marquee ---------- -->
     <script>
       (function () {
         var wrap = document.querySelector(".tech-marquee-wrap");
@@ -982,156 +961,6 @@
         }
 
         rafId = requestAnimationFrame(animate);
-      })();
-    </script>
-
-    <script type="module">
-      import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-
-      (function () {
-        var canvas = document.getElementById("pixelTrailCanvas");
-        var host = document.querySelector(".hero-section");
-        if (!canvas || !host) return;
-
-        var reduceMotion =
-          window.matchMedia &&
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        if (reduceMotion) return;
-
-        // Configuration matching your React Bits settings snippet
-        var GRID_SIZE = 100; // Number of pixels in grid
-        var TRAIL_RADIUS = 0.05; // Size of each trail dot
-        var MAX_AGE = 250; // Duration of the trail effect in ms
-        var PIXEL_COLOR = new THREE.Color("#c3c3c3"); // Clean neutral gray instead of orange-red
-
-        var trailSize = 256;
-        var trailCanvas = document.createElement("canvas");
-        trailCanvas.width = trailSize;
-        trailCanvas.height = trailSize;
-        var tctx = trailCanvas.getContext("2d");
-        tctx.fillStyle = "#000000";
-        tctx.fillRect(0, 0, trailSize, trailSize);
-
-        var trailTexture = new THREE.CanvasTexture(trailCanvas);
-        trailTexture.minFilter = THREE.NearestFilter;
-        trailTexture.magFilter = THREE.NearestFilter;
-        trailTexture.wrapS = THREE.ClampToEdgeWrapping;
-        trailTexture.wrapT = THREE.ClampToEdgeWrapping;
-
-        var pointer = { x: -1, y: -1, active: false };
-
-        function stampPointer() {
-          if (!pointer.active) return;
-          var r = TRAIL_RADIUS * trailSize;
-          var px = pointer.x * trailSize;
-          // FIXED: Removed the inversion (1 - pointer.y) so Y-coordinate tracking matches cursor movement perfectly
-          var py = pointer.y * trailSize;
-
-          var gradient = tctx.createRadialGradient(px, py, 0, px, py, r);
-          gradient.addColorStop(0, "rgba(255,255,255,1)");
-          gradient.addColorStop(1, "rgba(255,255,255,0)");
-          tctx.save();
-          tctx.globalCompositeOperation = "lighten";
-          tctx.fillStyle = gradient;
-          tctx.fillRect(px - r, py - r, r * 2, r * 2);
-          tctx.restore();
-        }
-
-        var decayPerMs = 1 / MAX_AGE;
-
-        function fadeTrail(deltaMs) {
-          var k = Math.min(1, decayPerMs * deltaMs * 1.4);
-          tctx.fillStyle = "rgba(0,0,0," + k + ")";
-          tctx.fillRect(0, 0, trailSize, trailSize);
-        }
-
-        var material = new THREE.ShaderMaterial({
-          uniforms: {
-            resolution: { value: new THREE.Vector2() },
-            mouseTrail: { value: trailTexture },
-            gridSize: { value: GRID_SIZE },
-            pixelColor: { value: PIXEL_COLOR },
-          },
-          vertexShader:
-            "void main() { gl_Position = vec4(position.xy, 0.0, 1.0); }",
-          fragmentShader: [
-            "uniform vec2 resolution;",
-            "uniform sampler2D mouseTrail;",
-            "uniform float gridSize;",
-            "uniform vec3 pixelColor;",
-            "vec2 coverUv(vec2 uv) {",
-            "  vec2 s = resolution.xy / max(resolution.x, resolution.y);",
-            "  vec2 newUv = (uv - 0.5) * s + 0.5;",
-            "  return clamp(newUv, 0.0, 1.0);",
-            "}",
-            "void main() {",
-            "  vec2 screenUv = gl_FragCoord.xy / resolution;",
-            "  vec2 uv = coverUv(screenUv);",
-            "  vec2 gridUvCenter = (floor(uv * gridSize) + 0.5) / gridSize;",
-            "  float trail = texture2D(mouseTrail, gridUvCenter).r;",
-            "  gl_FragColor = vec4(pixelColor, trail);",
-            "}",
-          ].join("\n"),
-          transparent: true,
-          depthTest: false,
-          depthWrite: false,
-        });
-
-        var scene = new THREE.Scene();
-        var camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-        var geometry = new THREE.PlaneGeometry(2, 2);
-        var mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-
-        var renderer = new THREE.WebGLRenderer({
-          canvas: canvas,
-          alpha: true,
-          antialias: false,
-          powerPreference: "high-performance",
-        });
-        renderer.setClearColor(0x000000, 0);
-
-        function resize() {
-          var rect = host.getBoundingClientRect();
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
-          renderer.setPixelRatio(dpr);
-          renderer.setSize(rect.width, rect.height, false);
-          material.uniforms.resolution.value.set(
-            rect.width * dpr,
-            rect.height * dpr,
-          );
-        }
-
-        resize();
-        window.addEventListener("resize", resize);
-        if (window.ResizeObserver) {
-          new ResizeObserver(resize).observe(host);
-        }
-
-        host.addEventListener("pointermove", function (e) {
-          var rect = host.getBoundingClientRect();
-          pointer.x = (e.clientX - rect.left) / rect.width;
-          pointer.y = (e.clientY - rect.top) / rect.height;
-          pointer.active = true;
-        });
-        host.addEventListener("pointerleave", function () {
-          pointer.active = false;
-        });
-
-        var lastTs = null;
-        function animate(ts) {
-          if (lastTs === null) lastTs = ts;
-          var deltaMs = ts - lastTs;
-          lastTs = ts;
-
-          fadeTrail(deltaMs);
-          stampPointer();
-          trailTexture.needsUpdate = true;
-
-          renderer.render(scene, camera);
-          requestAnimationFrame(animate);
-        }
-        requestAnimationFrame(animate);
       })();
     </script>
   </body>
