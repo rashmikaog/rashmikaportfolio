@@ -288,9 +288,7 @@ function Reveal({ children, className = "", delay = 0 }) {
     <div
       ref={ref}
       style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
-      className={`${className} transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-      }`}
+      className={`reveal-type ${visible ? "is-visible" : ""} ${className}`}
     >
       {children}
     </div>
@@ -664,6 +662,22 @@ export default function Portfolio() {
         .float-card { animation: float 6s ease-in-out infinite; }
         .marquee-track { animation: marquee 22s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
+
+        /* Scroll reveal: content "types in" left-to-right behind a wipe,
+           instead of the generic fade-and-rise every template uses. */
+        .reveal-type {
+          clip-path: inset(0 100% 0 0);
+          opacity: 0;
+          transition: clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.4s ease;
+          will-change: clip-path, opacity;
+        }
+        .reveal-type.is-visible {
+          clip-path: inset(0 0 0 0);
+          opacity: 1;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .reveal-type { clip-path: none !important; opacity: 1 !important; transition: none !important; }
+        }
 
         .btn-primary {
           transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
