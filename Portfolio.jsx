@@ -261,16 +261,23 @@ function Eyebrow({ children, className = "", tone = "dark" }) {
   );
 }
 
-function useReveal() {
+function useReveal(threshold = 0.15) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    // Reveal shortly after mount, same mechanism as the hero text.
-    // No IntersectionObserver, no dependency on scroll position or any
-    // browser API that could silently fail to fire — a plain timer always
-    // runs, so content can never get stuck invisible.
-    const t = setTimeout(() => setVisible(true), 50);
-    return () => clearTimeout(t);
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { threshold }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
   return [ref, visible];
 }
@@ -281,7 +288,9 @@ function Reveal({ children, className = "", delay = 0 }) {
     <div
       ref={ref}
       style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
-      className={`reveal-type reveal-armed ${visible ? "is-visible" : ""} ${className}`}
+      className={`${className} transition-all duration-700 ease-out ${
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+      }`}
     >
       {children}
     </div>
@@ -656,29 +665,6 @@ export default function Portfolio() {
         .marquee-track { animation: marquee 22s linear infinite; }
         .marquee-track:hover { animation-play-state: paused; }
 
-        /* Scroll reveal: content "types in" left-to-right behind a wipe,
-           instead of the generic fade-and-rise every template uses.
-           IMPORTANT: content is visible by default. JS only adds the
-           .reveal-armed class (once it has confirmed it can observe the
-           element) which is what actually hides it pre-animation. This
-           means if JS fails to run for any reason, visitors still see
-           the page instead of a permanently blank screen. */
-        .reveal-type {
-          transition: clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.4s ease;
-          will-change: clip-path, opacity;
-        }
-        .reveal-type.reveal-armed {
-          clip-path: inset(0 100% 0 0);
-          opacity: 0;
-        }
-        .reveal-type.reveal-armed.is-visible {
-          clip-path: inset(0 0 0 0);
-          opacity: 1;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .reveal-type { clip-path: none !important; opacity: 1 !important; transition: none !important; }
-        }
-
         .btn-primary {
           transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
         }
@@ -804,7 +790,7 @@ export default function Portfolio() {
       <section id="top" ref={heroRef} className="relative pt-36 pb-20 px-6 sm:px-8 overflow-hidden">
         <div className="max-w-5xl mx-auto text-center relative">
           <h1
-            className={`font-extrabold tracking-tight leading-[1.05] text-4xl sm:text-6xl md:text-7xl ${loaded ? "anim-in" : ""}`}
+            className={`font-extrabold tracking-tight leading-[1.05] text-4xl sm:text-6xl md:text-7xl ${loaded ? "anim-in" : "opacity-0"}`}
             style={{ animationDelay: "80ms" }}
           >
             Full-stack developer
@@ -821,7 +807,7 @@ export default function Portfolio() {
           </h1>
 
           <p
-            className={`text-black/60 max-w-xl mx-auto mt-6 text-base sm:text-lg leading-relaxed ${loaded ? "anim-in" : ""}`}
+            className={`text-black/60 max-w-xl mx-auto mt-6 text-base sm:text-lg leading-relaxed ${loaded ? "anim-in" : "opacity-0"}`}
             style={{ animationDelay: "160ms" }}
           >
             Software engineering student from Sri Lanka, focused on clean code,
@@ -830,7 +816,7 @@ export default function Portfolio() {
           </p>
 
           <div
-            className={`flex flex-wrap items-center justify-center gap-3 mt-9 ${loaded ? "anim-in" : ""}`}
+            className={`flex flex-wrap items-center justify-center gap-3 mt-9 ${loaded ? "anim-in" : "opacity-0"}`}
             style={{ animationDelay: "240ms" }}
           >
             <Magnetic
@@ -847,7 +833,7 @@ export default function Portfolio() {
             </Magnetic>
           </div>
 
-          <p className={`text-xs text-black/40 mt-5 ${loaded ? "anim-in" : ""}`} style={{ animationDelay: "300ms" }}>
+          <p className={`text-xs text-black/40 mt-5 ${loaded ? "anim-in" : "opacity-0"}`} style={{ animationDelay: "300ms" }}>
             {EDUCATION[0].degree} · Sri Lanka
           </p>
         </div>
