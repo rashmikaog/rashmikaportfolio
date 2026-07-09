@@ -255,6 +255,7 @@ function Eyebrow({ children, className = "", tone = "dark" }) {
   const toneClass = tone === "light" ? "text-white/50" : "text-black/45";
   return (
     <p className={`font-serif italic text-lg sm:text-xl ${toneClass} ${className}`}>
+      <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C1272D] mr-2 -translate-y-0.5" />
       {children}
     </p>
   );
@@ -472,7 +473,7 @@ function StatusPill({ status }) {
   const isActive = status === "Live" || status === "Ongoing";
   return (
     <span className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full border border-black/10 bg-black/[0.03] text-black/70 shrink-0">
-      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-black animate-pulse" : "bg-black/30"}`} />
+      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-[#C1272D] animate-pulse" : "bg-black/30"}`} />
       {status}
     </span>
   );
@@ -559,7 +560,7 @@ const ProjectCard = React.memo(function ProjectCard({ project, delay, index }) {
                 onClick={() => dispatch({ type: "SET_TECH_FILTER", value: tech })}
                 className={`chip text-[11px] font-mono border rounded-full px-2.5 py-1 ${
                   state.techFilter === tech
-                    ? "bg-black text-white border-black"
+                    ? "bg-[#C1272D] text-white border-[#C1272D]"
                     : "border-black/10 text-black/60 hover:border-black/25"
                 }`}
               >
@@ -649,12 +650,13 @@ export default function Portfolio() {
 
   return (
     <UIContext.Provider value={contextValue}>
-    <div className="min-h-screen bg-white text-black antialiased selection:bg-black selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-white text-black antialiased selection:bg-[#C1272D] selection:text-white overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,500&display=swap');
+        :root { --accent: #C1272D; }
         * { font-family: 'Inter', sans-serif; }
         .font-serif { font-family: 'Fraunces', serif; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .font-mono { font-family: 'Courier Prime', monospace; letter-spacing: 0.02em; }
 
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(18px); }
@@ -667,6 +669,17 @@ export default function Portfolio() {
         @keyframes marquee {
           from { transform: translateX(0); }
           to { transform: translateX(-50%); }
+        }
+        @keyframes blink {
+          0%, 45% { opacity: 1; }
+          50%, 100% { opacity: 0; }
+        }
+        .type-cursor {
+          display: inline-block;
+          width: 3px;
+          margin-left: 6px;
+          background: var(--accent);
+          animation: blink 1s step-end infinite;
         }
         .anim-in { animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
         .float-card { animation: float 6s ease-in-out infinite; }
@@ -684,8 +697,8 @@ export default function Portfolio() {
 
         .nav-link { position: relative; }
         .nav-link::after {
-          content: ''; position: absolute; left: 0; bottom: -4px; height: 1px; width: 0;
-          background: black; transition: width 0.25s ease;
+          content: ''; position: absolute; left: 0; bottom: -4px; height: 1.5px; width: 0;
+          background: var(--accent); transition: width 0.25s ease;
         }
         .nav-link:hover::after, .nav-link.is-active::after { width: 100%; }
 
@@ -730,7 +743,7 @@ export default function Portfolio() {
       {/* ---------------- SCROLL PROGRESS ---------------- */}
       <div className="fixed top-0 left-0 right-0 z-[80] h-[2.5px] bg-transparent">
         <div
-          className="h-full bg-black transition-[width] duration-150 ease-out"
+          className="h-full bg-[#C1272D] transition-[width] duration-150 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -817,9 +830,10 @@ export default function Portfolio() {
             building{" "}
             <span className="relative inline-block">
               <span className="relative z-10 text-white px-2">clean, scalable</span>
-              <span className="absolute inset-0 bg-black rounded-lg -rotate-1" />
+              <span className="absolute inset-0 bg-[#C1272D] rounded-lg -rotate-1" />
             </span>{" "}
             web apps.
+            <span className="type-cursor h-[0.8em] align-middle" aria-hidden="true" />
           </h1>
 
           <p
@@ -993,7 +1007,7 @@ export default function Portfolio() {
             <button
               onClick={() => dispatch({ type: "SET_TECH_FILTER", value: null })}
               className={`chip text-xs font-medium px-3 py-1.5 rounded-full border ${
-                state.techFilter === null ? "bg-black text-white border-black" : "border-black/10 text-black/60 hover:border-black/25"
+                state.techFilter === null ? "bg-[#C1272D] text-white border-[#C1272D]" : "border-black/10 text-black/60 hover:border-black/25"
               }`}
             >
               All
@@ -1003,7 +1017,7 @@ export default function Portfolio() {
                 key={tech}
                 onClick={() => dispatch({ type: "SET_TECH_FILTER", value: tech })}
                 className={`chip text-xs font-medium px-3 py-1.5 rounded-full border ${
-                  state.techFilter === tech ? "bg-black text-white border-black" : "border-black/10 text-black/60 hover:border-black/25"
+                  state.techFilter === tech ? "bg-[#C1272D] text-white border-[#C1272D]" : "border-black/10 text-black/60 hover:border-black/25"
                 }`}
               >
                 {tech}
