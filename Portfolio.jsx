@@ -1170,7 +1170,7 @@ export default function Portfolio() {
                   />
                 </div>
                 <p className="mt-1 text-[10px] text-black/40 whitespace-nowrap">
-                  by her &hearts;
+                  drawn by my my special person &hearts;
                 </p>
               </div>
             </div>
