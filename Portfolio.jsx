@@ -1059,7 +1059,6 @@ export default function Portfolio() {
       <section id="contact" className="px-6 sm:px-8 py-24">
         <Reveal className="max-w-5xl mx-auto">
           <div className="bg-black text-white rounded-3xl px-8 py-16 sm:py-20 text-center relative overflow-hidden">
-            <Eyebrow tone="light" className="mb-4">Open to opportunities</Eyebrow>
             <h2 className="text-3xl sm:text-5xl font-bold tracking-tight max-w-2xl mx-auto leading-tight">
               Let's build something together.
             </h2>
