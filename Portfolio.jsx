@@ -27,6 +27,7 @@ import {
   GraduationCap,
   Copy,
   Check,
+  ArrowUp,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------
@@ -248,6 +249,17 @@ function useUI() {
    HOOKS & PRIMITIVES
 ------------------------------------------------------------------- */
 
+// Small editorial kicker used above section headings — serif italic instead
+// of the usual uppercase tracked label, for a slightly more designed feel.
+function Eyebrow({ children, className = "", tone = "dark" }) {
+  const toneClass = tone === "light" ? "text-white/50" : "text-black/45";
+  return (
+    <p className={`font-serif italic text-lg sm:text-xl ${toneClass} ${className}`}>
+      {children}
+    </p>
+  );
+}
+
 function useReveal(threshold = 0.15) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -345,6 +357,84 @@ function useCursorGlow() {
   return { containerRef, glowRef };
 }
 
+// Subtle scroll parallax: shifts an element vertically as the page scrolls,
+// writing directly to its transform so it never triggers a React re-render.
+function useParallax(speed = 0.12, max = 60) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const onScroll = () => {
+      if (!ref.current) return;
+      const y = Math.min(window.scrollY * speed, max);
+      ref.current.style.transform = `translate3d(0, ${y}px, 0)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [speed, max]);
+  return ref;
+}
+
+// Custom themed cursor: a small solid dot plus a ring that eases toward it,
+// both blended with mix-blend-mode so they invert cleanly over black or white.
+// Only activates on fine-pointer (mouse) devices — touch is left alone.
+function CustomCursor() {
+  const dotRef = useRef(null);
+  const ringRef = useRef(null);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    const isFinePointer = window.matchMedia?.("(pointer: fine)").matches;
+    if (!isFinePointer) return;
+    setActive(true);
+    document.body.style.cursor = "none";
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    let rafId;
+
+    const onMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
+    };
+    const onOver = (e) => {
+      const interactive = e.target.closest?.("a, button, input, [role='button']");
+      ringRef.current?.classList.toggle("cursor-ring-hover", !!interactive);
+    };
+    const tick = () => {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      }
+      rafId = requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseover", onOver);
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      document.body.style.cursor = "";
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseover", onOver);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  if (!active) return null;
+
+  return (
+    <>
+      <div ref={dotRef} className="cursor-dot" />
+      <div ref={ringRef} className="cursor-ring" />
+    </>
+  );
+}
+
 // Small physics-ish "magnetic" button: nudges toward the cursor on hover, springs back on leave.
 function Magnetic({ as: Tag = "button", className = "", children, strength = 14, ...props }) {
   const ref = useRef(null);
@@ -425,11 +515,37 @@ const SkillGroupCard = React.memo(function SkillGroupCard({ group, delay }) {
   );
 });
 
-const ProjectCard = React.memo(function ProjectCard({ project, delay }) {
+// Abstract, monochrome "preview" for each project card since there are no
+// real screenshots — a rotating set of subtle CSS patterns plus a large
+// faint serif index number, so the grid still reads as visually rich.
+const THUMB_PATTERNS = [
+  { backgroundImage: "repeating-linear-gradient(45deg, rgba(0,0,0,0.07) 0 2px, transparent 2px 14px)" },
+  { backgroundImage: "radial-gradient(rgba(0,0,0,0.14) 1px, transparent 1.5px)", backgroundSize: "14px 14px" },
+  { backgroundImage: "repeating-radial-gradient(circle at 25% 35%, rgba(0,0,0,0.08) 0 2px, transparent 2px 18px)" },
+  {
+    backgroundImage:
+      "linear-gradient(rgba(0,0,0,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.07) 1px, transparent 1px)",
+    backgroundSize: "16px 16px",
+  },
+];
+
+function ProjectThumbnail({ index }) {
+  return (
+    <div className="relative h-32 sm:h-36 rounded-xl border border-black/8 bg-black/[0.015] overflow-hidden mb-5">
+      <div className="absolute inset-0" style={THUMB_PATTERNS[index % THUMB_PATTERNS.length]} />
+      <span className="absolute -bottom-3 right-3 font-serif italic text-black/10 text-7xl leading-none select-none">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+    </div>
+  );
+}
+
+const ProjectCard = React.memo(function ProjectCard({ project, delay, index }) {
   const { state, dispatch } = useUI();
   return (
     <Reveal delay={delay}>
       <div className="card-lift bg-white border border-black/10 rounded-2xl p-6 sm:p-7 h-full flex flex-col">
+        <ProjectThumbnail index={index} />
         <h3 className="font-semibold text-lg mb-2">{project.name}</h3>
         <p className="text-sm text-black/55 leading-relaxed flex-1">{project.desc}</p>
         <div className="mt-5 pt-4 border-t border-black/8">
@@ -496,6 +612,7 @@ export default function Portfolio() {
   const activeSection = useActiveSection(navIds);
   const progress = useScrollProgress();
   const { containerRef: heroRef, glowRef } = useCursorGlow();
+  const parallaxRef = useParallax(0.12, 40);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -534,8 +651,9 @@ export default function Portfolio() {
     <UIContext.Provider value={contextValue}>
     <div className="min-h-screen bg-white text-black antialiased selection:bg-black selection:text-white overflow-x-hidden">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,500&display=swap');
         * { font-family: 'Inter', sans-serif; }
+        .font-serif { font-family: 'Fraunces', serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
         @keyframes fadeUp {
@@ -576,7 +694,38 @@ export default function Portfolio() {
         .timeline-line {
           background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.05));
         }
+
+        .cursor-dot, .cursor-ring {
+          position: fixed;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          z-index: 100;
+          border-radius: 9999px;
+          will-change: transform;
+          mix-blend-mode: difference;
+        }
+        .cursor-dot {
+          width: 6px;
+          height: 6px;
+          background: #fff;
+        }
+        .cursor-ring {
+          width: 30px;
+          height: 30px;
+          border: 1.5px solid #fff;
+          transition: width 0.25s cubic-bezier(0.16,1,0.3,1), height 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
+        }
+        .cursor-ring.cursor-ring-hover {
+          width: 54px;
+          height: 54px;
+        }
+        @media (pointer: coarse) {
+          .cursor-dot, .cursor-ring { display: none; }
+        }
       `}</style>
+
+      <CustomCursor />
 
       {/* ---------------- SCROLL PROGRESS ---------------- */}
       <div className="fixed top-0 left-0 right-0 z-[80] h-[2.5px] bg-transparent">
@@ -707,12 +856,13 @@ export default function Portfolio() {
 
         {/* Floating dashboard mockup */}
         <Reveal delay={100} className="max-w-3xl mx-auto mt-16">
+          <div ref={parallaxRef}>
           <div className="float-card rounded-2xl border border-black/10 bg-white shadow-[0_24px_60px_rgba(0,0,0,0.10)] overflow-hidden">
             <div className="flex items-center gap-1.5 px-4 py-3 border-b border-black/10 bg-black/[0.02]">
               <span className="w-2.5 h-2.5 rounded-full bg-black/15" />
               <span className="w-2.5 h-2.5 rounded-full bg-black/15" />
               <span className="w-2.5 h-2.5 rounded-full bg-black/15" />
-              <span className="ml-3 text-xs font-mono text-black/40">rush.dev/projects</span>
+              <span className="ml-3 text-xs font-mono text-black/40">rashmika.dev/projects</span>
             </div>
             <div className="p-5 sm:p-6">
               <div className="flex items-center justify-between mb-4">
@@ -745,13 +895,12 @@ export default function Portfolio() {
               </div>
             </div>
           </div>
+          </div>
         </Reveal>
 
         {/* Tech marquee */}
         <Reveal delay={150} className="max-w-4xl mx-auto mt-14">
-          <p className="text-center text-xs font-medium tracking-widest text-black/35 uppercase mb-5">
-            Core stack
-          </p>
+          <Eyebrow className="text-center mb-5">Core stack</Eyebrow>
           <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <div className="marquee-track flex gap-9 w-max items-center">
               {[...STACK, ...STACK].map((tech, i) => (
@@ -773,7 +922,7 @@ export default function Portfolio() {
       <section id="about" className="px-6 sm:px-8 py-24 border-t border-black/10">
         <div className="max-w-5xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-16">
-            <p className="text-xs font-medium tracking-widest text-black/40 uppercase mb-3">About</p>
+            <Eyebrow className="mb-3">About</Eyebrow>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
               From idea to deployment.
             </h2>
@@ -812,7 +961,7 @@ export default function Portfolio() {
       <section id="skills" className="px-6 sm:px-8 py-24 border-t border-black/10 bg-black/[0.02]">
         <div className="max-w-5xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-14">
-            <p className="text-xs font-medium tracking-widest text-black/40 uppercase mb-3">What I bring</p>
+            <Eyebrow className="mb-3">What I bring</Eyebrow>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
               Engineered for real-world use.
             </h2>
@@ -836,7 +985,7 @@ export default function Portfolio() {
       <section id="work" className="px-6 sm:px-8 py-24 border-t border-black/10">
         <div className="max-w-5xl mx-auto">
           <Reveal className="text-center max-w-2xl mx-auto mb-10">
-            <p className="text-xs font-medium tracking-widest text-black/40 uppercase mb-3">Work</p>
+            <Eyebrow className="mb-3">Selected work</Eyebrow>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Featured projects.</h2>
           </Reveal>
 
@@ -867,7 +1016,7 @@ export default function Portfolio() {
 
           <div className="grid sm:grid-cols-2 gap-5">
             {filteredProjects.map((p, i) => (
-              <ProjectCard key={p.name} project={p} delay={(i % 4) * 90} />
+              <ProjectCard key={p.name} project={p} delay={(i % 4) * 90} index={i} />
             ))}
             {filteredProjects.length === 0 && (
               <p className="col-span-2 text-center text-sm text-black/40 py-10">
@@ -882,7 +1031,7 @@ export default function Portfolio() {
       <section id="education" className="px-6 sm:px-8 py-24 border-t border-black/10 bg-black/[0.02]">
         <div className="max-w-5xl mx-auto">
           <Reveal className="mb-12">
-            <p className="text-xs font-medium tracking-widest text-black/40 uppercase mb-3">Education</p>
+            <Eyebrow className="mb-3">Education</Eyebrow>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight leading-snug max-w-2xl">
               Academic background.
             </h2>
@@ -926,9 +1075,7 @@ export default function Portfolio() {
       <section id="contact" className="px-6 sm:px-8 py-24">
         <Reveal className="max-w-5xl mx-auto">
           <div className="bg-black text-white rounded-3xl px-8 py-16 sm:py-20 text-center relative overflow-hidden">
-            <p className="text-xs font-medium tracking-widest text-white/40 uppercase mb-4">
-              Open to opportunities
-            </p>
+            <Eyebrow tone="light" className="mb-4">Open to opportunities</Eyebrow>
             <h2 className="text-3xl sm:text-5xl font-bold tracking-tight max-w-2xl mx-auto leading-tight">
               Let's build something together.
             </h2>
@@ -1026,6 +1173,16 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
+
+      <Magnetic
+        onClick={() => scrollTo("top")}
+        aria-label="Back to top"
+        className={`fixed bottom-6 right-6 z-40 w-11 h-11 rounded-full bg-black text-white flex items-center justify-center shadow-[0_10px_24px_rgba(0,0,0,0.25)] transition-opacity duration-300 ${
+          progress > 15 ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <ArrowUp size={18} />
+      </Magnetic>
     </div>
     </UIContext.Provider>
   );
