@@ -1153,6 +1153,27 @@ export default function Portfolio() {
             <a href="mailto:kmrashh07@gmail.com" className="text-black/40 hover:text-black transition-colors"><Mail size={16} /></a>
             <a href="https://github.com/yourusername" target="_blank" rel="noreferrer" className="text-black/40 hover:text-black transition-colors"><Github size={16} /></a>
             <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noreferrer" className="text-black/40 hover:text-black transition-colors"><Linkedin size={16} /></a>
+
+            {/* ---- easter egg: doodle drawn by my girlfriend ---- */}
+            <div className="group relative ml-1">
+              <span className="block h-2 w-2 rounded-full bg-black/15 group-hover:bg-black/40 transition-colors cursor-pointer" />
+              <div
+                className="pointer-events-none absolute bottom-6 right-0 flex flex-col items-center opacity-0 scale-90 origin-bottom-right
+                           group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out"
+              >
+                <div className="bg-white border border-black/10 shadow-lg rounded-sm p-2 -rotate-3">
+                  <img
+                    src="/drawing.png"
+                    alt="A little doodle"
+                    className="w-24 h-24 object-contain"
+                    draggable={false}
+                  />
+                </div>
+                <p className="mt-1 text-[10px] text-black/40 whitespace-nowrap">
+                  drawn by my girlfriend &hearts;
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
