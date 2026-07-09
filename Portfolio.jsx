@@ -261,44 +261,27 @@ function Eyebrow({ children, className = "", tone = "dark" }) {
   );
 }
 
-function useReveal(threshold = 0.15) {
+function useReveal() {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
-  // "armed" only becomes true once we've confirmed the observer is set up
-  // and working. Content starts (and stays, if this never fires) visible.
-  const [armed, setArmed] = useState(false);
   useEffect(() => {
-    const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    try {
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setVisible(true);
-            obs.disconnect();
-          }
-        },
-        { threshold }
-      );
-      obs.observe(el);
-      // Only hide the element once we know the observer will reveal it again.
-      setArmed(true);
-      return () => obs.disconnect();
-    } catch {
-      // If anything about the observer fails, leave content visible.
-      setArmed(false);
-    }
+    // Reveal shortly after mount, same mechanism as the hero text.
+    // No IntersectionObserver, no dependency on scroll position or any
+    // browser API that could silently fail to fire — a plain timer always
+    // runs, so content can never get stuck invisible.
+    const t = setTimeout(() => setVisible(true), 50);
+    return () => clearTimeout(t);
   }, []);
-  return [ref, visible, armed];
+  return [ref, visible];
 }
 
 function Reveal({ children, className = "", delay = 0 }) {
-  const [ref, visible, armed] = useReveal();
+  const [ref, visible] = useReveal();
   return (
     <div
       ref={ref}
       style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
-      className={`reveal-type ${armed ? "reveal-armed" : ""} ${visible ? "is-visible" : ""} ${className}`}
+      className={`reveal-type reveal-armed ${visible ? "is-visible" : ""} ${className}`}
     >
       {children}
     </div>
