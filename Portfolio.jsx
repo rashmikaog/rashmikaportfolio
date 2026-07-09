@@ -582,6 +582,8 @@ export default function Portfolio() {
   const [state, dispatch] = useReducer(uiReducer, initialUIState);
   const [scrolled, setScrolled] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [showDoodle, setShowDoodle] = useState(false);
+  const doodleRef = useRef(null);
 
   const navIds = useMemo(() => NAV.map((n) => n.id), []);
   const activeSection = useActiveSection(navIds);
@@ -598,6 +600,17 @@ export default function Portfolio() {
       clearTimeout(t);
     };
   }, []);
+
+  useEffect(() => {
+    if (!showDoodle) return;
+    const onOutside = (e) => {
+      if (doodleRef.current && !doodleRef.current.contains(e.target)) {
+        setShowDoodle(false);
+      }
+    };
+    document.addEventListener("pointerdown", onOutside);
+    return () => document.removeEventListener("pointerdown", onOutside);
+  }, [showDoodle]);
 
   const scrollTo = useCallback((id) => {
     dispatch({ type: "SET_MENU", value: false });
@@ -1148,32 +1161,40 @@ export default function Portfolio() {
         </div>
 
         <div className="max-w-5xl mx-auto mt-10 pt-6 border-t border-black/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-black/40">© 2026 Rashmika. Built with React &amp; Tailwind.</p>
+          <div ref={doodleRef} className="group relative flex items-center gap-1.5">
+            <p className="text-xs text-black/40">© 2026 Rashmika. Built with React &amp; Tailwind.</p>
+            {/* ---- easter egg: doodle drawn by my girlfriend ---- */}
+            <button
+              type="button"
+              onClick={() => setShowDoodle((v) => !v)}
+              aria-label="Secret doodle"
+              className="h-4 w-4 -my-1 flex items-center justify-center shrink-0"
+            >
+              <span className="block h-2 w-2 rounded-full bg-black/15 group-hover:bg-black/40 transition-colors cursor-pointer" />
+            </button>
+            <div
+              className={`pointer-events-none absolute bottom-6 left-0 z-50 flex flex-col items-center origin-bottom-left
+                         transition-all duration-300 ease-out
+                         ${showDoodle ? "opacity-100 scale-100" : "opacity-0 scale-90"}
+                         group-hover:opacity-100 group-hover:scale-100`}
+            >
+              <div className="bg-white border border-black/10 shadow-lg rounded-sm p-2 -rotate-3">
+                <img
+                  src="/drawingher.png"
+                  alt="A little doodle"
+                  className="w-24 h-24 object-contain"
+                  draggable={false}
+                />
+              </div>
+              <p className="mt-1 text-[10px] text-black/40 whitespace-nowrap">
+                drawn by my girlfriend &hearts;
+              </p>
+            </div>
+          </div>
           <div className="flex items-center gap-4">
             <a href="mailto:kmrashh07@gmail.com" className="text-black/40 hover:text-black transition-colors"><Mail size={16} /></a>
             <a href="https://github.com/yourusername" target="_blank" rel="noreferrer" className="text-black/40 hover:text-black transition-colors"><Github size={16} /></a>
             <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noreferrer" className="text-black/40 hover:text-black transition-colors"><Linkedin size={16} /></a>
-
-            {/* ---- easter egg: doodle drawn by my girlfriend ---- */}
-            <div className="group relative ml-1">
-              <span className="block h-2 w-2 rounded-full bg-black/15 group-hover:bg-black/40 transition-colors cursor-pointer" />
-              <div
-                className="pointer-events-none absolute bottom-6 right-0 flex flex-col items-center opacity-0 scale-90 origin-bottom-right
-                           group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-out"
-              >
-                <div className="bg-white border border-black/10 shadow-lg rounded-sm p-2 -rotate-3">
-                  <img
-                    src="/drawingher.png"
-                    alt="A little doodle"
-                    className="w-24 h-24 object-contain"
-                    draggable={false}
-                  />
-                </div>
-                <p className="mt-1 text-[10px] text-black/40 whitespace-nowrap">
-                  drawn by my girlfriend &hearts;
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </footer>
