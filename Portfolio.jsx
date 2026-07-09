@@ -1163,7 +1163,7 @@ export default function Portfolio() {
               >
                 <div className="bg-white border border-black/10 shadow-lg rounded-sm p-2 -rotate-3">
                   <img
-                    src="/drawing.png"
+                    src="/drawingher.png"
                     alt="A little doodle"
                     className="w-24 h-24 object-contain"
                     draggable={false}
