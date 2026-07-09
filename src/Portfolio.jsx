@@ -6,9 +6,6 @@ import React, {
   useCallback,
   useReducer,
   useContext,
-  useDeferredValue,
-  useTransition,
-  useId,
   createContext,
 } from "react";
 import {
@@ -28,11 +25,8 @@ import {
   Play,
   CircleDot,
   GraduationCap,
-  Command,
-  Search,
   Copy,
   Check,
-  CornerDownLeft,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------
@@ -223,9 +217,7 @@ const COURSEWORK = [
 
 const initialUIState = {
   menuOpen: false,
-  paletteOpen: false,
   techFilter: null,
-  projectQuery: "",
   copied: false,
 };
 
@@ -235,14 +227,8 @@ function uiReducer(state, action) {
       return { ...state, menuOpen: action.value };
     case "TOGGLE_MENU":
       return { ...state, menuOpen: !state.menuOpen };
-    case "SET_PALETTE":
-      return { ...state, paletteOpen: action.value };
-    case "TOGGLE_PALETTE":
-      return { ...state, paletteOpen: !state.paletteOpen };
     case "SET_TECH_FILTER":
       return { ...state, techFilter: state.techFilter === action.value ? null : action.value };
-    case "SET_PROJECT_QUERY":
-      return { ...state, projectQuery: action.value };
     case "SET_COPIED":
       return { ...state, copied: action.value };
     default:
@@ -496,109 +482,6 @@ const EducationCard = React.memo(function EducationCard({ edu, delay, isLast }) 
 });
 
 /* ------------------------------------------------------------------
-   COMMAND PALETTE
-------------------------------------------------------------------- */
-
-function CommandPalette({ open, onClose, commands }) {
-  const [query, setQuery] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const inputRef = useRef(null);
-
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return commands;
-    return commands.filter(
-      (c) => c.label.toLowerCase().includes(q) || c.group.toLowerCase().includes(q)
-    );
-  }, [query, commands]);
-
-  useEffect(() => {
-    if (open) {
-      setQuery("");
-      setActiveIndex(0);
-      const t = setTimeout(() => inputRef.current?.focus(), 30);
-      return () => clearTimeout(t);
-    }
-  }, [open]);
-
-  useEffect(() => setActiveIndex(0), [query]);
-
-  if (!open) return null;
-
-  const run = (cmd) => {
-    if (!cmd) return;
-    cmd.action();
-    onClose();
-  };
-
-  const onKeyDown = (e) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, 0));
-    } else if (e.key === "Enter") {
-      e.preventDefault();
-      run(filtered[activeIndex]);
-    } else if (e.key === "Escape") {
-      onClose();
-    }
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm flex items-start justify-center pt-[14vh] px-4"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div className="w-full max-w-lg bg-white border border-black/10 rounded-2xl shadow-[0_24px_60px_rgba(0,0,0,0.25)] overflow-hidden anim-in">
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-black/10">
-          <Search size={16} className="text-black/40 shrink-0" />
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={onKeyDown}
-            placeholder="Jump to a section or action…"
-            className="flex-1 text-sm outline-none placeholder:text-black/35 bg-transparent"
-          />
-          <kbd className="hidden sm:inline text-[10px] font-mono text-black/40 border border-black/10 rounded px-1.5 py-0.5">
-            esc
-          </kbd>
-        </div>
-
-        <div className="max-h-72 overflow-y-auto py-2">
-          {filtered.length === 0 && (
-            <p className="text-sm text-black/40 px-4 py-6 text-center">No matches. Try another word.</p>
-          )}
-          {filtered.map((cmd, i) => (
-            <button
-              key={cmd.id}
-              onClick={() => run(cmd)}
-              onMouseEnter={() => setActiveIndex(i)}
-              className={`w-full flex items-center justify-between gap-3 text-left px-4 py-2.5 text-sm transition-colors ${
-                i === activeIndex ? "bg-black/[0.05]" : ""
-              }`}
-            >
-              <span className="flex items-center gap-2.5 min-w-0">
-                <span className="w-7 h-7 rounded-lg bg-black/[0.04] flex items-center justify-center shrink-0">
-                  <cmd.icon size={13} className="text-black/60" />
-                </span>
-                <span className="truncate font-medium">{cmd.label}</span>
-              </span>
-              <span className="flex items-center gap-2 shrink-0">
-                <span className="text-[11px] text-black/35 font-mono">{cmd.group}</span>
-                {i === activeIndex && <CornerDownLeft size={12} className="text-black/30" />}
-              </span>
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------
    MAIN COMPONENT
 ------------------------------------------------------------------- */
 
@@ -608,8 +491,6 @@ export default function Portfolio() {
   const [state, dispatch] = useReducer(uiReducer, initialUIState);
   const [scrolled, setScrolled] = useState(false);
   const [loaded, setLoaded] = useState(false);
-  const [isPending, startTransition] = useTransition();
-  const projectSearchId = useId();
 
   const navIds = useMemo(() => NAV.map((n) => n.id), []);
   const activeSection = useActiveSection(navIds);
@@ -631,45 +512,14 @@ export default function Portfolio() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  // Global keyboard shortcut: Cmd/Ctrl+K opens the command palette.
-  useEffect(() => {
-    const handler = (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        dispatch({ type: "TOGGLE_PALETTE" });
-      }
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
-
-  const commands = useMemo(
-    () => [
-      ...NAV.map((n) => ({ id: n.id, label: n.label, group: "Section", icon: CircleDot, action: () => scrollTo(n.id) })),
-      { id: "contact", label: "Contact", group: "Section", icon: CircleDot, action: () => scrollTo("contact") },
-      { id: "email", label: "Email me", group: "Action", icon: Mail, action: () => (window.location.href = "mailto:kmrashh07@gmail.com") },
-      { id: "github", label: "Open GitHub", group: "Link", icon: Github, action: () => window.open("https://github.com/yourusername", "_blank") },
-      { id: "linkedin", label: "Open LinkedIn", group: "Link", icon: Linkedin, action: () => window.open("https://linkedin.com/in/yourusername", "_blank") },
-    ],
-    [scrollTo]
-  );
-
   const allTech = useMemo(
     () => Array.from(new Set(PROJECTS.flatMap((p) => p.stack))).sort(),
     []
   );
 
-  // Deferred value: typing in the project search stays snappy even as the
-  // (non-urgent) filtered-list re-render is scheduled behind it.
-  const deferredQuery = useDeferredValue(state.projectQuery);
   const filteredProjects = useMemo(() => {
-    const q = deferredQuery.trim().toLowerCase();
-    return PROJECTS.filter((p) => {
-      const matchesTech = !state.techFilter || p.stack.includes(state.techFilter);
-      const matchesQuery = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-      return matchesTech && matchesQuery;
-    });
-  }, [deferredQuery, state.techFilter]);
+    return PROJECTS.filter((p) => !state.techFilter || p.stack.includes(state.techFilter));
+  }, [state.techFilter]);
 
   const handleCopyEmail = useCallback(() => {
     navigator.clipboard?.writeText("kmrashh07@gmail.com").then(() => {
@@ -736,13 +586,6 @@ export default function Portfolio() {
         />
       </div>
 
-      {/* ---------------- COMMAND PALETTE ---------------- */}
-      <CommandPalette
-        open={state.paletteOpen}
-        onClose={() => dispatch({ type: "SET_PALETTE", value: false })}
-        commands={commands}
-      />
-
       {/* ---------------- NAV ---------------- */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -769,16 +612,6 @@ export default function Portfolio() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2.5">
-            <button
-              onClick={() => dispatch({ type: "SET_PALETTE", value: true })}
-              className="flex items-center gap-2 text-xs font-medium text-black/50 border border-black/10 rounded-full pl-3 pr-2 py-2 hover:text-black hover:border-black/25 transition-colors"
-            >
-              <Search size={13} />
-              Search
-              <kbd className="flex items-center gap-0.5 font-mono text-[10px] bg-black/[0.05] rounded px-1.5 py-0.5">
-                <Command size={10} />K
-              </kbd>
-            </button>
             <Magnetic
               onClick={() => scrollTo("contact")}
               className="btn-primary bg-black text-white text-sm font-medium px-5 py-2.5 rounded-full"
@@ -802,15 +635,6 @@ export default function Portfolio() {
           }`}
         >
           <div className="bg-white px-6 py-3">
-            <button
-              onClick={() => {
-                dispatch({ type: "SET_MENU", value: false });
-                dispatch({ type: "SET_PALETTE", value: true });
-              }}
-              className="flex items-center gap-2 w-full py-3 text-sm font-medium text-black/60 border-b border-black/5"
-            >
-              <Search size={15} /> Quick search
-            </button>
             {[...NAV, { id: "contact", label: "Contact" }].map((n) => (
               <button
                 key={n.id}
@@ -835,15 +659,8 @@ export default function Portfolio() {
           style={{ background: "radial-gradient(560px circle at var(--gx, 50%) var(--gy, 15%), black, transparent 70%)" }}
         />
         <div className="max-w-5xl mx-auto text-center relative">
-          <div className={loaded ? "anim-in" : "opacity-0"}>
-            <span className="inline-flex items-center gap-2 text-xs font-medium border border-black/10 bg-black/[0.03] rounded-full pl-1.5 pr-4 py-1.5">
-              <span className="bg-black text-white text-[10px] font-semibold rounded-full px-2 py-0.5">New</span>
-              Open to internships &amp; junior roles
-            </span>
-          </div>
-
           <h1
-            className={`font-extrabold tracking-tight leading-[1.05] mt-7 text-4xl sm:text-6xl md:text-7xl ${loaded ? "anim-in" : "opacity-0"}`}
+            className={`font-extrabold tracking-tight leading-[1.05] text-4xl sm:text-6xl md:text-7xl ${loaded ? "anim-in" : "opacity-0"}`}
             style={{ animationDelay: "80ms" }}
           >
             Full-stack developer
@@ -1023,23 +840,6 @@ export default function Portfolio() {
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">Featured projects.</h2>
           </Reveal>
 
-          <Reveal delay={60} className="max-w-sm mx-auto mb-6">
-            <label htmlFor={projectSearchId} className="sr-only">Search projects</label>
-            <div className="relative">
-              <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/30" />
-              <input
-                id={projectSearchId}
-                value={state.projectQuery}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  startTransition(() => dispatch({ type: "SET_PROJECT_QUERY", value }));
-                }}
-                placeholder="Search projects…"
-                className="w-full text-sm bg-black/[0.03] border border-black/10 rounded-full pl-9 pr-4 py-2.5 outline-none focus:border-black/25 transition-colors placeholder:text-black/35"
-              />
-            </div>
-          </Reveal>
-
           <Reveal delay={80} className="flex flex-wrap items-center justify-center gap-2 mb-3">
             <button
               onClick={() => dispatch({ type: "SET_TECH_FILTER", value: null })}
@@ -1061,7 +861,7 @@ export default function Portfolio() {
               </button>
             ))}
           </Reveal>
-          <p className={`text-center text-xs text-black/35 mb-12 transition-opacity ${isPending ? "opacity-50" : "opacity-100"}`}>
+          <p className="text-center text-xs text-black/35 mb-12">
             Showing {filteredProjects.length} of {PROJECTS.length} projects
           </p>
 
@@ -1204,9 +1004,6 @@ export default function Portfolio() {
                   {n.label}
                 </button>
               ))}
-              <button onClick={() => setPaletteOpen(true)} className="text-left text-sm text-black/60 hover:text-black transition-colors">
-                Quick search (⌘K)
-              </button>
             </div>
           </div>
 
