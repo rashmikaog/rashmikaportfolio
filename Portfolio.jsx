@@ -249,13 +249,13 @@ function useUI() {
    HOOKS & PRIMITIVES
 ------------------------------------------------------------------- */
 
-// Small editorial kicker used above section headings — serif italic instead
-// of the usual uppercase tracked label, for a slightly more designed feel.
+// Small editorial kicker used above section headings — minimal typewriter-mono
+// tracked label with a small accent mark, instead of a heavier display font.
 function Eyebrow({ children, className = "", tone = "dark" }) {
   const toneClass = tone === "light" ? "text-white/50" : "text-black/45";
   return (
-    <p className={`font-serif italic text-lg sm:text-xl ${toneClass} ${className}`}>
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#C1272D] mr-2 -translate-y-0.5" />
+    <p className={`font-mono uppercase tracking-[0.2em] text-[11px] sm:text-xs font-medium ${toneClass} ${className}`}>
+      <span className="inline-block w-1.5 h-1.5 rounded-full accent-bg mr-2 -translate-y-0.5" />
       {children}
     </p>
   );
@@ -337,26 +337,6 @@ function useActiveSection(ids) {
   return active;
 }
 
-// Ambient cursor glow: mutates a CSS custom property directly via ref instead of
-// calling setState on every mousemove, so the glow tracks the cursor with zero re-renders.
-function useCursorGlow() {
-  const containerRef = useRef(null);
-  const glowRef = useRef(null);
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const handleMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      glowRef.current?.style.setProperty("--gx", `${x}%`);
-      glowRef.current?.style.setProperty("--gy", `${y}%`);
-    };
-    container.addEventListener("mousemove", handleMove);
-    return () => container.removeEventListener("mousemove", handleMove);
-  }, []);
-  return { containerRef, glowRef };
-}
 
 // Subtle scroll parallax: shifts an element vertically as the page scrolls,
 // writing directly to its transform so it never triggers a React re-render.
@@ -377,9 +357,11 @@ function useParallax(speed = 0.12, max = 60) {
 // Custom themed cursor: a small solid dot plus a ring that eases toward it,
 // both blended with mix-blend-mode so they invert cleanly over black or white.
 // Only activates on fine-pointer (mouse) devices — touch is left alone.
+// Custom themed cursor: a soft, blurred red dot that eases toward the mouse
+// and fades to a dimmer glow when the cursor stops moving. Only activates
+// on fine-pointer (mouse) devices.
 function CustomCursor() {
-  const dotRef = useRef(null);
-  const ringRef = useRef(null);
+  const glowRef = useRef(null);
   const [active, setActive] = useState(false);
 
   useEffect(() => {
@@ -390,51 +372,43 @@ function CustomCursor() {
 
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let ringX = mouseX;
-    let ringY = mouseY;
+    let glowX = mouseX;
+    let glowY = mouseY;
     let rafId;
+    let idleTimeout;
 
     const onMove = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-      }
-    };
-    const onOver = (e) => {
-      const interactive = e.target.closest?.("a, button, input, [role='button']");
-      ringRef.current?.classList.toggle("cursor-ring-hover", !!interactive);
+      glowRef.current?.classList.remove("cursor-idle");
+      clearTimeout(idleTimeout);
+      idleTimeout = setTimeout(() => glowRef.current?.classList.add("cursor-idle"), 250);
     };
     const tick = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+      glowX += (mouseX - glowX) * 0.15;
+      glowY += (mouseY - glowY) * 0.15;
+      if (glowRef.current) {
+        glowRef.current.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
       }
       rafId = requestAnimationFrame(tick);
     };
 
     window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseover", onOver);
     rafId = requestAnimationFrame(tick);
 
     return () => {
       document.body.style.cursor = "";
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseover", onOver);
+      clearTimeout(idleTimeout);
       cancelAnimationFrame(rafId);
     };
   }, []);
 
   if (!active) return null;
 
-  return (
-    <>
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className="cursor-ring" />
-    </>
-  );
+  return <div ref={glowRef} className="cursor-glow" />;
 }
+
 
 // Small physics-ish "magnetic" button: nudges toward the cursor on hover, springs back on leave.
 function Magnetic({ as: Tag = "button", className = "", children, strength = 14, ...props }) {
@@ -473,7 +447,7 @@ function StatusPill({ status }) {
   const isActive = status === "Live" || status === "Ongoing";
   return (
     <span className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-1 rounded-full border border-black/10 bg-black/[0.03] text-black/70 shrink-0">
-      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-[#C1272D] animate-pulse" : "bg-black/30"}`} />
+      <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "accent-bg animate-pulse" : "bg-black/30"}`} />
       {status}
     </span>
   );
@@ -560,7 +534,7 @@ const ProjectCard = React.memo(function ProjectCard({ project, delay, index }) {
                 onClick={() => dispatch({ type: "SET_TECH_FILTER", value: tech })}
                 className={`chip text-[11px] font-mono border rounded-full px-2.5 py-1 ${
                   state.techFilter === tech
-                    ? "bg-[#C1272D] text-white border-[#C1272D]"
+                    ? "accent-bg text-white accent-border"
                     : "border-black/10 text-black/60 hover:border-black/25"
                 }`}
               >
@@ -612,7 +586,7 @@ export default function Portfolio() {
   const navIds = useMemo(() => NAV.map((n) => n.id), []);
   const activeSection = useActiveSection(navIds);
   const progress = useScrollProgress();
-  const { containerRef: heroRef, glowRef } = useCursorGlow();
+  const heroRef = useRef(null);
   const parallaxRef = useParallax(0.12, 40);
 
   useEffect(() => {
@@ -650,10 +624,15 @@ export default function Portfolio() {
 
   return (
     <UIContext.Provider value={contextValue}>
-    <div className="min-h-screen bg-white text-black antialiased selection:bg-[#C1272D] selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-white text-black antialiased overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,500&display=swap');
         :root { --accent: #C1272D; }
+        ::selection { background: var(--accent); color: #fff; }
+        .accent-bg { background-color: var(--accent); }
+        .accent-text { color: var(--accent); }
+        .accent-border { border-color: var(--accent); }
+        .hover-accent:hover { color: var(--accent); }
         * { font-family: 'Inter', sans-serif; }
         .font-serif { font-family: 'Fraunces', serif; }
         .font-mono { font-family: 'Courier Prime', monospace; letter-spacing: 0.02em; }
@@ -690,15 +669,17 @@ export default function Portfolio() {
           transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
         }
         .btn-primary:hover { box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
-        .btn-outline { transition: background 0.2s, color 0.2s; }
+        .btn-outline { transition: background 0.2s, color 0.2s, border-color 0.2s; }
+        .btn-outline-accent:hover { background-color: var(--accent); border-color: var(--accent); color: #fff; }
 
         .card-lift { transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s, border-color 0.3s; }
         .card-lift:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(0,0,0,0.08); border-color: rgba(0,0,0,0.18); }
 
         .nav-link { position: relative; }
         .nav-link::after {
-          content: ''; position: absolute; left: 0; bottom: -4px; height: 1.5px; width: 0;
-          background: var(--accent); transition: width 0.25s ease;
+          content: ''; position: absolute; left: 50%; bottom: -6px; height: 2px; width: 0;
+          background: var(--accent); transition: width 0.35s cubic-bezier(0.34,1.56,0.64,1);
+          transform: translateX(-50%);
         }
         .nav-link:hover::after, .nav-link.is-active::after { width: 100%; }
 
@@ -708,33 +689,26 @@ export default function Portfolio() {
           background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.05));
         }
 
-        .cursor-dot, .cursor-ring {
+        .cursor-glow {
           position: fixed;
           top: 0;
           left: 0;
           pointer-events: none;
           z-index: 100;
+          width: 26px;
+          height: 26px;
           border-radius: 9999px;
-          will-change: transform;
-          mix-blend-mode: difference;
+          background: radial-gradient(circle, rgba(193,39,45,0.85) 0%, rgba(193,39,45,0.35) 45%, transparent 75%);
+          filter: blur(3px);
+          opacity: 0.9;
+          will-change: transform, opacity;
+          transition: opacity 0.6s ease;
         }
-        .cursor-dot {
-          width: 6px;
-          height: 6px;
-          background: #fff;
-        }
-        .cursor-ring {
-          width: 30px;
-          height: 30px;
-          border: 1.5px solid #fff;
-          transition: width 0.25s cubic-bezier(0.16,1,0.3,1), height 0.25s cubic-bezier(0.16,1,0.3,1), opacity 0.2s;
-        }
-        .cursor-ring.cursor-ring-hover {
-          width: 54px;
-          height: 54px;
+        .cursor-glow.cursor-idle {
+          opacity: 0.3;
         }
         @media (pointer: coarse) {
-          .cursor-dot, .cursor-ring { display: none; }
+          .cursor-glow { display: none; }
         }
       `}</style>
 
@@ -743,7 +717,7 @@ export default function Portfolio() {
       {/* ---------------- SCROLL PROGRESS ---------------- */}
       <div className="fixed top-0 left-0 right-0 z-[80] h-[2.5px] bg-transparent">
         <div
-          className="h-full bg-[#C1272D] transition-[width] duration-150 ease-out"
+          className="h-full accent-bg transition-[width] duration-150 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -764,8 +738,8 @@ export default function Portfolio() {
               <button
                 key={n.id}
                 onClick={() => scrollTo(n.id)}
-                className={`nav-link text-sm font-medium transition-colors ${
-                  activeSection === n.id ? "is-active text-black" : "text-black/70 hover:text-black"
+                className={`nav-link text-sm font-medium transition-colors duration-200 ${
+                  activeSection === n.id ? "is-active accent-text" : "text-black/70 hover-accent"
                 }`}
               >
                 {n.label}
@@ -801,8 +775,8 @@ export default function Portfolio() {
               <button
                 key={n.id}
                 onClick={() => scrollTo(n.id)}
-                className={`block w-full text-left py-3 text-sm font-medium border-b border-black/5 last:border-0 ${
-                  activeSection === n.id ? "text-black" : "text-black/70"
+                className={`block w-full text-left py-3 text-sm font-medium border-b border-black/5 last:border-0 transition-colors ${
+                  activeSection === n.id ? "accent-text" : "text-black/70 hover-accent"
                 }`}
               >
                 {n.label}
@@ -814,12 +788,6 @@ export default function Portfolio() {
 
       {/* ---------------- HERO ---------------- */}
       <section id="top" ref={heroRef} className="relative pt-36 pb-20 px-6 sm:px-8 overflow-hidden">
-        <div
-          ref={glowRef}
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.05]"
-          style={{ background: "radial-gradient(560px circle at var(--gx, 50%) var(--gy, 15%), black, transparent 70%)" }}
-        />
         <div className="max-w-5xl mx-auto text-center relative">
           <h1
             className={`font-extrabold tracking-tight leading-[1.05] text-4xl sm:text-6xl md:text-7xl ${loaded ? "anim-in" : "opacity-0"}`}
@@ -830,10 +798,12 @@ export default function Portfolio() {
             building{" "}
             <span className="relative inline-block">
               <span className="relative z-10 text-white px-2">clean, scalable</span>
-              <span className="absolute inset-0 bg-[#C1272D] rounded-lg -rotate-1" />
+              <span className="absolute inset-0 accent-bg rounded-lg -rotate-1" />
             </span>{" "}
-            web apps.
-            <span className="type-cursor h-[0.8em] align-middle" aria-hidden="true" />
+            <span className="whitespace-nowrap">
+              web apps.
+              <span className="type-cursor h-[0.8em] align-middle" aria-hidden="true" />
+            </span>
           </h1>
 
           <p
@@ -857,7 +827,7 @@ export default function Portfolio() {
             </Magnetic>
             <Magnetic
               onClick={() => scrollTo("contact")}
-              className="btn-outline inline-flex items-center gap-2 border border-black/15 px-6 py-3.5 rounded-full text-sm font-medium hover:bg-black hover:text-white"
+              className="btn-outline btn-outline-accent inline-flex items-center gap-2 border border-black/15 px-6 py-3.5 rounded-full text-sm font-medium"
             >
               <Play size={14} /> Get in touch
             </Magnetic>
@@ -1007,7 +977,7 @@ export default function Portfolio() {
             <button
               onClick={() => dispatch({ type: "SET_TECH_FILTER", value: null })}
               className={`chip text-xs font-medium px-3 py-1.5 rounded-full border ${
-                state.techFilter === null ? "bg-[#C1272D] text-white border-[#C1272D]" : "border-black/10 text-black/60 hover:border-black/25"
+                state.techFilter === null ? "accent-bg text-white accent-border" : "border-black/10 text-black/60 hover:border-black/25"
               }`}
             >
               All
@@ -1017,7 +987,7 @@ export default function Portfolio() {
                 key={tech}
                 onClick={() => dispatch({ type: "SET_TECH_FILTER", value: tech })}
                 className={`chip text-xs font-medium px-3 py-1.5 rounded-full border ${
-                  state.techFilter === tech ? "bg-[#C1272D] text-white border-[#C1272D]" : "border-black/10 text-black/60 hover:border-black/25"
+                  state.techFilter === tech ? "accent-bg text-white accent-border" : "border-black/10 text-black/60 hover:border-black/25"
                 }`}
               >
                 {tech}
