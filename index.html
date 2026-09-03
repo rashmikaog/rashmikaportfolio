@@ -1,5 +1,4 @@
 <!doctype html>
-<!-- Last Published: Wed Aug 26 2026 12:43:17 GMT+0000 (Coordinated Universal Time) -->
 <html
   data-wf-domain="rashmika.com"
   data-wf-page="6a53b1d38ae596f96eb79190"
@@ -48,123 +47,133 @@
       crossorigin="anonymous"
     />
 
-    <!-- SYSTEM LIGHT/DARK MODE OVERRIDE CSS -->
+    <!-- SYSTEM LIGHT/DARK MODE AGGRESSIVE OVERRIDE -->
     <style>
       html.w-mod-js:not(.w-mod-ix3) :is(.btn-main.medium, .icon-btn-main) {
         visibility: hidden !important;
       }
 
       @media (prefers-color-scheme: light) {
-        /* Invert main backgrounds */
+        /* 1. Force Light Backgrounds on ALL nested Webflow wrappers */
         body,
         .body,
+        main,
         .main,
+        section,
         .section,
         .hero-section,
+        .display-section,
+        .text-section,
+        footer,
         .footer,
         .intro-content-wrapper,
-        .navigation__dark-bg {
-          background-color: #f4f4f6 !important;
-          color: #111111 !important;
+        .slider-lines__main,
+        .intro-top,
+        .intro-bottom,
+        .content-wrapper,
+        .navigation__dark-bg,
+        .hamburger-nav__bg,
+        .hamburger-nav__group,
+        .nav {
+          background-color: #fafafa !important;
         }
 
-        /* Invert Typography */
+        /* 2. Force Dark Text on ALL elements */
+        h1,
+        h2,
+        h3,
+        h4,
+        p,
+        span,
+        a,
+        div,
         .h1,
         .h2,
         .h3,
         .h4,
         .p1,
         .p2,
-        .logo-text,
         .hero-p,
-        .form-p,
-        .howler-player__title-h,
-        .howler-p,
+        .logo-text,
         .nav-btn p,
-        .slider-lines__h,
         .slider-lines__text,
-        .tag,
-        .hamburger-nav__p,
-        .ai-chat__p {
+        .howler-p,
+        .howler-player__title-h,
+        .form-p,
+        .marquee-css__item-p,
+        .slider-lines__h {
           color: #111111 !important;
         }
-        .gray,
-        .dark-gray {
-          color: #666666 !important;
-        }
 
-        /* Invert Cards, Nav, and Containers */
+        /* 3. Style Cards & Containers for Light Mode */
         .case-btn,
         .box-wrapper,
-        .toolkit-bar,
         .app-wrapper,
-        .nav,
-        .hamburger-nav__bg,
-        .ai-chat__menu-bg-panel,
-        .ai-chat__menu,
-        .ai-chat__menu-inner,
-        .howler-player {
-          background-color: #ffffff !important;
-          border-color: #dddddd !important;
-        }
-
-        .tag {
-          background-color: #e0e0e0 !important;
-          color: #111 !important;
-          border-color: #ccc !important;
-        }
-        .tag.white {
-          background-color: #111 !important;
-          color: #fff !important;
-        }
-
-        /* Borders and Dividers */
-        .divider-hrz,
-        .divider-vrt {
-          background-color: #dddddd !important;
-        }
-        .nav,
-        footer,
-        .area-top,
-        .area-bottom,
-        .work-section,
-        .skills-section {
-          border-color: #dddddd !important;
-        }
-
-        /* Interactive Buttons */
-        .icon-btn,
+        .toolkit-bar,
+        .howler-player,
+        .hamburger-nav,
+        .slider-control-top,
         .btn-main,
-        .slider-lines__button {
+        .icon-btn,
+        .icon-btn-main {
           background-color: #ffffff !important;
-          border-color: #cccccc !important;
-          color: #111111 !important;
-        }
-        .icon-btn:hover,
-        .btn-main:hover {
-          background-color: #e5e5e5 !important;
+          border: 1px solid #e5e5e5 !important;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
         }
 
-        /* Fix Video Mask and Graphics for Light Mode */
-        .hero-video-wrapper {
-          background-color: #f4f4f6 !important;
-        }
-        .mask-layer {
-          filter: invert(1);
-          opacity: 0.9;
-        }
-        .graph-figure img {
-          filter: invert(1);
+        /* 4. Fix Hover States */
+        .case-btn:hover,
+        .btn-main:hover,
+        .icon-btn:hover {
+          background-color: #f0f0f0 !important;
         }
 
-        /* SVG Icon Colors */
-        .svg path,
+        /* 5. Fix Tags (Make them gray) */
+        .tag {
+          background-color: #eeeeee !important;
+          color: #333333 !important;
+          border: 1px solid #dddddd !important;
+        }
+
+        /* 6. Fix SVG Icons (Make them black) */
+        svg path,
         .svg-player path,
         .svg-paused path {
-          fill: currentColor;
+          fill: #111111 !important;
+        }
+        .cursor-scramble__chevron path {
+          stroke: #111111 !important;
+          fill: none !important;
         }
         .hamburger-nav__toggle-bar {
           background-color: #111111 !important;
+        }
+
+        /* 7. Fix Video Masks & Image Assets */
+        .mask-layer,
+        .about-mask-layer {
+          filter: invert(1) !important;
+          opacity: 0.95 !important;
+        }
+        .hero-video-wrapper {
+          background-color: #fafafa !important;
+        }
+        .graph-figure img {
+          filter: invert(1) !important;
+        }
+
+        /* 8. Fix Dividers */
+        .divider-hrz,
+        .divider-vrt {
+          background-color: #e5e5e5 !important;
+        }
+
+        /* 9. Keep Muted Text properly Gray */
+        .gray,
+        .dark-gray,
+        .text-muted,
+        .p2.dark-gray {
+          color: #666666 !important;
         }
       }
     </style>
@@ -180,7 +189,6 @@
       })(window, document);
     </script>
 
-    <!-- FIXED FAVICON TAGS FOR LIGHT/DARK MODE -->
     <link
       href="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/6a5aa52d5d6b22038079a933_Favicon.png"
       rel="icon"
@@ -669,82 +677,6 @@
                 ></path></svg
             ></a>
           </li>
-          <li class="nav-pro-details-item">
-            <div class="ai-chat">
-              <header class="ai-chat__header">
-                <div
-                  id="evai-trigger"
-                  role="button"
-                  data-chat-toggle=""
-                  data-chat-button=""
-                  data-sound-click="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Clatz_take2_digitalminimal_quiet.mp3"
-                  data-w-id="97a16a1a-e425-b981-577d-711725854a0c"
-                  class="ai-chat__button"
-                >
-                  <div class="ai-chat__button-text">
-                    <p data-chat-label="" class="sidenav__button-label">
-                      Ask Rashmika AI
-                    </p>
-                    <p data-chat-label="" class="sidenav__button-label">
-                      Close AI
-                    </p>
-                  </div>
-                  <div data-chat-icon="" class="ai-chat__button-icon">
-                    <div class="icon-motion-wrapper">
-                      <div
-                        data-autoplay="0"
-                        data-is-ix2-target="1"
-                        class="lottie-icon"
-                        data-w-id="97a16a1a-e425-b981-577d-711725854a14"
-                        data-animation-type="lottie"
-                        data-src="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/6a61193c6a7f0a1ae9f30010_Scene-1%20(3).json"
-                        data-loop="0"
-                        data-direction="1"
-                        data-renderer="svg"
-                        data-default-duration="0"
-                        data-duration="0.4"
-                        data-loading="lazy"
-                        data-ix2-initial-state="0"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </header>
-              <div
-                data-chat-wrap=""
-                data-chat-state="closed"
-                class="ai-chat__nav"
-              >
-                <div
-                  data-chat-overlay=""
-                  data-chat-toggle=""
-                  class="ai-chat__overlay"
-                ></div>
-                <div data-chat-menu="" class="ai-chat__menu">
-                  <div class="ai-chat__menu-bg">
-                    <div
-                      data-chat-panel=""
-                      class="ai-chat__menu-bg-panel"
-                    ></div>
-                  </div>
-                  <div class="ai-chat__menu-inner">
-                    <div
-                      id="evai-window"
-                      data-chat-panel=""
-                      class="ai-chat-window"
-                    ></div>
-                    <div class="ai-chat-footnote">
-                      <p data-chat-fade="" class="ai-chat__p">
-                        Ask Rashmika AI is an AI chatbot and may make
-                        mistakes.<br />Conversations are logged for R&amp;D
-                        purposes.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
         </ul>
       </div>
     </nav>
@@ -786,7 +718,7 @@
         </style>
       </div>
       <div
-        data-howler-src="./public/bg_portfolio.mp3"
+        data-howler-src="https://ev-astapov-product-designer-folio.b-cdn.net/lightbeatsmusic-joyful-rhythm-walk-funk-513936.mp3"
         data-howler=""
         data-howler-status="not-playing"
         class="howler-player"
@@ -1371,15 +1303,12 @@
       src="https://cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js"
       type="text/javascript"
     ></script>
-    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
-
-    <script defer src="https://ev-ai-two.vercel.app/widget.js"></script>
 
     <script>
       // ------Current Time------
@@ -1843,100 +1772,6 @@
           init();
         }
       })();
-
-      // ------AI Chat------
-      gsap.registerPlugin(CustomEase);
-
-      CustomEase.create("main", "0.65, 0.01, 0.05, 0.99");
-
-      gsap.defaults({
-        ease: "main",
-        duration: 0.7,
-      });
-
-      function initAiChatWipeEffect() {
-        let navWrap = document.querySelector("[data-chat-wrap]");
-        let state = navWrap.getAttribute("data-chat-state");
-        let overlay = navWrap.querySelector("[data-chat-overlay]");
-        let menu = navWrap.querySelector("[data-chat-menu]");
-        let bgPanels = navWrap.querySelectorAll("[data-chat-panel]");
-        let menuToggles = document.querySelectorAll("[data-chat-toggle]");
-        let menuLinks = navWrap.querySelectorAll("[data-chat-link]");
-        let fadeTargets = navWrap.querySelectorAll("[data-chat-fade]");
-        let menuButton = document.querySelector("[data-chat-button]");
-        let menuButtonTexts = menuButton.querySelectorAll("[data-chat-label]");
-
-        let tl = gsap.timeline();
-
-        const openNav = () => {
-          navWrap.setAttribute("data-chat-state", "open");
-
-          tl.clear()
-            .set(navWrap, { display: "block" })
-            .set(menu, { xPercent: 0 }, "<")
-            .fromTo(
-              menuButtonTexts,
-              { yPercent: 0 },
-              { yPercent: -100, stagger: 0.2 },
-            )
-            .fromTo(overlay, { autoAlpha: 0 }, { autoAlpha: 1 }, "<")
-            .fromTo(
-              bgPanels,
-              { xPercent: 101 },
-              { xPercent: 0, duration: 0.575 },
-              "<",
-            )
-            .fromTo(
-              menuLinks,
-              { yPercent: 140, rotate: 10 },
-              { yPercent: 0, rotate: 0, stagger: 0.05 },
-              "<+=0.35",
-            )
-            .fromTo(
-              fadeTargets,
-              { autoAlpha: 0, yPercent: 50 },
-              { autoAlpha: 1, yPercent: 0, stagger: 0.04 },
-              "<+=0.2",
-            );
-        };
-
-        const closeNav = () => {
-          navWrap.setAttribute("data-chat-state", "closed");
-
-          tl.clear()
-            .to(overlay, { autoAlpha: 0 })
-            .to(menu, { xPercent: 120 }, "<")
-            .to(menuButtonTexts, { yPercent: 0 }, "<")
-            .set(navWrap, { display: "none" });
-        };
-
-        // Toggle menu open / close depending on its current state
-        menuToggles.forEach((toggle) => {
-          toggle.addEventListener("click", () => {
-            state = navWrap.getAttribute("data-chat-state");
-            if (state === "open") {
-              closeNav();
-            } else {
-              openNav();
-            }
-          });
-        });
-
-        // If menu is open, you can close it using the "escape" key
-        document.addEventListener("keydown", (e) => {
-          if (
-            e.key === "Escape" &&
-            navWrap.getAttribute("data-chat-state") === "open"
-          ) {
-            closeNav();
-          }
-        });
-      }
-
-      // Initialize Draggable Infinite GSAP Slider
-      document.addEventListener("DOMContentLoaded", () => {
-        initAiChatWipeEffect();
-      });
     </script>
 
     <script>
