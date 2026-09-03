@@ -199,6 +199,47 @@
       sizes="180x180"
     />
 
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://rashmika.com/#person",
+            "name": "Rashmika Kodithuwakku",
+            "alternateName": "Rashmika",
+            "url": "https://github.com/rashmikaog",
+            "image": "https://i.postimg.cc/wj3jSKVc/52c113261b11744f4723bd107c4c40d7-removebg-preview.png",
+            "jobTitle": "Software Engineer & Data Scientist",
+            "description": "Software Engineering and Data Science student from Sri Lanka.",
+            "email": "mailto:kmrashh07@gmail.com",
+            "alumniOf": {
+              "@type": "CollegeOrUniversity",
+              "name": "ICBT Campus"
+            },
+            "homeLocation": {
+              "@type": "Place",
+              "name": "Sri Lanka"
+            },
+            "sameAs": [
+              "https://github.com/rashmikaog",
+              "mailto:kmrashh07@gmail.com"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://rashmika.com/#website",
+            "url": "https://github.com/rashmikaog",
+            "name": "Rashmika Kodithuwakku — Software Engineer Portfolio",
+            "description": "Software Engineering and Data Science student from Sri Lanka.",
+            "inLanguage": "en",
+            "publisher": {
+              "@id": "https://rashmika.com/#person"
+            }
+          }
+        ]
+      }
+    </script>
     <style>
       html {
         font-size: calc(100vw / 1244 * 13);
@@ -446,8 +487,7 @@
         <a
           data-sound-click="true"
           href="./index.html"
-          aria-current="page"
-          class="logo-button w-inline-block w--current"
+          class="logo-button w-inline-block"
         >
           <p class="logo-text">Rashmika K.</p>
           <p class="tag large">Software Engineer</p>
@@ -494,7 +534,8 @@
             data-sound-click="true"
             data-scramble-hover="link"
             href="./about.html"
-            class="nav-btn about w-inline-block"
+            aria-current="page"
+            class="nav-btn about w-inline-block w--current"
             ><p
               data-scramble-chars="/!&lt;&gt;-_\\[]{}=+*^?#"
               data-scramble-hover="target"
@@ -661,25 +702,32 @@
     <main class="main">
       <section id="hero" class="hero-section">
         <section class="display-section">
-          <div
-            class="hero-video-wrapper"
-            style="background-color: transparent; position: relative"
-          >
-            <!-- CLOUDEE AVATAR CONTAINER -->
+          <div class="hero-video-wrapper" style="background-color: transparent">
+            <!-- This forces the box to keep its height so Cloudee isn't 0 pixels tall! -->
             <div
-              id="cloudee-root"
               style="
-                position: absolute;
-                top: 0;
-                left: 0;
+                position: relative;
                 width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10;
+                padding-top: 133.01%;
+                overflow: hidden;
               "
-            ></div>
+            >
+              <!-- CLOUDEE AVATAR CONTAINER -->
+              <div
+                id="cloudee-root"
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  z-index: 10;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              ></div>
+            </div>
           </div>
         </section>
         <section class="text-section">
@@ -1729,14 +1777,14 @@
     <script type="importmap">
       {
         "imports": {
-          "react": "https://esm.sh/react@18.2.0",
-          "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+          "react": "https://esm.sh/react@19.0.0",
+          "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
           "@bible-strong/avatar-react": "https://esm.sh/@bible-strong/avatar-react@0.1.0"
         }
       }
     </script>
     <script type="module">
-      import React from "react";
+      import * as React from "react";
       import { createRoot } from "react-dom/client";
       import { createAvatar } from "@bible-strong/avatar-react";
 
