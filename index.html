@@ -503,8 +503,7 @@
             data-sound-click="true"
             data-scramble-hover="link"
             href="./about.html"
-            aria-current="page"
-            class="nav-btn about w-inline-block w--current"
+            class="nav-btn about w-inline-block"
             ><p
               data-scramble-chars="/!&lt;&gt;-_\\[]{}=+*^?#"
               data-scramble-hover="target"
@@ -695,7 +694,18 @@
                   align-items: center;
                   justify-content: center;
                 "
-              ></div>
+              >
+                <div
+                  style="
+                    text-align: center;
+                    color: #888;
+                    font-family: monospace;
+                    font-size: 14px;
+                  "
+                >
+                  [ Cloudee Avatar Loading... ]
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -1743,10 +1753,19 @@
       rel="stylesheet"
       href="https://esm.sh/@bible-strong/avatar-react@0.1.0/styles.css"
     />
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@19.0.0",
+          "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+          "@bible-strong/avatar-react": "https://esm.sh/@bible-strong/avatar-react@0.1.0"
+        }
+      }
+    </script>
     <script type="module">
-      import React from "https://esm.sh/react@19.0.0";
-      import { createRoot } from "https://esm.sh/react-dom@19.0.0/client";
-      import { createAvatar } from "https://esm.sh/@bible-strong/avatar-react@0.1.0";
+      import * as React from "react";
+      import { createRoot } from "react-dom/client";
+      import { createAvatar } from "@bible-strong/avatar-react";
 
       const cloudeeDefinition = {
         schema: "bible-strong/avatar-definition",
@@ -3391,16 +3410,22 @@
         ],
       };
 
-      const CloudeeAvatar = createAvatar(cloudeeDefinition);
-      const root = createRoot(document.getElementById("cloudee-root"));
-
-      root.render(
-        React.createElement(CloudeeAvatar, {
-          animation: "idle",
-          size: "100%",
-          ariaLabel: "Cloudee avatar",
-        }),
-      );
+      try {
+        const CloudeeAvatar = createAvatar(cloudeeDefinition);
+        const container = document.getElementById("cloudee-root");
+        if (container) {
+          const root = createRoot(container);
+          root.render(
+            React.createElement(CloudeeAvatar, {
+              animation: "idle",
+              size: "100%",
+              ariaLabel: "Cloudee avatar",
+            }),
+          );
+        }
+      } catch (err) {
+        console.error("Avatar render error:", err);
+      }
     </script>
   </body>
 </html>
