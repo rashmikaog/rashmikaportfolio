@@ -236,11 +236,8 @@
         width: 100%;
         height: 100%;
         overflow: visible !important;
-        cursor: grab;
+        cursor: pointer;
         user-select: none;
-      }
-      #cloudee-root svg:active {
-        cursor: grabbing;
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
@@ -410,6 +407,7 @@
                   <a
                     data-navigation-toggle="close"
                     href="mailto:kmrashh07@gmail.com"
+                    target="_blank"
                     class="icon-btn medium is--nav w-inline-block"
                   >
                     <svg
@@ -420,7 +418,7 @@
                       class="svg"
                     >
                       <path
-                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
+                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167H11.6667Z"
                         fill="currentColor"
                         class="path"
                       ></path>
@@ -1426,11 +1424,22 @@
               pauseAllExcept(uniqueId);
               element.setAttribute("data-howler-status", "playing");
               requestAnimationFrame(updateProgress);
+              if (window.cloudeeSetAnimation) {
+                window.cloudeeSetAnimation("excited");
+              }
             },
-            onpause: () =>
-              element.setAttribute("data-howler-status", "not-playing"),
-            onstop: () =>
-              element.setAttribute("data-howler-status", "not-playing"),
+            onpause: () => {
+              element.setAttribute("data-howler-status", "not-playing");
+              if (window.cloudeeSetAnimation) {
+                window.cloudeeSetAnimation("idle");
+              }
+            },
+            onstop: () => {
+              element.setAttribute("data-howler-status", "not-playing");
+              if (window.cloudeeSetAnimation) {
+                window.cloudeeSetAnimation("idle");
+              }
+            },
             onend: resetUI,
           });
           soundInstances[uniqueId] = sound;
@@ -1454,6 +1463,9 @@
           function resetUI() {
             if (timelineBar) timelineBar.style.width = "100%";
             element.setAttribute("data-howler-status", "not-playing");
+            if (window.cloudeeSetAnimation) {
+              window.cloudeeSetAnimation("idle");
+            }
           }
           function seekToPosition(event) {
             const rect = timelineContainer.getBoundingClientRect();
@@ -1756,7 +1768,7 @@
       })();
     </script>
 
-    <!-- BUILT-IN SEAMLESS CLOUDEE VECTOR ENGINE (ZERO CDN DEPENDENCIES) -->
+    <!-- ADVANCED BEHAVIORAL CLOUDEE RUNTIME -->
     <script>
       (function () {
         const cloudeeDef = {
@@ -1796,13 +1808,80 @@
                 spacing: 32.7,
               },
             },
+            "joyful-wide": {
+              head: { x: -2.1, y: -15.9, z: -14.5 },
+              eyes: {
+                left: { w: 28.1, h: 80.8, x: 0, y: 5.9, angle: 0 },
+                right: { w: 28.1, h: 78.6, x: 0, y: 5.9, angle: 0 },
+                spacing: 37.2,
+              },
+            },
+            "eyes-closed": {
+              head: { x: -8.8, y: -8.7, z: -10.8 },
+              eyes: {
+                left: { w: 50.1, h: 10.9, x: 0, y: 5.9, angle: 0 },
+                right: { w: 50.1, h: 10.6, x: 0, y: 5.9, angle: 0 },
+                spacing: 47.0,
+              },
+            },
+            "drowsy-closed": {
+              head: { x: 10.3, y: 3.4, z: 7.6 },
+              eyes: {
+                left: { w: 49.6, h: 10.0, x: 0, y: 5.9, angle: 0 },
+                right: { w: 49.6, h: 10.0, x: 0, y: 5.9, angle: 0 },
+                spacing: 46.2,
+              },
+            },
+            "sleepy-squint": {
+              head: { x: 3.4, y: 13.2, z: 9.0 },
+              eyes: {
+                left: { w: 45.7, h: 10.0, x: 0, y: 5.9, angle: 0 },
+                right: { w: 45.7, h: 10.0, x: 0, y: 5.9, angle: 0 },
+                spacing: 41.6,
+              },
+            },
           },
-          animation: {
-            steps: [
-              { exp: "upward-side-glance", hold: 4600 },
-              { exp: "curious-left", hold: 4200 },
-              { exp: "neutral", hold: 3800 },
-            ],
+          animations: {
+            happy: {
+              steps: [
+                { exp: "joyful-wide", hold: 5000 },
+                { exp: "curious-left", hold: 3000 },
+              ],
+            },
+            idle: {
+              steps: [
+                { exp: "upward-side-glance", hold: 5200 },
+                { exp: "curious-left", hold: 5200 },
+                { exp: "neutral", hold: 4000 },
+              ],
+            },
+            thinking: {
+              steps: [
+                { exp: "curious-left", hold: 3000 },
+                { exp: "upward-side-glance", hold: 3000 },
+              ],
+            },
+            curious: { steps: [{ exp: "curious-left", hold: 4000 }] },
+            playful: {
+              steps: [
+                { exp: "joyful-wide", hold: 2500 },
+                { exp: "curious-left", hold: 2500 },
+              ],
+            },
+            celebrate: { steps: [{ exp: "joyful-wide", hold: 4000 }] },
+            excited: {
+              steps: [
+                { exp: "joyful-wide", hold: 2000 },
+                { exp: "upward-side-glance", hold: 2000 },
+              ],
+            },
+            sleeping: {
+              steps: [
+                { exp: "eyes-closed", hold: 4000 },
+                { exp: "drowsy-closed", hold: 4000 },
+                { exp: "sleepy-squint", hold: 4000 },
+              ],
+            },
           },
         };
 
@@ -1816,7 +1895,6 @@
           const svg = document.createElementNS(svgNS, "svg");
           svg.setAttribute("viewBox", "-180 -180 360 360");
 
-          // Defs for smooth gradient and ground shadow
           const defs = document.createElementNS(svgNS, "defs");
           defs.innerHTML = `
             <radialGradient id="cloudUnifiedGrad" cx="38%" cy="28%" r="72%">
@@ -1832,7 +1910,6 @@
           `;
           svg.appendChild(defs);
 
-          // Dynamic Ground Shadow (not a box filter, cannot clip)
           const shadow = document.createElementNS(svgNS, "ellipse");
           shadow.setAttribute("cx", "0");
           shadow.setAttribute("cy", "125");
@@ -1841,25 +1918,20 @@
           shadow.setAttribute("fill", "url(#cloudeeFloorShadow)");
           svg.appendChild(shadow);
 
-          // Head / Cloud Group
           const cloudGroup = document.createElementNS(svgNS, "g");
 
-          // Back Puffs
-          const backNodes = [
-            cloudeeDef.body.nodes[0],
-            cloudeeDef.body.nodes[3],
-          ];
-          backNodes.forEach(function (n) {
-            const el = document.createElementNS(svgNS, "ellipse");
-            el.setAttribute("cx", n.x.toString());
-            el.setAttribute("cy", n.y.toString());
-            el.setAttribute("rx", n.rx.toString());
-            el.setAttribute("ry", n.ry.toString());
-            el.setAttribute("fill", "url(#cloudUnifiedGrad)");
-            cloudGroup.appendChild(el);
-          });
+          [cloudeeDef.body.nodes[0], cloudeeDef.body.nodes[3]].forEach(
+            function (n) {
+              const el = document.createElementNS(svgNS, "ellipse");
+              el.setAttribute("cx", n.x.toString());
+              el.setAttribute("cy", n.y.toString());
+              el.setAttribute("rx", n.rx.toString());
+              el.setAttribute("ry", n.ry.toString());
+              el.setAttribute("fill", "url(#cloudUnifiedGrad)");
+              cloudGroup.appendChild(el);
+            },
+          );
 
-          // Primary Center Mass
           const center = document.createElementNS(svgNS, "ellipse");
           center.setAttribute("cx", "0");
           center.setAttribute("cy", "0");
@@ -1868,26 +1940,21 @@
           center.setAttribute("fill", "url(#cloudUnifiedGrad)");
           cloudGroup.appendChild(center);
 
-          // Front Puffs
-          const frontNodes = [
-            cloudeeDef.body.nodes[1],
-            cloudeeDef.body.nodes[2],
-          ];
-          frontNodes.forEach(function (n) {
-            const el = document.createElementNS(svgNS, "ellipse");
-            el.setAttribute("cx", n.x.toString());
-            el.setAttribute("cy", n.y.toString());
-            el.setAttribute("rx", n.rx.toString());
-            el.setAttribute("ry", n.ry.toString());
-            el.setAttribute("fill", "url(#cloudUnifiedGrad)");
-            cloudGroup.appendChild(el);
-          });
+          [cloudeeDef.body.nodes[1], cloudeeDef.body.nodes[2]].forEach(
+            function (n) {
+              const el = document.createElementNS(svgNS, "ellipse");
+              el.setAttribute("cx", n.x.toString());
+              el.setAttribute("cy", n.y.toString());
+              el.setAttribute("rx", n.rx.toString());
+              el.setAttribute("ry", n.ry.toString());
+              el.setAttribute("fill", "url(#cloudUnifiedGrad)");
+              cloudGroup.appendChild(el);
+            },
+          );
 
-          // Eyes
           const faceGroup = document.createElementNS(svgNS, "g");
           const eyeL = document.createElementNS(svgNS, "ellipse");
           eyeL.setAttribute("fill", cloudeeDef.colors.eyes);
-
           const eyeR = document.createElementNS(svgNS, "ellipse");
           eyeR.setAttribute("fill", cloudeeDef.colors.eyes);
 
@@ -1897,11 +1964,19 @@
           svg.appendChild(cloudGroup);
           root.appendChild(svg);
 
-          // Animation & Interaction Variables
-          let cur = JSON.parse(JSON.stringify(cloudeeDef.expressions.neutral));
-          let tgt = JSON.parse(JSON.stringify(cloudeeDef.expressions.neutral));
+          // State Machine: Start Happy on Page Load
+          let currentAnimKey = "happy";
+          let currentAnim = cloudeeDef.animations.happy;
           let stepIdx = 0;
-          let lastTime = performance.now();
+          let lastStepTime = performance.now();
+
+          let cur = JSON.parse(
+            JSON.stringify(cloudeeDef.expressions["joyful-wide"]),
+          );
+          let tgt = JSON.parse(
+            JSON.stringify(cloudeeDef.expressions["joyful-wide"]),
+          );
+
           let mouseX = 0,
             mouseY = 0,
             tgtMouseX = 0,
@@ -1909,22 +1984,69 @@
           let isBlinking = false;
           let nextBlink = performance.now() + 3000;
           let blinkStart = 0;
+          let lastActivityTime = performance.now();
+          let isSleeping = false;
+
+          // Global Animation Switcher
+          window.cloudeeSetAnimation = function (animName) {
+            if (cloudeeDef.animations[animName]) {
+              currentAnimKey = animName;
+              currentAnim = cloudeeDef.animations[animName];
+              stepIdx = 0;
+              const nextExp = cloudeeDef.expressions[currentAnim.steps[0].exp];
+              if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
+              lastStepTime = performance.now();
+            }
+          };
+
+          // Track User Activity (Mouse / Interaction -> Wake up)
+          function recordActivity(animOverride) {
+            lastActivityTime = performance.now();
+            if (isSleeping) {
+              isSleeping = false;
+              window.cloudeeSetAnimation("happy");
+              setTimeout(() => window.cloudeeSetAnimation("idle"), 3000);
+            } else if (animOverride) {
+              window.cloudeeSetAnimation(animOverride);
+            }
+          }
 
           window.addEventListener("mousemove", function (e) {
+            recordActivity();
             const rect = root.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
             tgtMouseX = Math.max(
               -1,
-              Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.4)),
+              Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.38)),
             );
             tgtMouseY = Math.max(
               -1,
-              Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.4)),
+              Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.38)),
             );
           });
 
+          // Text / Paragraph selection listener (Blue selection reactions)
+          document.addEventListener("selectionchange", function () {
+            const selection = window.getSelection();
+            if (selection && selection.toString().trim().length > 0) {
+              recordActivity();
+              const selectionReactions = [
+                "thinking",
+                "curious",
+                "playful",
+                "celebrate",
+              ];
+              const randomReaction =
+                selectionReactions[
+                  Math.floor(Math.random() * selectionReactions.length)
+                ];
+              window.cloudeeSetAnimation(randomReaction);
+            }
+          });
+
           root.addEventListener("click", function () {
+            recordActivity("playful");
             isBlinking = true;
             blinkStart = performance.now();
           });
@@ -1934,18 +2056,24 @@
           }
 
           function loop(now) {
-            // Sequence expression changes
-            const step = cloudeeDef.animation.steps[stepIdx];
-            if (now - lastTime > step.hold) {
-              stepIdx = (stepIdx + 1) % cloudeeDef.animation.steps.length;
-              const nextExp =
-                cloudeeDef.expressions[cloudeeDef.animation.steps[stepIdx].exp];
-              if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
-              lastTime = now;
+            // Sleep check: if inactive for 10 seconds, go to sleep
+            if (!isSleeping && now - lastActivityTime > 10000) {
+              isSleeping = true;
+              window.cloudeeSetAnimation("sleeping");
             }
 
-            // Blinking timer
-            if (!isBlinking && now > nextBlink) {
+            // Step sequence progression
+            const currentStep = currentAnim.steps[stepIdx];
+            if (now - lastStepTime > currentStep.hold) {
+              stepIdx = (stepIdx + 1) % currentAnim.steps.length;
+              const nextExp =
+                cloudeeDef.expressions[currentAnim.steps[stepIdx].exp];
+              if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
+              lastStepTime = now;
+            }
+
+            // Blinking logic
+            if (!isBlinking && !isSleeping && now > nextBlink) {
               isBlinking = true;
               blinkStart = now;
             } else if (isBlinking && now - blinkStart > 180) {
@@ -1981,33 +2109,38 @@
             mouseX = lerp(mouseX, tgtMouseX, 0.05);
             mouseY = lerp(mouseY, tgtMouseY, 0.05);
 
-            // Natural floating calculation
-            const floatY = Math.sin(now * 0.002) * 8;
-            const floatRot = Math.cos(now * 0.0016) * 2;
+            // Floating movement (slowed down when sleeping)
+            const floatSpeed = isSleeping ? 0.0008 : 0.002;
+            const floatAmplitude = isSleeping ? 3 : 8;
+            const t = now * floatSpeed;
+            const floatY = Math.sin(t) * floatAmplitude;
+            const floatRot = Math.cos(t * 0.8) * 2;
 
-            const posX = cur.head.y * 0.7 + mouseX * 22;
-            const posY = cur.head.x * 0.7 + floatY + mouseY * 16;
-            const rotZ = cur.head.z * 0.6 + floatRot + mouseX * 8;
+            const posX = cur.head.y * 0.7 + (isSleeping ? 0 : mouseX * 22);
+            const posY =
+              cur.head.x * 0.7 + floatY + (isSleeping ? 0 : mouseY * 16);
+            const rotZ =
+              cur.head.z * 0.6 + floatRot + (isSleeping ? 0 : mouseX * 8);
 
             cloudGroup.setAttribute(
               "transform",
               `translate(${posX * 0.3}, ${posY}) rotate(${rotZ})`,
             );
 
-            // Dynamically scale shadow
             const shadowScale = 1 - floatY / 60;
             shadow.setAttribute("rx", (100 * shadowScale).toString());
             shadow.setAttribute("cx", (posX * 0.15).toString());
 
-            // Render eyes
             const hL = isBlinking ? 2.5 : Math.max(2, cur.eyes.left.h / 2);
             const hR = isBlinking ? 2.5 : Math.max(2, cur.eyes.right.h / 2);
             const eyeSp = cur.eyes.spacing;
 
-            const lx = -eyeSp - cur.eyes.left.w / 2 + mouseX * 7;
-            const ly = cur.eyes.left.y + mouseY * 7;
-            const rx = eyeSp + cur.eyes.right.w / 2 + mouseX * 7;
-            const ry = cur.eyes.right.y + mouseY * 7;
+            const lx =
+              -eyeSp - cur.eyes.left.w / 2 + (isSleeping ? 0 : mouseX * 7);
+            const ly = cur.eyes.left.y + (isSleeping ? 0 : mouseY * 7);
+            const rx =
+              eyeSp + cur.eyes.right.w / 2 + (isSleeping ? 0 : mouseX * 7);
+            const ry = cur.eyes.right.y + (isSleeping ? 0 : mouseY * 7);
 
             eyeL.setAttribute("cx", lx.toString());
             eyeL.setAttribute("cy", ly.toString());
