@@ -224,14 +224,16 @@
         }
       }
 
-      /* Cloudee SVG Container & Drop Shadow */
+      /* Clean transparent Cloudee Canvas */
+      #cloudee-root {
+        overflow: visible !important;
+      }
       #cloudee-root svg {
         width: 100%;
         height: 100%;
-        overflow: visible;
-        filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.35));
-        transition: transform 0.1s ease-out;
+        overflow: visible !important;
         cursor: grab;
+        user-select: none;
       }
       #cloudee-root svg:active {
         cursor: grabbing;
@@ -683,14 +685,17 @@
     <main class="main">
       <section id="hero" class="hero-section">
         <section class="display-section">
-          <div class="hero-video-wrapper" style="background-color: transparent">
-            <!-- This forces the box to keep its height so Cloudee isn't 0 pixels tall! -->
+          <div
+            class="hero-video-wrapper"
+            style="background-color: transparent; overflow: visible"
+          >
+            <!-- Keeps responsive ratio with NO box clipping -->
             <div
               style="
                 position: relative;
                 width: 100%;
-                padding-top: 133.01%;
-                overflow: hidden;
+                padding-top: 100%;
+                overflow: visible;
               "
             >
               <!-- CLOUDEE AVATAR CONTAINER -->
@@ -706,6 +711,7 @@
                   display: flex;
                   align-items: center;
                   justify-content: center;
+                  overflow: visible;
                 "
               >
                 <div
@@ -1762,29 +1768,29 @@
       })();
     </script>
 
-    <!-- CLOUDEE NATIVE VECTOR ENGINE -->
+    <!-- CLOUDEE NATURAL FLUFFY AVATAR ENGINE (NO SQUARE CLIPPING, SEAMLESS PUFFS) -->
     <script>
       const cloudeeDefinition = {
         name: "Cloudee",
-        colors: { body: "#c9cbcf", eyes: "#111316" },
+        colors: { body: "#dce0e6", eyes: "#111316" },
         body: {
-          primary: { width: 159.7871, height: 159.7871, depth: 159.7798 },
+          primary: { width: 159.7871, height: 159.7871 },
           nodes: [
             {
               surface: { width: 81.6, height: 81.6 },
-              position: [-54.2111, -19.9832, -18],
+              position: [-54.2111, -19.9832],
             },
             {
               surface: { width: 108.6414, height: 87.1 },
-              position: [-64.0693, 18.351, -18],
+              position: [-64.0693, 18.351],
             },
             {
               surface: { width: 97.791, height: 96.8381 },
-              position: [61.2323, 18.962, -18],
+              position: [61.2323, 18.962],
             },
             {
               surface: { width: 94.3489, height: 94.3451 },
-              position: [41.4887, -37.6388, -17.9913],
+              position: [41.4887, -37.6388],
             },
           ],
         },
@@ -1888,35 +1894,10 @@
               durationMs: 180,
             },
           },
-          listening: {
-            steps: [
-              { expression: "attentive-left", holdMs: 2500 },
-              { expression: "downward-gaze", holdMs: 2500 },
-              { expression: "gentle-downward-gaze", holdMs: 2500 },
-            ],
-            blink: {
-              enabled: true,
-              minIntervalMs: 3500,
-              maxIntervalMs: 6500,
-              durationMs: 180,
-            },
-          },
-          happy: {
-            steps: [
-              { expression: "joyful-wide", holdMs: 2600 },
-              { expression: "curious-left", holdMs: 2400 },
-            ],
-            blink: {
-              enabled: true,
-              minIntervalMs: 2000,
-              maxIntervalMs: 4500,
-              durationMs: 160,
-            },
-          },
         },
       };
 
-      class CloudeeStandalone {
+      class SeamlessCloudee {
         constructor(container, def) {
           this.container = container;
           this.def = def;
@@ -1939,42 +1920,88 @@
         buildSVG() {
           const svgNS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("viewBox", "-140 -140 280 280");
+          // Wide viewport to avoid any edge clipping
+          svg.setAttribute("viewBox", "-200 -200 400 400");
 
           const defs = document.createElementNS(svgNS, "defs");
           defs.innerHTML = `
-            <radialGradient id="cloudeeGrad" cx="35%" cy="30%" r="70%">
+            <!-- Seamless 3D Cloud Shader & Volumetric Lighting -->
+            <radialGradient id="cloudGrad" cx="40%" cy="30%" r="70%">
               <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="65%" stop-color="${this.def.colors.body}" />
-              <stop offset="100%" stop-color="#9da2a8" />
+              <stop offset="60%" stop-color="#dde2ea" />
+              <stop offset="100%" stop-color="#a4abb5" />
             </radialGradient>
+            
+            <radialGradient id="groundShadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(0,0,0,0.18)" />
+              <stop offset="60%" stop-color="rgba(0,0,0,0.06)" />
+              <stop offset="100%" stop-color="rgba(0,0,0,0)" />
+            </radialGradient>
+
+            <!-- Organic Gooey Melting Filter for Continuous Fluffy Cloud Silhouette -->
+            <filter id="fluffyMelter" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+              <feColorMatrix in="blur" mode="matrix" values="
+                1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 25 -9" result="goo" />
+              <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+            </filter>
           `;
           svg.appendChild(defs);
 
+          // Floor Shadow (floats dynamically below the avatar)
+          this.shadowEllipse = document.createElementNS(svgNS, "ellipse");
+          this.shadowEllipse.setAttribute("cx", "0");
+          this.shadowEllipse.setAttribute("cy", "120");
+          this.shadowEllipse.setAttribute("rx", "95");
+          this.shadowEllipse.setAttribute("ry", "22");
+          this.shadowEllipse.setAttribute("fill", "url(#groundShadow)");
+          svg.appendChild(this.shadowEllipse);
+
           this.rootGroup = document.createElementNS(svgNS, "g");
 
-          // Cloud Puffs
+          // Cloud Body with organic melding filter
           const bodyGroup = document.createElementNS(svgNS, "g");
+          bodyGroup.setAttribute("filter", "url(#fluffyMelter)");
+
           const p = document.createElementNS(svgNS, "ellipse");
           p.setAttribute("cx", "0");
           p.setAttribute("cy", "0");
-          p.setAttribute("rx", (this.def.body.primary.width / 2).toString());
-          p.setAttribute("ry", (this.def.body.primary.height / 2).toString());
-          p.setAttribute("fill", "url(#cloudeeGrad)");
+          p.setAttribute(
+            "rx",
+            (this.def.body.primary.width / 2 + 6).toString(),
+          );
+          p.setAttribute(
+            "ry",
+            (this.def.body.primary.height / 2 + 6).toString(),
+          );
+          p.setAttribute("fill", "url(#cloudGrad)");
           bodyGroup.appendChild(p);
 
           this.def.body.nodes.forEach((n) => {
             const el = document.createElementNS(svgNS, "ellipse");
             el.setAttribute("cx", n.position[0].toString());
             el.setAttribute("cy", n.position[1].toString());
-            el.setAttribute("rx", (n.surface.width / 2).toString());
-            el.setAttribute("ry", (n.surface.height / 2).toString());
-            el.setAttribute("fill", "url(#cloudeeGrad)");
+            el.setAttribute("rx", (n.surface.width / 2 + 6).toString());
+            el.setAttribute("ry", (n.surface.height / 2 + 6).toString());
+            el.setAttribute("fill", "url(#cloudGrad)");
             bodyGroup.appendChild(el);
           });
           this.rootGroup.appendChild(bodyGroup);
 
-          // Eyes
+          // Subtle internal 3D highlight
+          const highlight = document.createElementNS(svgNS, "ellipse");
+          highlight.setAttribute("cx", "-20");
+          highlight.setAttribute("cy", "-30");
+          highlight.setAttribute("rx", "70");
+          highlight.setAttribute("ry", "45");
+          highlight.setAttribute("fill", "rgba(255,255,255,0.45)");
+          highlight.setAttribute("filter", "blur(14px)");
+          this.rootGroup.appendChild(highlight);
+
+          // Crisp Animated Eyes Group (kept outside the blur filter)
           this.faceGroup = document.createElementNS(svgNS, "g");
           this.leftEye = document.createElementNS(svgNS, "ellipse");
           this.leftEye.setAttribute("fill", this.def.colors.eyes);
@@ -1996,11 +2023,11 @@
             const cy = rect.top + rect.height / 2;
             this.targetMouseX = Math.max(
               -1,
-              Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.45)),
+              Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.4)),
             );
             this.targetMouseY = Math.max(
               -1,
-              Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.45)),
+              Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.4)),
             );
           });
 
@@ -2094,9 +2121,9 @@
             this.mouseX = this.lerp(this.mouseX, this.targetMouseX, 0.05);
             this.mouseY = this.lerp(this.mouseY, this.targetMouseY, 0.05);
 
-            // Floating
+            // Natural Floating
             const t = time * 0.002;
-            const floatY = Math.sin(t) * 6.5;
+            const floatY = Math.sin(t) * 7.5;
             const floatRot = Math.cos(t * 0.8) * 2;
 
             const posX = cur.head.y * 0.7 + this.mouseX * 22;
@@ -2107,6 +2134,14 @@
               "transform",
               `translate(${posX * 0.3}, ${posY}) rotate(${rotZ})`,
             );
+
+            // Synchronize floor shadow spread with elevation
+            const shadowScale = 1 - floatY / 50;
+            this.shadowEllipse.setAttribute(
+              "rx",
+              (95 * shadowScale).toString(),
+            );
+            this.shadowEllipse.setAttribute("cx", (posX * 0.15).toString());
 
             // Eye positions & blinking
             const hL = this.isBlinking
@@ -2159,7 +2194,7 @@
 
         if (root) {
           if (loader) loader.remove();
-          new CloudeeStandalone(root, cloudeeDefinition);
+          new SeamlessCloudee(root, cloudeeDefinition);
         }
       });
     </script>
