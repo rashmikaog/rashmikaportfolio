@@ -418,7 +418,7 @@
                       class="svg"
                     >
                       <path
-                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167H11.6667Z"
+                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
                         fill="currentColor"
                         class="path"
                       ></path>
@@ -1376,7 +1376,7 @@
         passive: true,
       });
 
-      // ------Howler Player------
+      // ------Howler Player with Direct Cloudee Hook------
       function initHowlerJSAudioPlayer() {
         const howlerElements = document.querySelectorAll("[data-howler]");
         const soundInstances = {};
@@ -1406,41 +1406,33 @@
             onload: () => {
               if (durationElement)
                 durationElement.textContent = formatTime(sound.duration());
-              const audioNode = sound._sounds?.[0]?._node;
-              if (audioNode) {
-                audioNode.addEventListener("pause", () => {
-                  if (sound.playing()) {
-                    sound.pause();
-                  }
-                });
-                audioNode.addEventListener("play", () => {
-                  if (!sound.playing()) {
-                    sound.play();
-                  }
-                });
-              }
             },
             onplay: () => {
               pauseAllExcept(uniqueId);
               element.setAttribute("data-howler-status", "playing");
               requestAnimationFrame(updateProgress);
-              if (window.cloudeeSetAnimation) {
-                window.cloudeeSetAnimation("excited");
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(true);
               }
             },
             onpause: () => {
               element.setAttribute("data-howler-status", "not-playing");
-              if (window.cloudeeSetAnimation) {
-                window.cloudeeSetAnimation("idle");
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(false);
               }
             },
             onstop: () => {
               element.setAttribute("data-howler-status", "not-playing");
-              if (window.cloudeeSetAnimation) {
-                window.cloudeeSetAnimation("idle");
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(false);
               }
             },
-            onend: resetUI,
+            onend: () => {
+              resetUI();
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(false);
+              }
+            },
           });
           soundInstances[uniqueId] = sound;
           function updateProgress() {
@@ -1463,9 +1455,6 @@
           function resetUI() {
             if (timelineBar) timelineBar.style.width = "100%";
             element.setAttribute("data-howler-status", "not-playing");
-            if (window.cloudeeSetAnimation) {
-              window.cloudeeSetAnimation("idle");
-            }
           }
           function seekToPosition(event) {
             const rect = timelineContainer.getBoundingClientRect();
@@ -1768,7 +1757,7 @@
       })();
     </script>
 
-    <!-- ADVANCED BEHAVIORAL CLOUDEE RUNTIME -->
+    <!-- FULL INTERACTIVE BEHAVIOR ENGINE FOR CLOUDEE -->
     <script>
       (function () {
         const cloudeeDef = {
@@ -1808,12 +1797,36 @@
                 spacing: 32.7,
               },
             },
+            "skeptical-left": {
+              head: { x: 3.5, y: -7.1, z: 9.8 },
+              eyes: {
+                left: { w: 18.2, h: 54.7, x: 0, y: 5.9, angle: 0 },
+                right: { w: 42.9, h: 10.0, x: 0, y: 5.9, angle: 0 },
+                spacing: 40.0,
+              },
+            },
             "joyful-wide": {
               head: { x: -2.1, y: -15.9, z: -14.5 },
               eyes: {
                 left: { w: 28.1, h: 80.8, x: 0, y: 5.9, angle: 0 },
                 right: { w: 28.1, h: 78.6, x: 0, y: 5.9, angle: 0 },
                 spacing: 37.2,
+              },
+            },
+            "joyful-down-right": {
+              head: { x: -15.3, y: 15.0, z: 12.8 },
+              eyes: {
+                left: { w: 25.2, h: 72.1, x: 0, y: 5.9, angle: 0 },
+                right: { w: 25.2, h: 72.1, x: 0, y: 5.9, angle: 0 },
+                spacing: 46.5,
+              },
+            },
+            "playful-right": {
+              head: { x: -4.4, y: 14.1, z: -16.1 },
+              eyes: {
+                left: { w: 13.0, h: 38.8, x: 0, y: 5.9, angle: 26.3 },
+                right: { w: 13.0, h: 38.8, x: 0, y: 5.9, angle: -20.2 },
+                spacing: 29.5,
               },
             },
             "eyes-closed": {
@@ -1840,39 +1853,58 @@
                 spacing: 41.6,
               },
             },
+            "surprised-wide-left": {
+              head: { x: -5.4, y: -11.7, z: -13.5 },
+              eyes: {
+                left: { w: 45.3, h: 45.5, x: 0, y: 5.9, angle: 0 },
+                right: { w: 44.4, h: 44.8, x: 0, y: 5.9, angle: 0 },
+                spacing: 46.8,
+              },
+            },
           },
           animations: {
             happy: {
               steps: [
-                { exp: "joyful-wide", hold: 5000 },
-                { exp: "curious-left", hold: 3000 },
+                { exp: "joyful-wide", hold: 3200 },
+                { exp: "joyful-down-right", hold: 2600 },
               ],
             },
             idle: {
               steps: [
                 { exp: "upward-side-glance", hold: 5200 },
-                { exp: "curious-left", hold: 5200 },
-                { exp: "neutral", hold: 4000 },
+                { exp: "curious-left", hold: 5000 },
+                { exp: "neutral", hold: 4200 },
               ],
             },
             thinking: {
               steps: [
-                { exp: "curious-left", hold: 3000 },
-                { exp: "upward-side-glance", hold: 3000 },
+                { exp: "skeptical-left", hold: 2600 },
+                { exp: "curious-left", hold: 2600 },
               ],
             },
-            curious: { steps: [{ exp: "curious-left", hold: 4000 }] },
+            curious: {
+              steps: [
+                { exp: "curious-left", hold: 2800 },
+                { exp: "upward-side-glance", hold: 2800 },
+              ],
+            },
             playful: {
               steps: [
-                { exp: "joyful-wide", hold: 2500 },
-                { exp: "curious-left", hold: 2500 },
+                { exp: "playful-right", hold: 2400 },
+                { exp: "joyful-wide", hold: 2400 },
               ],
             },
-            celebrate: { steps: [{ exp: "joyful-wide", hold: 4000 }] },
+            celebrate: {
+              steps: [
+                { exp: "joyful-down-right", hold: 2000 },
+                { exp: "joyful-wide", hold: 2200 },
+              ],
+            },
             excited: {
               steps: [
-                { exp: "joyful-wide", hold: 2000 },
-                { exp: "upward-side-glance", hold: 2000 },
+                { exp: "surprised-wide-left", hold: 1600 },
+                { exp: "joyful-wide", hold: 1600 },
+                { exp: "playful-right", hold: 1600 },
               ],
             },
             sleeping: {
@@ -1920,6 +1952,7 @@
 
           const cloudGroup = document.createElementNS(svgNS, "g");
 
+          // Back Puffs
           [cloudeeDef.body.nodes[0], cloudeeDef.body.nodes[3]].forEach(
             function (n) {
               const el = document.createElementNS(svgNS, "ellipse");
@@ -1932,6 +1965,7 @@
             },
           );
 
+          // Center Puff
           const center = document.createElementNS(svgNS, "ellipse");
           center.setAttribute("cx", "0");
           center.setAttribute("cy", "0");
@@ -1940,6 +1974,7 @@
           center.setAttribute("fill", "url(#cloudUnifiedGrad)");
           cloudGroup.appendChild(center);
 
+          // Front Puffs
           [cloudeeDef.body.nodes[1], cloudeeDef.body.nodes[2]].forEach(
             function (n) {
               const el = document.createElementNS(svgNS, "ellipse");
@@ -1952,6 +1987,7 @@
             },
           );
 
+          // Eyes
           const faceGroup = document.createElementNS(svgNS, "g");
           const eyeL = document.createElementNS(svgNS, "ellipse");
           eyeL.setAttribute("fill", cloudeeDef.colors.eyes);
@@ -1964,11 +2000,12 @@
           svg.appendChild(cloudGroup);
           root.appendChild(svg);
 
-          // State Machine: Start Happy on Page Load
-          let currentAnimKey = "happy";
+          // State Machine
+          let currentAnimKey = "happy"; // Start Happy on page load!
           let currentAnim = cloudeeDef.animations.happy;
           let stepIdx = 0;
           let lastStepTime = performance.now();
+          let priorityUntil = performance.now() + 4200; // Stay happy for first 4.2s
 
           let cur = JSON.parse(
             JSON.stringify(cloudeeDef.expressions["joyful-wide"]),
@@ -1986,33 +2023,42 @@
           let blinkStart = 0;
           let lastActivityTime = performance.now();
           let isSleeping = false;
+          let isMusicPlaying = false;
 
-          // Global Animation Switcher
-          window.cloudeeSetAnimation = function (animName) {
-            if (cloudeeDef.animations[animName]) {
-              currentAnimKey = animName;
-              currentAnim = cloudeeDef.animations[animName];
-              stepIdx = 0;
-              const nextExp = cloudeeDef.expressions[currentAnim.steps[0].exp];
-              if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
-              lastStepTime = performance.now();
-            }
-          };
-
-          // Track User Activity (Mouse / Interaction -> Wake up)
-          function recordActivity(animOverride) {
-            lastActivityTime = performance.now();
-            if (isSleeping) {
-              isSleeping = false;
-              window.cloudeeSetAnimation("happy");
-              setTimeout(() => window.cloudeeSetAnimation("idle"), 3000);
-            } else if (animOverride) {
-              window.cloudeeSetAnimation(animOverride);
+          function setAnim(name, durationLockMs = 0) {
+            if (!cloudeeDef.animations[name]) return;
+            currentAnimKey = name;
+            currentAnim = cloudeeDef.animations[name];
+            stepIdx = 0;
+            const nextExp = cloudeeDef.expressions[currentAnim.steps[0].exp];
+            if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
+            lastStepTime = performance.now();
+            if (durationLockMs > 0) {
+              priorityUntil = performance.now() + durationLockMs;
             }
           }
 
+          // Exposed to Audio Player Hook
+          window.cloudeeSetMusicState = function (playing) {
+            isMusicPlaying = playing;
+            lastActivityTime = performance.now();
+            if (isSleeping) isSleeping = false;
+
+            if (playing) {
+              setAnim("excited", 999999); // Stay excited while music plays
+            } else {
+              priorityUntil = 0;
+              setAnim("idle");
+            }
+          };
+
+          // Mouse Tracking
           window.addEventListener("mousemove", function (e) {
-            recordActivity();
+            lastActivityTime = performance.now();
+            if (isSleeping) {
+              isSleeping = false;
+              setAnim("happy", 3000);
+            }
             const rect = root.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
@@ -2026,27 +2072,45 @@
             );
           });
 
-          // Text / Paragraph selection listener (Blue selection reactions)
+          // Text Selection Trigger (Thinking, Curious, Playful, Celebrate)
+          let lastSelectedString = "";
+          let selectionCooldown = 0;
+
           document.addEventListener("selectionchange", function () {
-            const selection = window.getSelection();
-            if (selection && selection.toString().trim().length > 0) {
-              recordActivity();
-              const selectionReactions = [
-                "thinking",
-                "curious",
-                "playful",
-                "celebrate",
-              ];
-              const randomReaction =
-                selectionReactions[
-                  Math.floor(Math.random() * selectionReactions.length)
-                ];
-              window.cloudeeSetAnimation(randomReaction);
+            const sel = window.getSelection()
+              ? window.getSelection().toString().trim()
+              : "";
+            const now = performance.now();
+            if (
+              sel.length > 0 &&
+              sel !== lastSelectedString &&
+              now > selectionCooldown
+            ) {
+              lastSelectedString = sel;
+              selectionCooldown = now + 2500;
+              lastActivityTime = now;
+              if (isSleeping) isSleeping = false;
+
+              // Don't interrupt music
+              if (!isMusicPlaying) {
+                const moods = ["thinking", "curious", "playful", "celebrate"];
+                const chosen = moods[Math.floor(Math.random() * moods.length)];
+                setAnim(chosen, 4000); // Lock in for 4 seconds so you can see it
+              }
+            } else if (sel.length === 0) {
+              lastSelectedString = "";
             }
           });
 
+          // Click Avatar to change mood
           root.addEventListener("click", function () {
-            recordActivity("playful");
+            lastActivityTime = performance.now();
+            if (isSleeping) {
+              isSleeping = false;
+              setAnim("happy", 3000);
+            } else if (!isMusicPlaying) {
+              setAnim("playful", 3500);
+            }
             isBlinking = true;
             blinkStart = performance.now();
           });
@@ -2056,13 +2120,28 @@
           }
 
           function loop(now) {
-            // Sleep check: if inactive for 10 seconds, go to sleep
-            if (!isSleeping && now - lastActivityTime > 10000) {
+            // Sleep check: 8 seconds of absolute inactivity -> Sleep
+            if (
+              !isSleeping &&
+              !isMusicPlaying &&
+              now > priorityUntil &&
+              now - lastActivityTime > 8000
+            ) {
               isSleeping = true;
-              window.cloudeeSetAnimation("sleeping");
+              setAnim("sleeping");
             }
 
-            // Step sequence progression
+            // Return to idle after priority lock expires
+            if (
+              !isSleeping &&
+              !isMusicPlaying &&
+              now > priorityUntil &&
+              currentAnimKey !== "idle"
+            ) {
+              setAnim("idle");
+            }
+
+            // Sequence loop through the current animation's steps
             const currentStep = currentAnim.steps[stepIdx];
             if (now - lastStepTime > currentStep.hold) {
               stepIdx = (stepIdx + 1) % currentAnim.steps.length;
@@ -2082,7 +2161,7 @@
             }
 
             // Smooth interpolation
-            const spd = 0.08;
+            const spd = currentAnimKey === "excited" ? 0.14 : 0.08;
             cur.head.x = lerp(cur.head.x, tgt.head.x, spd);
             cur.head.y = lerp(cur.head.y, tgt.head.y, spd);
             cur.head.z = lerp(cur.head.z, tgt.head.z, spd);
@@ -2109,12 +2188,16 @@
             mouseX = lerp(mouseX, tgtMouseX, 0.05);
             mouseY = lerp(mouseY, tgtMouseY, 0.05);
 
-            // Floating movement (slowed down when sleeping)
-            const floatSpeed = isSleeping ? 0.0008 : 0.002;
-            const floatAmplitude = isSleeping ? 3 : 8;
+            // Floating movement dynamics
+            const floatSpeed = isSleeping
+              ? 0.0009
+              : isMusicPlaying
+                ? 0.004
+                : 0.002;
+            const floatAmp = isSleeping ? 3 : isMusicPlaying ? 12 : 7.5;
             const t = now * floatSpeed;
-            const floatY = Math.sin(t) * floatAmplitude;
-            const floatRot = Math.cos(t * 0.8) * 2;
+            const floatY = Math.sin(t) * floatAmp;
+            const floatRot = Math.cos(t * 0.8) * (isMusicPlaying ? 5 : 2);
 
             const posX = cur.head.y * 0.7 + (isSleeping ? 0 : mouseX * 22);
             const posY =
@@ -2127,10 +2210,12 @@
               `translate(${posX * 0.3}, ${posY}) rotate(${rotZ})`,
             );
 
+            // Ground shadow response
             const shadowScale = 1 - floatY / 60;
             shadow.setAttribute("rx", (100 * shadowScale).toString());
             shadow.setAttribute("cx", (posX * 0.15).toString());
 
+            // Eye shapes
             const hL = isBlinking ? 2.5 : Math.max(2, cur.eyes.left.h / 2);
             const hR = isBlinking ? 2.5 : Math.max(2, cur.eyes.right.h / 2);
             const eyeSp = cur.eyes.spacing;
