@@ -249,106 +249,7 @@
         }
       }
 
-      /* Premium Toolkit Squircle Styling */
-      .toolkit-wrap {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        width: 100% !important;
-        margin-top: 20px !important;
-      }
-      .toolkit-bar {
-        background: #14171d !important;
-        border: 1px solid #282f3a !important;
-        border-radius: 20px !important;
-        padding: 12px 16px !important;
-        display: inline-flex !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
-      }
-      @media (prefers-color-scheme: light) {
-        .toolkit-bar {
-          background: #ffffff !important;
-          border-color: #e5e5e5 !important;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
-        }
-      }
-      .toolkit-list {
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      .toolkit-item {
-        position: relative !important;
-      }
-      .toolkit-item__link {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 52px !important;
-        height: 52px !important;
-        border-radius: 14px !important;
-        background: #1a1f28 !important;
-        border: 1px solid #2d3644 !important;
-        transition:
-          transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-          background 0.2s ease,
-          border-color 0.2s ease !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
-        text-decoration: none !important;
-        overflow: hidden !important;
-      }
-      @media (prefers-color-scheme: light) {
-        .toolkit-item__link {
-          background: #f4f5f7 !important;
-          border-color: #e1e4e8 !important;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-        }
-      }
-      .toolkit-item:hover .toolkit-item__link {
-        transform: translateY(-5px) scale(1.06) !important;
-        border-color: #58a6ff !important;
-      }
-      .toolkit-tile-svg {
-        width: 28px !important;
-        height: 28px !important;
-        display: block !important;
-      }
-      .toolkit-item__tooltip {
-        position: absolute !important;
-        left: 50% !important;
-        bottom: 100% !important;
-        transform: translate(-50%, -8px) !important;
-        background: #0d1117 !important;
-        color: #f0f6fc !important;
-        border: 1px solid #30363d !important;
-        padding: 4px 10px !important;
-        border-radius: 6px !important;
-        font-size: 11px !important;
-        font-family: "JetBrains Mono", monospace !important;
-        white-space: nowrap !important;
-        pointer-events: none !important;
-        opacity: 0 !important;
-        transition:
-          opacity 0.2s ease,
-          transform 0.2s ease !important;
-        z-index: 50 !important;
-      }
-      @media (prefers-color-scheme: light) {
-        .toolkit-item__tooltip {
-          background: #ffffff !important;
-          color: #111111 !important;
-          border-color: #e5e5e5 !important;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
-        }
-      }
-      .toolkit-item:hover .toolkit-item__tooltip {
-        opacity: 1 !important;
-        transform: translate(-50%, -14px) !important;
-      }
-
-      /* Footer Graphic Figure Flex Display */
+      /* Footer Graphic Figure */
       .graph-figure {
         display: flex !important;
         align-items: center !important;
@@ -992,252 +893,142 @@
             <h2 class="h2 gray">/* My toolkit */</h2>
           </header>
           <div class="toolkit-wrap">
+            <div class="custom-css w-embed">
+              <style>
+                @media (width > 992px) {
+                  .toolkit-item.sibling-far {
+                    width: 6em;
+                  }
+                  .toolkit-item.sibling-close {
+                    width: 7em;
+                  }
+                  .toolkit-item.hover {
+                    width: 8em;
+                  }
+                  .toolkit-item:hover .toolkit-item__tooltip {
+                    opacity: 1;
+                    transform: translate(0px, -140%);
+                  }
+                }
+              </style>
+            </div>
             <div class="toolkit-bar">
               <ul role="list" class="toolkit-list w-list-unstyled">
                 <!-- 1. Android Studio -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://developer.android.com/studio"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg
-                      class="toolkit-tile-svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M5.5 10.5C5.5 6.91 8.41 4 12 4s6.5 2.91 6.5 6.5H5.5z"
-                        fill="#3DDC84"
-                      />
-                      <circle cx="9.2" cy="7.8" r="0.9" fill="#ffffff" />
-                      <circle cx="14.8" cy="7.8" r="0.9" fill="#ffffff" />
-                      <path
-                        d="M12 11.5v8.5M8.5 14.5l7 0M9 20l3-6 3 6"
-                        stroke="#2c3e50"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg"
+                      alt="Android Studio Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip">
                     <div>Android Studio</div>
                   </div>
                 </li>
-
                 <!-- 2. Java -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://www.java.com"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg
-                      class="toolkit-tile-svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M7 16.5c3.5 1 6.5 1 10 0-2 1.5-7 1.8-10 0z"
-                        fill="#e76f00"
-                      />
-                      <path
-                        d="M5.5 19c4.5 1.5 9 1.5 13 0-3 1.8-9 2-13 0z"
-                        fill="#e76f00"
-                      />
-                      <path
-                        d="M10 6c1.5-2 3.5-3 5-4-1 1.5-2 3-1 5 1.5 2.5 0 4.5-2 6 2-2 3.5-3.5 2-5.5s-2.5-1-4-1.5z"
-                        fill="#e76f00"
-                      />
-                      <path
-                        d="M7.5 9c1-1.5 2.5-2.5 3.5-3.5-0.5 1.2-1.5 2.2-0.8 3.5 1 2 0 3.5-1.5 4.5 1.5-1.5 2.5-2.5 1.5-4s-1.8-1-2.7-0.5z"
-                        fill="#5382a1"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+                      alt="Java Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip"><div>Java</div></div>
                 </li>
-
                 <!-- 3. C++ -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://isocpp.org"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg class="toolkit-tile-svg" viewBox="0 0 24 24">
-                      <polygon
-                        points="12,2 21.5,7.5 21.5,18.5 12,24 2.5,18.5 2.5,7.5"
-                        fill="#00599C"
-                      />
-                      <polygon
-                        points="12,4.3 19.5,8.7 19.5,17.3 12,21.7 4.5,17.3 4.5,8.7"
-                        fill="#004482"
-                      />
-                      <path
-                        d="M12.5 8.5h-1.5A3.5 3.5 0 0 0 7.5 12a3.5 3.5 0 0 0 3.5 3.5h1.5"
-                        fill="none"
-                        stroke="#ffffff"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                      />
-                      <path
-                        d="M14.5 12h3M16 10.5v3M18.5 12h3M20 10.5v3"
-                        stroke="#ffffff"
-                        stroke-width="1.4"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
+                      alt="C++ Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip"><div>C++</div></div>
                 </li>
-
                 <!-- 4. MySQL -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://www.mysql.com"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg
-                      class="toolkit-tile-svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M21 16c-1.5-1.5-4-3-6-2.5 1.5-1.8 1.5-3.5.5-4.5-1.8-1.8-5-0.5-6.5 1.5C7.5 12.5 5 14 3 14c-1 0-1.5.5-1.5 1 2 .5 5-.5 7-2 1.5 1.5 3.5 2.5 6 2.5 2 0 4 1 5 2.5.5.5 1.5.5 1.5-2z"
-                        fill="#00758F"
-                      />
-                      <path
-                        d="M16 11.5c-1-1.2-2.5-1.5-4-1 1 .5 1.8 1.2 2.5 2 .5-.3 1-.7 1.5-1z"
-                        fill="#F29111"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                      alt="MySQL Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip"><div>MySQL</div></div>
                 </li>
-
                 <!-- 5. GitHub -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://github.com/rashmikaog"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg
-                      class="toolkit-tile-svg"
-                      viewBox="0 0 24 24"
-                      fill="#f0f6fc"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                      alt="GitHub Logo"
+                      class="image"
+                      style="filter: invert(1)"
+                  /></a>
                   <div class="toolkit-item__tooltip"><div>GitHub</div></div>
                 </li>
-
                 <!-- 6. IntelliJ IDEA -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://www.jetbrains.com/idea/"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg class="toolkit-tile-svg" viewBox="0 0 24 24">
-                      <polygon points="3,6 10,2 17,6 10,10" fill="#087CFA" />
-                      <polygon points="10,10 17,6 21,12 14,16" fill="#FE2857" />
-                      <polygon points="3,6 10,10 6,18 2,12" fill="#21D789" />
-                      <polygon points="6,18 10,10 14,16 10,22" fill="#FF318C" />
-                      <rect
-                        x="6.5"
-                        y="7"
-                        width="11"
-                        height="10"
-                        rx="1.5"
-                        fill="#000000"
-                      />
-                      <text
-                        x="8.5"
-                        y="14"
-                        fill="#ffffff"
-                        font-size="6.5"
-                        font-family="'JetBrains Mono', monospace"
-                        font-weight="bold"
-                      >
-                        IJ
-                      </text>
-                      <line
-                        x1="8.5"
-                        y1="15.5"
-                        x2="15.5"
-                        y2="15.5"
-                        stroke="#21D789"
-                        stroke-width="1.2"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg"
+                      alt="IntelliJ IDEA Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip">
                     <div>IntelliJ IDEA</div>
                   </div>
                 </li>
-
-                <!-- 7. LibGDX -->
+                <!-- 7. LibGDX (Working reliable SVG from jsDelivr) -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://libgdx.com"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg class="toolkit-tile-svg" viewBox="0 0 24 24">
-                      <rect width="24" height="24" rx="6" fill="#e74a45" />
-                      <path
-                        d="M4.5 15.5V8.5h2v5.3h3v1.7h-5zM11 15.5V8.5h3.6c1.5 0 2.4.8 2.4 2 0 .9-.5 1.5-1.3 1.8l1.6 3.2h-2.2l-1.3-2.8H13v2.8h-2zm2-4.4h1.4c.5 0 .8-.2.8-.6 0-.4-.3-.6-.8-.6H13v1.2zm8.5 4.4h-2l-1.5-3.2 1.4-3.8h2.1l-1.5 3.3 1.5 3.7z"
-                        fill="#ffffff"
-                      />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/libgdx/libgdx-original.svg"
+                      alt="LibGDX Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip"><div>LibGDX</div></div>
                 </li>
-
                 <!-- 8. VS Code -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
-                    href="https://code.visualstudio.com"
-                    target="_blank"
+                    href="#"
                     class="toolkit-item__link w-inline-block"
-                  >
-                    <svg
-                      class="toolkit-tile-svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M17.5 2.5l4.5 2.2v14.6l-4.5 2.2-10-8.5 10-10.5z"
-                        fill="#0066B8"
-                      />
-                      <path
-                        d="M17.5 17.1L7.5 9l-4.5 3.5 4.5 3.5 10 1.1z"
-                        fill="#1F9CF0"
-                      />
-                      <path
-                        d="M17.5 6.9L7.5 15l-4.5-3.5 4.5-3.5 10-1.1z"
-                        fill="#007ACC"
-                      />
-                      <path d="M3 11.5l4.5 3.5L3 18.5v-7z" fill="#0066B8" />
-                    </svg>
-                  </a>
+                    ><img
+                      loading="eager"
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
+                      alt="VS Code Logo"
+                      class="image"
+                  /></a>
                   <div class="toolkit-item__tooltip"><div>VS Code</div></div>
                 </li>
               </ul>
@@ -1854,123 +1645,6 @@
         });
       });
     </script>
-    <script>
-      // ------Case Cursor Scramble------
-      function initScrambleTextCursor() {
-        const cursor = document.querySelector("[data-cursor]");
-        const cursorTextTarget = document.querySelector(
-          "[data-cursor-text-target]",
-        );
-        if (
-          !cursor ||
-          !cursorTextTarget ||
-          !window.matchMedia("(hover: hover) and (pointer: fine)").matches
-        )
-          return;
-        let mouseX = 0;
-        let mouseY = 0;
-        let hasMouseMoved = false;
-        let activeHoverItem = null;
-        const scrambleCharacters = "XYZxy#&@0$€£";
-        const xTo = gsap.quickTo(cursor, "x", {
-          duration: 0.4,
-          ease: "power3.out",
-        });
-        const yTo = gsap.quickTo(cursor, "y", {
-          duration: 0.4,
-          ease: "power3.out",
-        });
-
-        function updateCursor() {
-          const hoverItem = document
-            .elementFromPoint(mouseX, mouseY)
-            ?.closest("[data-cursor-hover]");
-          const rect = cursor.getBoundingClientRect();
-          const isHovering = !!hoverItem;
-          const isEdge = rect.right >= window.innerWidth;
-          const text = hoverItem?.getAttribute("data-cursor-text") || "";
-          cursor.setAttribute(
-            "data-cursor",
-            isHovering ? (isEdge ? "active-edge" : "active") : "",
-          );
-
-          if (hoverItem !== activeHoverItem) {
-            gsap.to(cursorTextTarget, {
-              duration: 0.6,
-              overwrite: "auto",
-              scrambleText: {
-                text: text,
-                chars: scrambleCharacters,
-                speed: 1.2,
-              },
-            });
-            activeHoverItem = hoverItem;
-          }
-        }
-        window.addEventListener("mousemove", (event) => {
-          mouseX = event.clientX;
-          mouseY = event.clientY;
-          hasMouseMoved = true;
-          xTo(mouseX);
-          yTo(mouseY);
-          requestAnimationFrame(updateCursor);
-        });
-        window.addEventListener(
-          "scroll",
-          () => {
-            if (!hasMouseMoved) return;
-            requestAnimationFrame(updateCursor);
-          },
-          { passive: true },
-        );
-      }
-      document.addEventListener("DOMContentLoaded", () => {
-        initScrambleTextCursor();
-      });
-    </script>
-
-    <script>
-      (function () {
-        const hoverInSound =
-          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Ok%20interesting_hoveroutsoft_quiet.mp3";
-        const hoverOutSound =
-          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Enough%20of%20that_hoverinsoft_quiet.mp3";
-        const clickSound =
-          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Clatz_take1_digitalminimal_quiet2.mp3";
-        const navDelay = 150;
-        function play(src, pitchVariation) {
-          const audio = new Audio(src);
-          if (pitchVariation)
-            audio.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
-          audio.play().catch(function () {});
-        }
-        document.querySelectorAll(".case-btn").forEach(function (btn) {
-          btn.addEventListener("mouseenter", function () {
-            play(hoverInSound, 0.08);
-          });
-          btn.addEventListener("mouseleave", function () {
-            play(hoverOutSound, 0.08);
-          });
-          btn.addEventListener("click", function (e) {
-            const href = btn.getAttribute("href");
-            const isRealLink =
-              btn.tagName === "A" &&
-              href &&
-              !href.startsWith("#") &&
-              btn.target !== "_blank";
-            if (isRealLink && e.button === 0 && !e.metaKey && !e.ctrlKey) {
-              e.preventDefault();
-              play(clickSound, 0.04);
-              setTimeout(function () {
-                window.location.href = btn.href;
-              }, navDelay);
-            } else {
-              play(clickSound, 0.04);
-            }
-          });
-        });
-      })();
-    </script>
 
     <script>
       // ------About Slider------
@@ -2261,7 +1935,37 @@
         restart();
       })();
 
-      // ------Marquee------
+      // ------Toolkit Bar------
+      function initToolkitBar() {
+        const toolkitItems = document.querySelectorAll(".toolkit-item");
+        const toggleSiblingClass = (items, index, offset, className, add) => {
+          const sibling = items[index + offset];
+          if (sibling) {
+            sibling.classList.toggle(className, add);
+          }
+        };
+        toolkitItems.forEach((item, index) => {
+          item.addEventListener("mouseenter", () => {
+            item.classList.add("hover");
+            toggleSiblingClass(toolkitItems, index, -1, "sibling-close", true);
+            toggleSiblingClass(toolkitItems, index, 1, "sibling-close", true);
+            toggleSiblingClass(toolkitItems, index, -2, "sibling-far", true);
+            toggleSiblingClass(toolkitItems, index, 2, "sibling-far", true);
+          });
+          item.addEventListener("mouseleave", () => {
+            item.classList.remove("hover");
+            toggleSiblingClass(toolkitItems, index, -1, "sibling-close", false);
+            toggleSiblingClass(toolkitItems, index, 1, "sibling-close", false);
+            toggleSiblingClass(toolkitItems, index, -2, "sibling-far", false);
+            toggleSiblingClass(toolkitItems, index, 2, "sibling-far", false);
+          });
+        });
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        initToolkitBar();
+      });
+
+      //------Marquee------
       function initCSSMarquee() {
         const pixelsPerSecond = 75;
         const marquees = document.querySelectorAll("[data-css-marquee]");
