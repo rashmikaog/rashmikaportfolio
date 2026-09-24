@@ -224,6 +224,7 @@
         align-items: center;
         justify-content: center;
         overflow: visible !important;
+        touch-action: pan-y !important;
       }
       #cloudee-root svg {
         width: 100%;
@@ -260,6 +261,35 @@
         object-fit: cover !important;
         width: 100% !important;
         height: 100% !important;
+      }
+
+      /* Mobile Optimizations */
+      @media (max-width: 767px) {
+        .hero-section {
+          flex-direction: column !important;
+          padding: 1.5rem 1rem !important;
+        }
+        .display-section {
+          width: 100% !important;
+          max-width: 320px !important;
+          margin: 0 auto !important;
+        }
+        .text-section {
+          width: 100% !important;
+          padding: 1rem 0 !important;
+          text-align: left !important;
+        }
+        .case-figure {
+          height: auto !important;
+          aspect-ratio: 16 / 9 !important;
+        }
+        .work-list {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
+        .howler-player {
+          max-width: calc(100vw - 2rem) !important;
+        }
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
@@ -820,7 +850,7 @@
                 <div class="case-cover-wrapper">
                   <figure class="case-figure">
                     <img
-                      src="./public/argilease.png"
+                      src="./public/agilease.png"
                       loading="lazy"
                       alt="ArgiLease Preview"
                       class="img"
@@ -1141,12 +1171,6 @@
         </div>
       </section>
       <section class="area-bottom">
-        <div
-          id="w-node-a2506fb4-4991-663f-3f2b-7c5aaf763ef2-af763ee3"
-          class="footnote-wrapper is--in-footer"
-        >
-          <p class="p2">v.2.1.2 Updated 08/18/2026</p>
-        </div>
         <div
           id="w-node-a2506fb4-4991-663f-3f2b-7c5aaf763ef7-af763ee3"
           class="summary-wrapper"
