@@ -38,7 +38,10 @@
     />
     <meta property="og:type" content="website" />
     <meta content="summary_large_image" name="twitter:card" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
     <link
       href="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/css/new-folio-14412e.webflow.shared.bdf204b1d.css"
       rel="stylesheet"
@@ -194,18 +197,28 @@
     />
 
     <style>
+      /* Base font scaling */
       html {
         font-size: calc(100vw / 1244 * 13);
       }
       @media (max-width: 980px) {
         html {
-          font-size: calc(100vw / 375 * 11);
+          font-size: 13px !important;
         }
       }
       @media (max-width: 480px) {
         html {
-          font-size: calc(100vw / 375 * 16);
+          font-size: 12px !important;
         }
+      }
+
+      /* Strict viewport overflow lock */
+      html,
+      body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        position: relative !important;
       }
 
       /* Clean avatar container styling */
@@ -290,32 +303,90 @@
         height: 100% !important;
       }
 
-      /* Mobile Optimizations */
+      /* Robust Mobile Layout Fixes */
       @media (max-width: 767px) {
-        .hero-section {
-          flex-direction: column !important;
-          padding: 1.5rem 1rem !important;
+        .nav {
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
         }
+
+        .hamburger-nav {
+          position: fixed !important;
+          top: 1rem !important;
+          right: 1rem !important;
+          z-index: 9999 !important;
+        }
+
+        .hero-section {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          padding: 2rem 1.25rem !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+
         .display-section {
           width: 100% !important;
-          max-width: 320px !important;
-          margin: 0 auto !important;
+          max-width: 280px !important;
+          margin: 0 auto 1.5rem auto !important;
         }
+
         .text-section {
           width: 100% !important;
-          padding: 1rem 0 !important;
+          padding: 0 !important;
           text-align: left !important;
         }
+
+        .h1 {
+          font-size: 2.2rem !important;
+          line-height: 1.15 !important;
+          margin-bottom: 0.75rem !important;
+        }
+
+        .hero-p {
+          font-size: 1rem !important;
+          line-height: 1.5 !important;
+        }
+
+        .content-wrapper {
+          width: 100% !important;
+          max-width: 100% !important;
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+          box-sizing: border-box !important;
+        }
+
+        .work-list {
+          padding: 0 !important;
+          width: 100% !important;
+        }
+
         .case-figure {
           height: auto !important;
           aspect-ratio: 16 / 9 !important;
         }
-        .work-list {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
+
         .howler-player {
           max-width: calc(100vw - 2rem) !important;
+          right: 1rem !important;
+          bottom: 1rem !important;
+        }
+
+        .double-btn-wrapper {
+          flex-direction: column !important;
+          width: 100% !important;
+          gap: 0.75rem !important;
+        }
+
+        .icon-btn-main {
+          width: 100% !important;
+          justify-content: center !important;
         }
       }
     </style>
@@ -497,7 +568,7 @@
                       class="svg"
                     >
                       <path
-                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
+                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167H11.6667Z"
                         fill="currentColor"
                         class="path"
                       ></path>
@@ -652,7 +723,7 @@
                 class="svg"
               >
                 <path
-                  d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
+                  d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167H11.6667Z"
                   fill="currentColor"
                   class="path"
                 ></path>
@@ -877,7 +948,7 @@
                 <div class="case-cover-wrapper">
                   <figure class="case-figure">
                     <img
-                      src="./public/argilease.png"
+                      src="./public/agilease.png"
                       loading="lazy"
                       alt="ArgiLease Preview"
                       class="img"
