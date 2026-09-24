@@ -151,7 +151,7 @@
         .hero-video-wrapper {
           background-color: #fafafa !important;
         }
-        .graph-figure img {
+        .graph-figure img:not(.custom-footer-logo) {
           filter: invert(1) !important;
         }
 
@@ -180,22 +180,15 @@
       })(window, document);
     </script>
 
+    <!-- CUSTOM LOGO / FAVICON IN BROWSER TAB -->
     <link
-      href="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/6a5aa52d5d6b22038079a933_Favicon.png"
+      href="./public/drawingher.png"
       rel="icon"
       type="image/png"
       sizes="32x32"
-      media="(prefers-color-scheme: light)"
     />
     <link
-      href="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/6a5aa53853e7b24656cbe97f_Favicon%20(1).png"
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link
-      href="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/6a5aa557ca666ffa6542289d_Webclip.png"
+      href="./public/drawingher.png"
       rel="apple-touch-icon"
       sizes="180x180"
     />
@@ -238,6 +231,28 @@
         overflow: visible !important;
         cursor: pointer;
         user-select: none;
+      }
+
+      /* Footer Graphic Figure Flex Display */
+      .graph-figure {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 16px !important;
+      }
+      .custom-footer-logo {
+        width: 32px !important;
+        height: 32px !important;
+        object-fit: contain !important;
+        border-radius: 6px !important;
+        opacity: 0.9 !important;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease !important;
+      }
+      .custom-footer-logo:hover {
+        transform: scale(1.08) !important;
+        opacity: 1 !important;
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
@@ -1128,7 +1143,14 @@
             <img
               src="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/6a595dda557fcf5c1435f728_Vector%20(9).svg"
               loading="lazy"
-              alt=""
+              alt="Design Department Badge"
+            />
+            <!-- CUSTOM DRAWINGHER LOGO IN FOOTER BADGES -->
+            <img
+              src="./public/drawingher.png"
+              loading="lazy"
+              alt="Personal Logo"
+              class="custom-footer-logo"
             />
           </div>
           <p data-current-time="Asia/Colombo" class="current-time">
@@ -1760,7 +1782,6 @@
     <!-- ACCURATELY SCALED CLOUDEE CHARACTER ENGINE -->
     <script>
       (function () {
-        // Exact definition metrics from cloudee.avatar.json
         const cloudeeDef = {
           name: "Cloudee",
           colors: { body: "#dce0e8", shadow: "#a6adb9", eyes: "#111316" },
@@ -1930,22 +1951,17 @@
 
           const defs = document.createElementNS(svgNS, "defs");
           defs.innerHTML = `
-            <!-- Primary Cloud Lighting Shader -->
             <radialGradient id="cloudMainGrad" cx="35%" cy="25%" r="75%">
               <stop offset="0%" stop-color="#ffffff" />
               <stop offset="55%" stop-color="#dde2ea" />
               <stop offset="90%" stop-color="#b6bec9" />
               <stop offset="100%" stop-color="#9aa2ad" />
             </radialGradient>
-
-            <!-- Soft Back-Puff Shade -->
             <radialGradient id="cloudBackGrad" cx="45%" cy="30%" r="70%">
               <stop offset="0%" stop-color="#e8ecf2" />
               <stop offset="70%" stop-color="#c1c8d3" />
               <stop offset="100%" stop-color="#9aa2ad" />
             </radialGradient>
-
-            <!-- Ground Contact Shadow -->
             <radialGradient id="softGroundGrad" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="rgba(0,0,0,0.16)" />
               <stop offset="50%" stop-color="rgba(0,0,0,0.05)" />
@@ -1954,7 +1970,6 @@
           `;
           svg.appendChild(defs);
 
-          // Contact floor shadow
           const shadow = document.createElementNS(svgNS, "ellipse");
           shadow.setAttribute("cx", "0");
           shadow.setAttribute("cy", "125");
@@ -1965,22 +1980,20 @@
 
           const cloudGroup = document.createElementNS(svgNS, "g");
 
-          // 1. Back Puffs
-          const backNodes = [
-            cloudeeDef.body.nodes[0],
-            cloudeeDef.body.nodes[3],
-          ];
-          backNodes.forEach(function (n) {
-            const el = document.createElementNS(svgNS, "ellipse");
-            el.setAttribute("cx", n.x.toString());
-            el.setAttribute("cy", n.y.toString());
-            el.setAttribute("rx", n.rx.toString());
-            el.setAttribute("ry", n.ry.toString());
-            el.setAttribute("fill", "url(#cloudBackGrad)");
-            cloudGroup.appendChild(el);
-          });
+          // Back Puffs
+          [cloudeeDef.body.nodes[0], cloudeeDef.body.nodes[3]].forEach(
+            function (n) {
+              const el = document.createElementNS(svgNS, "ellipse");
+              el.setAttribute("cx", n.x.toString());
+              el.setAttribute("cy", n.y.toString());
+              el.setAttribute("rx", n.rx.toString());
+              el.setAttribute("ry", n.ry.toString());
+              el.setAttribute("fill", "url(#cloudBackGrad)");
+              cloudGroup.appendChild(el);
+            },
+          );
 
-          // 2. Primary Center Cloud
+          // Primary Center Cloud
           const center = document.createElementNS(svgNS, "ellipse");
           center.setAttribute("cx", "0");
           center.setAttribute("cy", "0");
@@ -1989,22 +2002,20 @@
           center.setAttribute("fill", "url(#cloudMainGrad)");
           cloudGroup.appendChild(center);
 
-          // 3. Front Puffs
-          const frontNodes = [
-            cloudeeDef.body.nodes[1],
-            cloudeeDef.body.nodes[2],
-          ];
-          frontNodes.forEach(function (n) {
-            const el = document.createElementNS(svgNS, "ellipse");
-            el.setAttribute("cx", n.x.toString());
-            el.setAttribute("cy", n.y.toString());
-            el.setAttribute("rx", n.rx.toString());
-            el.setAttribute("ry", n.ry.toString());
-            el.setAttribute("fill", "url(#cloudMainGrad)");
-            cloudGroup.appendChild(el);
-          });
+          // Front Puffs
+          [cloudeeDef.body.nodes[1], cloudeeDef.body.nodes[2]].forEach(
+            function (n) {
+              const el = document.createElementNS(svgNS, "ellipse");
+              el.setAttribute("cx", n.x.toString());
+              el.setAttribute("cy", n.y.toString());
+              el.setAttribute("rx", n.rx.toString());
+              el.setAttribute("ry", n.ry.toString());
+              el.setAttribute("fill", "url(#cloudMainGrad)");
+              cloudGroup.appendChild(el);
+            },
+          );
 
-          // 4. Eyes Group (Accurately scaled using radii rx = w/2, ry = h/2)
+          // Eyes
           const faceGroup = document.createElementNS(svgNS, "g");
           const eyeL = document.createElementNS(svgNS, "ellipse");
           eyeL.setAttribute("fill", cloudeeDef.colors.eyes);
@@ -2017,12 +2028,12 @@
           svg.appendChild(cloudGroup);
           root.appendChild(svg);
 
-          // Animation Controller
+          // Controller state
           let currentAnimKey = "happy";
           let currentAnim = cloudeeDef.animations.happy;
           let stepIdx = 0;
           let lastStepTime = performance.now();
-          let priorityUntil = performance.now() + 4000; // Start in Happy for 4s
+          let priorityUntil = performance.now() + 4000;
 
           let cur = JSON.parse(
             JSON.stringify(cloudeeDef.expressions["joyful-wide"]),
@@ -2055,7 +2066,6 @@
             }
           }
 
-          // Audio Player State Hook
           window.cloudeeSetMusicState = function (playing) {
             isMusicPlaying = playing;
             lastActivityTime = performance.now();
@@ -2069,7 +2079,6 @@
             }
           };
 
-          // Mouse Movement Listener (wake up & look)
           window.addEventListener("mousemove", function (e) {
             lastActivityTime = performance.now();
             if (isSleeping) {
@@ -2089,7 +2098,6 @@
             );
           });
 
-          // Text Selection Listener (Thinking, Curious, Playful, Celebrate)
           let lastSelectionText = "";
           let selectionCooldown = 0;
 
@@ -2118,7 +2126,6 @@
             }
           });
 
-          // Click Avatar to interact
           root.addEventListener("click", function () {
             lastActivityTime = performance.now();
             if (isSleeping) {
@@ -2136,7 +2143,6 @@
           }
 
           function loop(now) {
-            // Sleep check: 8s of no interaction -> Sleeping
             if (
               !isSleeping &&
               !isMusicPlaying &&
@@ -2147,7 +2153,6 @@
               setAnim("sleeping");
             }
 
-            // Return to idle when lock expires
             if (
               !isSleeping &&
               !isMusicPlaying &&
@@ -2157,7 +2162,6 @@
               setAnim("idle");
             }
 
-            // Sequence loop through expression steps
             const currentStep = currentAnim.steps[stepIdx];
             if (now - lastStepTime > currentStep.hold) {
               stepIdx = (stepIdx + 1) % currentAnim.steps.length;
@@ -2167,7 +2171,6 @@
               lastStepTime = now;
             }
 
-            // Blinking timer
             if (!isBlinking && !isSleeping && now > nextBlink) {
               isBlinking = true;
               blinkStart = now;
@@ -2176,7 +2179,6 @@
               nextBlink = now + Math.random() * 4000 + 2600;
             }
 
-            // Smooth interpolation
             const spd = currentAnimKey === "excited" ? 0.14 : 0.08;
             cur.head.x = lerp(cur.head.x, tgt.head.x, spd);
             cur.head.y = lerp(cur.head.y, tgt.head.y, spd);
@@ -2204,7 +2206,6 @@
             mouseX = lerp(mouseX, tgtMouseX, 0.05);
             mouseY = lerp(mouseY, tgtMouseY, 0.05);
 
-            // Floating dynamics
             const floatSpeed = isSleeping
               ? 0.0009
               : isMusicPlaying
@@ -2226,12 +2227,10 @@
               `translate(${posX * 0.3}, ${posY}) rotate(${rotZ})`,
             );
 
-            // Contact shadow
             const shadowScale = 1 - floatY / 60;
             shadow.setAttribute("rx", (100 * shadowScale).toString());
             shadow.setAttribute("cx", (posX * 0.15).toString());
 
-            // Correct Eye dimensions: Radii must be half the width/height!
             const hL = isBlinking ? 1.5 : Math.max(1.5, cur.eyes.left.h / 2);
             const hR = isBlinking ? 1.5 : Math.max(1.5, cur.eyes.right.h / 2);
             const eyeSp = cur.eyes.spacing;
