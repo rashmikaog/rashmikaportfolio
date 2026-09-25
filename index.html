@@ -265,11 +265,8 @@
         height: 100% !important;
         display: block !important;
         overflow: visible !important;
-        cursor: grab;
+        cursor: default;
         user-select: none;
-      }
-      #cloudee-root svg:active {
-        cursor: grabbing;
       }
 
       /* Centered Pill Buttons in Footer */
@@ -1911,237 +1908,105 @@
             neutral: {
               head: { x: 0, y: 0, z: 0 },
               eyes: {
-                left: { width: 20, height: 50, x: 0, y: -7, angle: 0 },
-                right: { width: 20, height: 50, x: 0, y: -7, angle: 0 },
+                left: { width: 20, height: 50, y: -7, angle: 0 },
+                right: { width: 20, height: 50, y: -7, angle: 0 },
                 spacing: 35,
               },
             },
             "upward-side-glance": {
               head: { x: 7.3, y: 27.8, z: -16.1 },
               eyes: {
-                left: { width: 22.5, height: 42.4, x: 0, y: -20.5, angle: 0 },
-                right: { width: 22.5, height: 42.4, x: 0, y: -20.5, angle: 0 },
+                left: { width: 22.5, height: 42.4, y: -20.5, angle: 0 },
+                right: { width: 22.5, height: 42.4, y: -20.5, angle: 0 },
                 spacing: 54.3,
-              },
-            },
-            "downward-gaze": {
-              head: { x: -15.1, y: 0.14, z: -14.5 },
-              eyes: {
-                left: { width: 22.4, height: 54.6, x: 0, y: 0, angle: 0 },
-                right: { width: 22.4, height: 54.6, x: 0, y: 0, angle: 0 },
-                spacing: 57.7,
-              },
-            },
-            "skeptical-right": {
-              head: { x: -16.5, y: -3.8, z: -13.7 },
-              eyes: {
-                left: { width: 23.1, height: 57.7, x: 0, y: 0, angle: 0 },
-                right: { width: 49.9, height: 12.4, x: 0, y: 0, angle: 0 },
-                spacing: 56.3,
-              },
-            },
-            "small-attentive": {
-              head: { x: -4.2, y: 14.4, z: 11.2 },
-              eyes: {
-                left: { width: 22.1, height: 39.6, x: 0, y: 0, angle: 0 },
-                right: { width: 22.1, height: 39.6, x: 0, y: 0, angle: 0 },
-                spacing: 50.9,
-              },
-            },
-            "wide-downward-gaze": {
-              head: { x: -19.2, y: 15.2, z: 11.8 },
-              eyes: {
-                left: { width: 52.1, height: 51.5, x: 0, y: 0, angle: 0 },
-                right: { width: 53.1, height: 52.2, x: 0, y: 0, angle: 0 },
-                spacing: 69.5,
-              },
-            },
-            "surprised-left": {
-              head: { x: 2.9, y: -16.1, z: -20.9 },
-              eyes: {
-                left: { width: 51.7, height: 51.7, x: 0, y: 0, angle: 0 },
-                right: { width: 51.7, height: 51.7, x: 0, y: 0, angle: 0 },
-                spacing: 70.9,
-              },
-            },
-            "sleepy-squint": {
-              head: { x: 3.4, y: 13.2, z: 9 },
-              eyes: {
-                left: { width: 51.8, height: 13, x: 0, y: 0, angle: 0 },
-                right: { width: 51.8, height: 13, x: 0, y: 0, angle: 0 },
-                spacing: 63.9,
-              },
-            },
-            "angry-right": {
-              head: { x: 8.1, y: 17.6, z: -11.1 },
-              eyes: {
-                left: { width: 20.9, height: 40.4, x: 0, y: 0, angle: -30.9 },
-                right: { width: 20.9, height: 40.4, x: 0, y: 0, angle: 28.8 },
-                spacing: 52.1,
               },
             },
             "curious-left": {
               head: { x: -12.3, y: -17.6, z: 5.9 },
               eyes: {
-                left: { width: 20.6, height: 47.8, x: 0, y: 0, angle: 23.5 },
-                right: { width: 20.6, height: 47.8, x: 0, y: 0, angle: -24 },
+                left: { width: 20.6, height: 47.8, y: 0, angle: 23.5 },
+                right: { width: 20.6, height: 47.8, y: 0, angle: -24 },
                 spacing: 54.9,
-              },
-            },
-            "asymmetric-down-right": {
-              head: { x: -20.1, y: 12.6, z: -12.7 },
-              eyes: {
-                left: { width: 42.5, height: 41.8, x: 0, y: 0, angle: 0 },
-                right: { width: 22.1, height: 22.2, x: 0, y: 0, angle: 0 },
-                spacing: 61.7,
-              },
-            },
-            "attentive-left": {
-              head: { x: 1.4, y: 6.2, z: 10.6 },
-              eyes: {
-                left: { width: 23.8, height: 58.1, x: 0, y: 0, angle: 0 },
-                right: { width: 23.8, height: 58.1, x: 0, y: 0, angle: 0 },
-                spacing: 56.8,
-              },
-            },
-            "joyful-wide": {
-              head: { x: -2.1, y: -15.9, z: -14.5 },
-              eyes: {
-                left: { width: 34.2, height: 85.3, x: 0, y: 0, angle: 0 },
-                right: { width: 34.2, height: 83.2, x: 0, y: 0, angle: 0 },
-                spacing: 59.4,
               },
             },
             "eyes-closed": {
               head: { x: -8.8, y: -8.7, z: -10.8 },
               eyes: {
-                left: { width: 56.1, height: 15.5, x: 0, y: 0, angle: 0 },
-                right: { width: 56.1, height: 15.2, x: 0, y: 0, angle: 0 },
+                left: { width: 56.1, height: 15.5, y: 0, angle: 0 },
+                right: { width: 56.1, height: 15.2, y: 0, angle: 0 },
                 spacing: 69.3,
-              },
-            },
-            "joyful-down-right": {
-              head: { x: -15.3, y: 15, z: 12.8 },
-              eyes: {
-                left: { width: 31.3, height: 76.7, x: 0, y: 0, angle: 0 },
-                right: { width: 31.3, height: 76.7, x: 0, y: 0, angle: 0 },
-                spacing: 68.7,
-              },
-            },
-            "skeptical-left": {
-              head: { x: 3.5, y: -7.1, z: 9.8 },
-              eyes: {
-                left: { width: 24.3, height: 59.3, x: 0, y: 0, angle: 0 },
-                right: { width: 48.9, height: 13.4, x: 0, y: 0, angle: 0 },
-                spacing: 62.2,
-              },
-            },
-            "far-right-glance": {
-              head: { x: 0.3, y: 35.3, z: -10.9 },
-              eyes: {
-                left: { width: 22.5, height: 39.8, x: 0, y: 0, angle: 0 },
-                right: { width: 22.5, height: 39.8, x: 0, y: 0, angle: 0 },
-                spacing: 53.9,
-              },
-            },
-            "angry-left": {
-              head: { x: -14.8, y: -19.4, z: 5.6 },
-              eyes: {
-                left: { width: 19.6, height: 48.6, x: 0, y: 0, angle: -27.6 },
-                right: { width: 19.6, height: 48.6, x: 0, y: 0, angle: 26.1 },
-                spacing: 55.1,
-              },
-            },
-            "playful-right": {
-              head: { x: -4.4, y: 14.1, z: -16.1 },
-              eyes: {
-                left: { width: 19, height: 43.4, x: 0, y: 0, angle: 26.3 },
-                right: { width: 19, height: 43.4, x: 0, y: 0, angle: -20.2 },
-                spacing: 51.7,
-              },
-            },
-            "asymmetric-up-left": {
-              head: { x: 6.6, y: 4.7, z: 12.8 },
-              eyes: {
-                left: { width: 42.1, height: 41.7, x: 0, y: 0, angle: 0 },
-                right: { width: 22.2, height: 22.1, x: 0, y: 0, angle: 0 },
-                spacing: 60.4,
-              },
-            },
-            "gentle-downward-gaze": {
-              head: { x: -6.1, y: -11, z: -14 },
-              eyes: {
-                left: { width: 23, height: 58.7, x: 0, y: 0, angle: 0 },
-                right: { width: 23, height: 58.7, x: 0, y: 0, angle: 0 },
-                spacing: 56.2,
-              },
-            },
-            "wide-down-left": {
-              head: { x: -17.1, y: 18.1, z: 13.9 },
-              eyes: {
-                left: { width: 35.5, height: 79.1, x: 0, y: 0, angle: 0 },
-                right: { width: 35.5, height: 79.1, x: 0, y: 0, angle: 0 },
-                spacing: 70.8,
-              },
-            },
-            "surprised-wide-left": {
-              head: { x: -5.4, y: -11.7, z: -13.5 },
-              eyes: {
-                left: { width: 51.4, height: 50.1, x: 0, y: 0, angle: 0 },
-                right: { width: 50.5, height: 49.4, x: 0, y: 0, angle: 0 },
-                spacing: 69,
               },
             },
             "drowsy-closed": {
               head: { x: 10.3, y: 3.4, z: 7.6 },
               eyes: {
-                left: { width: 55.7, height: 14.6, x: 0, y: 0, angle: 0 },
-                right: { width: 55.7, height: 14.6, x: 0, y: 0, angle: 0 },
+                left: { width: 55.7, height: 14.6, y: 0, angle: 0 },
+                right: { width: 55.7, height: 14.6, y: 0, angle: 0 },
                 spacing: 68.4,
+              },
+            },
+            "sleepy-squint": {
+              head: { x: 3.4, y: 13.2, z: 9 },
+              eyes: {
+                left: { width: 51.8, height: 13, y: 0, angle: 0 },
+                right: { width: 51.8, height: 13, y: 0, angle: 0 },
+                spacing: 63.9,
+              },
+            },
+            "skeptical-left": {
+              head: { x: 3.5, y: -7.1, z: 9.8 },
+              eyes: {
+                left: { width: 24.3, height: 59.3, y: 0, angle: 0 },
+                right: { width: 48.9, height: 13.4, y: 0, angle: 0 },
+                spacing: 62.2,
+              },
+            },
+            "skeptical-right": {
+              head: { x: -16.5, y: -3.8, z: -13.7 },
+              eyes: {
+                left: { width: 23.1, height: 57.7, y: 0, angle: 0 },
+                right: { width: 49.9, height: 12.4, y: 0, angle: 0 },
+                spacing: 56.3,
               },
             },
             "suspicious-right": {
               head: { x: -17.8, y: 10, z: -10.9 },
               eyes: {
-                left: { width: 24, height: 55.9, x: 0, y: -9.8, angle: 0 },
-                right: { width: 53.6, height: 13.3, x: 0, y: -9.8, angle: 0 },
+                left: { width: 24, height: 55.9, y: -9.8, angle: 0 },
+                right: { width: 53.6, height: 13.3, y: -9.8, angle: 0 },
                 spacing: 59.9,
               },
             },
-            "shy-downward": {
-              head: { x: 7.1, y: 7.8, z: 3.9 },
+            "joyful-down-right": {
+              head: { x: -15.3, y: 15, z: 12.8 },
               eyes: {
-                left: { width: 21.5, height: 32, x: 0, y: 40, angle: 0 },
-                right: { width: 23.2, height: 33.5, x: 0, y: 40, angle: 0 },
-                spacing: 51.2,
-              },
-            },
-            "angry-brows": {
-              head: { x: 10.5, y: 5.1, z: 4.7 },
-              eyes: {
-                left: { width: 27.1, height: 63, x: 0, y: 0, angle: -36.2 },
-                right: { width: 27.1, height: 63, x: 0, y: 0, angle: 27.7 },
+                left: { width: 31.3, height: 76.7, y: 0, angle: 0 },
+                right: { width: 31.3, height: 76.7, y: 0, angle: 0 },
                 spacing: 68.7,
               },
             },
-            "uneasy-left": {
-              head: { x: -12.3, y: -17.6, z: 5.9 },
+            "playful-right": {
+              head: { x: -4.4, y: 14.1, z: -16.1 },
               eyes: {
-                left: { width: 20.6, height: 47.8, x: 0, y: 0, angle: 23.5 },
-                right: { width: 20.6, height: 47.8, x: 0, y: 0, angle: -24 },
-                spacing: 54.9,
+                left: { width: 19, height: 43.4, y: 0, angle: 26.3 },
+                right: { width: 19, height: 43.4, y: 0, angle: -20.2 },
+                spacing: 51.7,
+              },
+            },
+            "joyful-wide": {
+              head: { x: -2.1, y: -15.9, z: -14.5 },
+              eyes: {
+                left: { width: 34.2, height: 85.3, y: 0, angle: 0 },
+                right: { width: 34.2, height: 83.2, y: 0, angle: 0 },
+                spacing: 59.4,
               },
             },
           },
           animations: {
-            sleeping: [
-              { exp: "eyes-closed", hold: 3600 },
-              { exp: "drowsy-closed", hold: 3600 },
-              { exp: "sleepy-squint", hold: 3600 },
-            ],
             idle: [
               { exp: "upward-side-glance", hold: 5200 },
               { exp: "curious-left", hold: 5200 },
+              { exp: "neutral", hold: 4200 },
             ],
             suspicious: [
               { exp: "skeptical-left", hold: 2300 },
@@ -2153,6 +2018,11 @@
               { exp: "playful-right", hold: 2300 },
               { exp: "joyful-wide", hold: 2300 },
               { exp: "curious-left", hold: 2300 },
+            ],
+            sleeping: [
+              { exp: "eyes-closed", hold: 3600 },
+              { exp: "drowsy-closed", hold: 3600 },
+              { exp: "sleepy-squint", hold: 3600 },
             ],
           },
         };
@@ -2250,6 +2120,34 @@
             if (lockMs > 0) priorityUntil = performance.now() + lockMs;
           }
 
+          // Text Selection Trigger
+          let lastSelectionText = "";
+          let selectionCooldown = 0;
+
+          document.addEventListener("selectionchange", function () {
+            const sel = window.getSelection()
+              ? window.getSelection().toString().trim()
+              : "";
+            const now = performance.now();
+            if (
+              sel.length > 0 &&
+              sel !== lastSelectionText &&
+              now > selectionCooldown
+            ) {
+              lastSelectionText = sel;
+              selectionCooldown = now + 7000;
+              lastActivityTime = now;
+              isSleeping = false;
+
+              if (!isMusicPlaying) {
+                setAnim("suspicious", 7000);
+              }
+            } else if (sel.length === 0) {
+              lastSelectionText = "";
+            }
+          });
+
+          // Music Hook Trigger
           window.cloudeeSetMusicState = function (playing) {
             isMusicPlaying = playing;
             lastActivityTime = performance.now();
@@ -2285,21 +2183,12 @@
             );
           });
 
-          root.addEventListener("click", () => {
-            lastActivityTime = performance.now();
-            isSleeping = false;
-            if (!isMusicPlaying) {
-              setAnim("suspicious", 3000);
-            }
-            isBlinking = true;
-            blinkStart = performance.now();
-          });
-
           function lerp(a, b, t) {
             return a + (b - a) * t;
           }
 
           function loop(now) {
+            // Sleep when inactive for 10s
             if (
               !isSleeping &&
               !isMusicPlaying &&
@@ -2310,6 +2199,7 @@
               setAnim("sleeping");
             }
 
+            // Return to idle
             if (
               !isSleeping &&
               !isMusicPlaying &&
