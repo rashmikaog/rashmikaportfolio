@@ -362,9 +362,40 @@
           line-height: 1.3 !important;
         }
 
-        .footer-form .form-p {
-          font-size: clamp(2rem, 8vw, 3.5rem) !important;
+        /* Cohesive Footer Sizing */
+        .footer-form {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: center !important;
+          text-align: center !important;
+          width: 100% !important;
+          margin: 0 auto !important;
+        }
+        .footer-form .form-p,
+        .footer-form .scramble-text,
+        .footer-form .scramble-text .form-p,
+        .footer-form .non-scramble-text .form-p {
+          font-size: 2.1rem !important;
           line-height: 1.15 !important;
+          font-weight: 600 !important;
+        }
+        .footer-form .form-animation-wrapper {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 0.4rem !important;
+          margin-top: 0.2rem !important;
+        }
+        .footer-form .arrow-icon {
+          display: inline-flex !important;
+          align-items: center !important;
+          width: 2rem !important;
+          height: 1.2rem !important;
+        }
+        .footer-form .arrow-icon svg {
+          width: 100% !important;
+          height: 100% !important;
         }
 
         .toolkit-wrap {
@@ -1758,6 +1789,123 @@
           }
         });
       });
+    </script>
+    <script>
+      // ------Case Cursor Scramble------
+      function initScrambleTextCursor() {
+        const cursor = document.querySelector("[data-cursor]");
+        const cursorTextTarget = document.querySelector(
+          "[data-cursor-text-target]",
+        );
+        if (
+          !cursor ||
+          !cursorTextTarget ||
+          !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+        )
+          return;
+        let mouseX = 0;
+        let mouseY = 0;
+        let hasMouseMoved = false;
+        let activeHoverItem = null;
+        const scrambleCharacters = "XYZxy#&@0$€£";
+        const xTo = gsap.quickTo(cursor, "x", {
+          duration: 0.4,
+          ease: "power3.out",
+        });
+        const yTo = gsap.quickTo(cursor, "y", {
+          duration: 0.4,
+          ease: "power3.out",
+        });
+
+        function updateCursor() {
+          const hoverItem = document
+            .elementFromPoint(mouseX, mouseY)
+            ?.closest("[data-cursor-hover]");
+          const rect = cursor.getBoundingClientRect();
+          const isHovering = !!hoverItem;
+          const isEdge = rect.right >= window.innerWidth;
+          const text = hoverItem?.getAttribute("data-cursor-text") || "";
+          cursor.setAttribute(
+            "data-cursor",
+            isHovering ? (isEdge ? "active-edge" : "active") : "",
+          );
+
+          if (hoverItem !== activeHoverItem) {
+            gsap.to(cursorTextTarget, {
+              duration: 0.6,
+              overwrite: "auto",
+              scrambleText: {
+                text: text,
+                chars: scrambleCharacters,
+                speed: 1.2,
+              },
+            });
+            activeHoverItem = hoverItem;
+          }
+        }
+        window.addEventListener("mousemove", (event) => {
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+          hasMouseMoved = true;
+          xTo(mouseX);
+          yTo(mouseY);
+          requestAnimationFrame(updateCursor);
+        });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!hasMouseMoved) return;
+            requestAnimationFrame(updateCursor);
+          },
+          { passive: true },
+        );
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        initScrambleTextCursor();
+      });
+    </script>
+
+    <script>
+      (function () {
+        const hoverInSound =
+          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Ok%20interesting_hoveroutsoft_quiet.mp3";
+        const hoverOutSound =
+          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Enough%20of%20that_hoverinsoft_quiet.mp3";
+        const clickSound =
+          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Clatz_take1_digitalminimal_quiet2.mp3";
+        const navDelay = 150;
+        function play(src, pitchVariation) {
+          const audio = new Audio(src);
+          if (pitchVariation)
+            audio.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
+          audio.play().catch(function () {});
+        }
+        document.querySelectorAll(".case-btn").forEach(function (btn) {
+          btn.addEventListener("mouseenter", function () {
+            play(hoverInSound, 0.08);
+          });
+          btn.addEventListener("mouseleave", function () {
+            play(hoverOutSound, 0.08);
+          });
+          btn.addEventListener("click", function (e) {
+            const href = btn.getAttribute("href");
+            const isRealLink =
+              btn.tagName === "A" &&
+              href &&
+              !href.startsWith("#") &&
+              btn.target !== "_blank";
+            if (isRealLink && e.button === 0 && !e.metaKey && !e.ctrlKey) {
+              e.preventDefault();
+              play(clickSound, 0.04);
+              setTimeout(function () {
+                window.location.href = btn.href;
+              }, navDelay);
+            } else {
+              play(clickSound, 0.04);
+            }
+          });
+        });
+      })();
     </script>
 
     <script>
