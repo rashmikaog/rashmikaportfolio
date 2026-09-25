@@ -50,7 +50,6 @@
       crossorigin="anonymous"
     />
 
-    <!-- SYSTEM LIGHT/DARK MODE OVERRIDE -->
     <style>
       html.w-mod-js:not(.w-mod-ix3) :is(.btn-main.medium, .icon-btn-main) {
         visibility: hidden !important;
@@ -183,7 +182,6 @@
       })(window, document);
     </script>
 
-    <!-- CUSTOM FAVICON -->
     <link
       href="./public/drawingher.png"
       rel="icon"
@@ -219,7 +217,6 @@
         position: relative !important;
       }
 
-      /* Hero Stage Container */
       .hero-section {
         display: flex !important;
         align-items: center !important;
@@ -269,7 +266,6 @@
         user-select: none;
       }
 
-      /* Centered Pill Buttons in Footer */
       .double-btn-wrapper {
         display: flex !important;
         flex-direction: row !important;
@@ -290,7 +286,6 @@
         text-decoration: none !important;
       }
 
-      /* Center Bottom Footer */
       .area-bottom {
         display: flex !important;
         justify-content: center !important;
@@ -316,7 +311,6 @@
         text-align: center !important;
       }
 
-      /* Footer Graphic Figure */
       .graph-figure {
         display: flex !important;
         align-items: center !important;
@@ -345,7 +339,6 @@
         height: 100% !important;
       }
 
-      /* Mobile Sizing */
       @media (max-width: 767px) {
         .nav {
           padding-left: 1rem !important;
@@ -453,12 +446,10 @@
           padding: 0 !important;
           width: 100% !important;
         }
-
         .case-figure {
           height: auto !important;
           aspect-ratio: 16 / 9 !important;
         }
-
         .howler-player {
           max-width: calc(100vw - 2rem) !important;
           right: 1rem !important;
@@ -466,6 +457,8 @@
         }
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
   </head>
   <body class="body">
     <nav class="nav">
@@ -536,7 +529,6 @@
               .hamburger-nav__toggle-bar:nth-child(2) {
               transform: translateY(0em) rotate(-45deg);
             }
-
             @media (hover: hover) and (pointer: fine) {
               .hamburger-nav__toggle:hover .hamburger-nav__toggle-bar {
                 transform: translateY(0.15em) rotate(0.001deg);
@@ -609,8 +601,7 @@
                     href="https://github.com/rashmikaog"
                     target="_blank"
                     class="icon-btn medium is--nav w-inline-block"
-                  >
-                    <svg
+                    ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="100%"
                       viewBox="0 0 24 24"
@@ -623,9 +614,8 @@
                         d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387.6.111.82-.261.82-.577 0-.285-.011-1.04-.015-2.04-3.338.726-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.467-2.38 1.235-3.22-.123-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.62-5.479 5.92.43.372.814 1.102.814 2.222 0 1.606-.014 2.898-.014 3.293 0 .319.218.694.825.576C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12z"
                         fill="currentColor"
                         class="path"
-                      ></path>
-                    </svg>
-                  </a>
+                      ></path></svg
+                  ></a>
                 </li>
                 <li class="social-item">
                   <a
@@ -633,8 +623,7 @@
                     href="mailto:kmrashh07@gmail.com"
                     target="_blank"
                     class="icon-btn medium is--nav w-inline-block"
-                  >
-                    <svg
+                    ><svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="100%"
                       viewBox="0 0 14 13"
@@ -645,9 +634,8 @@
                         d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
                         fill="currentColor"
                         class="path"
-                      ></path>
-                    </svg>
-                  </a>
+                      ></path></svg
+                  ></a>
                 </li>
               </ul>
               <a
@@ -1006,18 +994,12 @@
                   </figure>
                 </div>
                 <div class="case-text-wrapper">
-                  <div
-                    id="w-node-_4b7ac266-174b-c73c-3f27-425996ac5be8-6eb79190"
-                    class="tag-wrrapper"
-                  >
+                  <div class="tag-wrrapper">
                     <p class="tag">Java</p>
                     <p class="tag">MySQL</p>
                     <p class="tag">SE Principles</p>
                   </div>
-                  <header
-                    id="w-node-dfbb752b-7cbd-3dd0-4eb9-30bf4e6a1afb-6eb79190"
-                    class="case-header"
-                  >
+                  <header class="case-header">
                     <h3 class="h3">ArgiLease</h3>
                     <p class="p2">
                       Agricultural equipment leasing platform. Connects
@@ -1049,18 +1031,12 @@
                   </figure>
                 </div>
                 <div class="case-text-wrapper">
-                  <div
-                    id="w-node-_9bea842b-ebf1-28be-7a8c-2f1bc96e73d3-6eb79190"
-                    class="tag-wrrapper"
-                  >
+                  <div class="tag-wrrapper">
                     <p class="tag">Android</p>
                     <p class="tag">SQLite</p>
                     <p class="tag">MVC</p>
                   </div>
-                  <header
-                    id="w-node-_9bea842b-ebf1-28be-7a8c-2f1bc96e73da-6eb79190"
-                    class="case-header"
-                  >
+                  <header class="case-header">
                     <h3 class="h3">TechCare Services</h3>
                     <p class="p2">
                       Native Android app for device repair management. Users can
@@ -1092,18 +1068,12 @@
                   </figure>
                 </div>
                 <div class="case-text-wrapper">
-                  <div
-                    id="w-node-d697ebaa-f42b-5ed6-6706-60f6b4f39a7c-6eb79190"
-                    class="tag-wrrapper"
-                  >
+                  <div class="tag-wrrapper">
                     <p class="tag">Java Swing</p>
                     <p class="tag">OOP</p>
                     <p class="tag">File I/O</p>
                   </div>
-                  <header
-                    id="w-node-d697ebaa-f42b-5ed6-6706-60f6b4f39a83-6eb79190"
-                    class="case-header"
-                  >
+                  <header class="case-header">
                     <h3 class="h3">The Little Book Haven</h3>
                     <p class="p2">
                       Desktop bookstore management system. Role-based access for
@@ -1135,18 +1105,12 @@
                   </figure>
                 </div>
                 <div class="case-text-wrapper">
-                  <div
-                    id="w-node-_3b6254e3-9ed1-103e-4ba2-dd459f930539-6eb79190"
-                    class="tag-wrrapper"
-                  >
+                  <div class="tag-wrrapper">
                     <p class="tag">C++</p>
                     <p class="tag">File Handling</p>
                     <p class="tag">Modular Design</p>
                   </div>
-                  <header
-                    id="w-node-_3b6254e3-9ed1-103e-4ba2-dd459f930540-6eb79190"
-                    class="case-header"
-                  >
+                  <header class="case-header">
                     <h3 class="h3">Furniture Ordering System</h3>
                     <p class="p2">
                       Menu-driven ordering application built in C++. Supports
@@ -1178,18 +1142,12 @@
                   </figure>
                 </div>
                 <div class="case-text-wrapper">
-                  <div
-                    id="w-node-cb95eed8-a91d-0eac-92be-a58d88887357-6eb79190"
-                    class="tag-wrrapper"
-                  >
+                  <div class="tag-wrrapper">
                     <p class="tag">SQL</p>
                     <p class="tag">ER Modeling</p>
                     <p class="tag">Normalization</p>
                   </div>
-                  <header
-                    id="w-node-cb95eed8-a91d-0eac-92be-a58d8888735c-6eb79190"
-                    class="case-header"
-                  >
+                  <header class="case-header">
                     <h3 class="h3">Municipal Service Database</h3>
                     <p class="p2">
                       Relational database for city-level service management.
@@ -1221,18 +1179,12 @@
                   </figure>
                 </div>
                 <div class="case-text-wrapper">
-                  <div
-                    id="w-node-cac6a58b-6dc3-e0f3-1eb1-2d20e591be1e-6eb79190"
-                    class="tag-wrrapper"
-                  >
+                  <div class="tag-wrrapper">
                     <p class="tag">Java</p>
                     <p class="tag">LibGDX</p>
                     <p class="tag">Game Dev</p>
                   </div>
-                  <header
-                    id="w-node-cac6a58b-6dc3-e0f3-1eb1-2d20e591be23-6eb79190"
-                    class="case-header"
-                  >
+                  <header class="case-header">
                     <h3 class="h3">LibGDX Game</h3>
                     <p class="p2">
                       2D Java game currently in active development. Features a
@@ -1350,7 +1302,6 @@
       </section>
     </footer>
 
-    <!-- DEPENDENCY SCRIPTS (jQuery, Webflow, GSAP, Howler) -->
     <script
       src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6a53b1d08ae596f96eb79185"
       type="text/javascript"
@@ -1400,14 +1351,13 @@
         };
         const parseFormattedTime = (formattedDateTime) => {
           const match = formattedDateTime.match(/(\d+):(\d+):(\d+)\s*([\w+]+)/);
-          if (match) {
+          if (match)
             return {
               hours: match[1],
               minutes: match[2],
               seconds: match[3],
               timezone: match[4],
             };
-          }
           return null;
         };
         const updateTime = () => {
@@ -1621,27 +1571,23 @@
               pauseAllExcept(uniqueId);
               element.setAttribute("data-howler-status", "playing");
               requestAnimationFrame(updateProgress);
-              if (window.cloudeeSetMusicState) {
+              if (window.cloudeeSetMusicState)
                 window.cloudeeSetMusicState(true);
-              }
             },
             onpause: () => {
               element.setAttribute("data-howler-status", "not-playing");
-              if (window.cloudeeSetMusicState) {
+              if (window.cloudeeSetMusicState)
                 window.cloudeeSetMusicState(false);
-              }
             },
             onstop: () => {
               element.setAttribute("data-howler-status", "not-playing");
-              if (window.cloudeeSetMusicState) {
+              if (window.cloudeeSetMusicState)
                 window.cloudeeSetMusicState(false);
-              }
             },
             onend: () => {
               resetUI();
-              if (window.cloudeeSetMusicState) {
+              if (window.cloudeeSetMusicState)
                 window.cloudeeSetMusicState(false);
-              }
             },
           });
           soundInstances[uniqueId] = sound;
@@ -2131,27 +2077,34 @@
             },
           },
           animations: {
-            sleeping: [
-              { exp: "eyes-closed", hold: 3600 },
-              { exp: "drowsy-closed", hold: 3600 },
-              { exp: "sleepy-squint", hold: 3600 },
-            ],
-            idle: [
-              { exp: "upward-side-glance", hold: 5200 },
-              { exp: "curious-left", hold: 5200 },
-              { exp: "neutral", hold: 4200 },
-            ],
-            suspicious: [
-              { exp: "skeptical-left", hold: 2300 },
-              { exp: "skeptical-right", hold: 2300 },
-              { exp: "suspicious-right", hold: 2300 },
-            ],
-            playful: [
-              { exp: "joyful-down-right", hold: 2300 },
-              { exp: "playful-right", hold: 2300 },
-              { exp: "joyful-wide", hold: 2300 },
-              { exp: "curious-left", hold: 2300 },
-            ],
+            sleeping: {
+              steps: [
+                { expression: "eyes-closed", holdMs: 3600 },
+                { expression: "drowsy-closed", holdMs: 3600 },
+                { expression: "sleepy-squint", holdMs: 3600 },
+              ],
+            },
+            idle: {
+              steps: [
+                { expression: "upward-side-glance", holdMs: 5200 },
+                { expression: "curious-left", holdMs: 5200 },
+              ],
+            },
+            suspicious: {
+              steps: [
+                { expression: "skeptical-left", holdMs: 2300 },
+                { expression: "skeptical-right", holdMs: 2300 },
+                { expression: "suspicious-right", holdMs: 2300 },
+              ],
+            },
+            playful: {
+              steps: [
+                { expression: "joyful-down-right", holdMs: 2300 },
+                { expression: "playful-right", holdMs: 2300 },
+                { expression: "joyful-wide", holdMs: 2300 },
+                { expression: "curious-left", holdMs: 2300 },
+              ],
+            },
           },
         };
 
@@ -2162,7 +2115,6 @@
 
           const svgNS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(svgNS, "svg");
-          // Tightly bound 260px viewbox around the 240px body sphere
           svg.setAttribute("viewBox", "-130 -130 260 270");
           svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
@@ -2176,7 +2128,6 @@
           `;
           svg.appendChild(defs);
 
-          // Ground shadow
           const shadow = document.createElementNS(svgNS, "ellipse");
           shadow.setAttribute("cx", "0");
           shadow.setAttribute("cy", "125");
@@ -2185,18 +2136,15 @@
           shadow.setAttribute("fill", "url(#grokShadowGrad)");
           svg.appendChild(shadow);
 
-          // Head Container
           const headGroup = document.createElementNS(svgNS, "g");
 
-          // Solid Black Sphere Body
           const bodySphere = document.createElementNS(svgNS, "circle");
           bodySphere.setAttribute("cx", "0");
           bodySphere.setAttribute("cy", "0");
-          bodySphere.setAttribute("r", "120"); // 240 width / 2
+          bodySphere.setAttribute("r", "120");
           bodySphere.setAttribute("fill", grokDef.colors.body);
           headGroup.appendChild(bodySphere);
 
-          // White Pill Eyes
           const eyesGroup = document.createElementNS(svgNS, "g");
           const eyeLeft = document.createElementNS(svgNS, "rect");
           eyeLeft.setAttribute("fill", grokDef.colors.eyes);
@@ -2210,9 +2158,8 @@
           svg.appendChild(headGroup);
           root.appendChild(svg);
 
-          // Interactive Timeline Controller
           let currentAnim = "idle";
-          let timeline = grokDef.animations.idle;
+          let timeline = grokDef.animations.idle.steps;
           let stepIndex = 0;
           let lastStepTime = performance.now();
           let priorityUntil = 0;
@@ -2238,15 +2185,14 @@
           function setAnim(name, lockMs = 0) {
             if (!grokDef.animations[name]) return;
             currentAnim = name;
-            timeline = grokDef.animations[name];
+            timeline = grokDef.animations[name].steps;
             stepIndex = 0;
-            const exp = grokDef.expressions[timeline[0].exp];
+            const exp = grokDef.expressions[timeline[0].expression];
             if (exp) targetExp = JSON.parse(JSON.stringify(exp));
             lastStepTime = performance.now();
             if (lockMs > 0) priorityUntil = performance.now() + lockMs;
           }
 
-          // Text Selection Trigger
           let lastSelectionText = "";
           let selectionCooldown = 0;
 
@@ -2266,7 +2212,6 @@
               isSleeping = false;
 
               if (!isMusicPlaying) {
-                // 6900ms lock ensures the full suspicious timeline completes
                 setAnim("suspicious", 6900);
               }
             } else if (sel.length === 0) {
@@ -2274,7 +2219,6 @@
             }
           });
 
-          // Music Hook Trigger
           window.cloudeeSetMusicState = function (playing) {
             isMusicPlaying = playing;
             lastActivityTime = performance.now();
@@ -2287,7 +2231,6 @@
             }
           };
 
-          // Mouse Move Trigger
           window.addEventListener("mousemove", (e) => {
             lastActivityTime = performance.now();
             if (
@@ -2316,7 +2259,6 @@
           }
 
           function loop(now) {
-            // Sleep when inactive for 10s
             if (
               !isSleeping &&
               !isMusicPlaying &&
@@ -2327,7 +2269,6 @@
               setAnim("sleeping");
             }
 
-            // Return to idle
             if (
               !isSleeping &&
               !isMusicPlaying &&
@@ -2338,9 +2279,10 @@
             }
 
             const currentStep = timeline[stepIndex];
-            if (now - lastStepTime > currentStep.hold) {
+            if (now - lastStepTime > currentStep.holdMs) {
               stepIndex = (stepIndex + 1) % timeline.length;
-              const nextExp = grokDef.expressions[timeline[stepIndex].exp];
+              const nextExp =
+                grokDef.expressions[timeline[stepIndex].expression];
               if (nextExp) targetExp = JSON.parse(JSON.stringify(nextExp));
               lastStepTime = now;
             }
@@ -2430,7 +2372,6 @@
             mouseX = lerp(mouseX, targetMouseX, 0.05);
             mouseY = lerp(mouseY, targetMouseY, 0.05);
 
-            // Natural floating physics
             const freq = isSleeping ? 0.0009 : isMusicPlaying ? 0.004 : 0.002;
             const amp = isSleeping ? 4 : isMusicPlaying ? 12 : 7.5;
             const floatY = Math.sin(now * freq) * amp;
@@ -2451,12 +2392,10 @@
               `translate(${posX * 0.3}, ${posY}) rotate(${rotZ})`,
             );
 
-            // Synchronize ground shadow
             const shadowScale = 1 - floatY / 65;
             shadow.setAttribute("rx", (90 * shadowScale).toString());
             shadow.setAttribute("cx", (posX * 0.15).toString());
 
-            // Exact Mathematical Eye Centering
             const eyeHLeft = isBlinking
               ? 2.5
               : Math.max(2.5, currentExp.eyes.left.height);
@@ -2467,19 +2406,16 @@
             const eyeWLeft = currentExp.eyes.left.width;
             const eyeWRight = currentExp.eyes.right.width;
 
-            // X centers
             const cxLeft =
               -spacing + currentExp.eyes.left.x + (isSleeping ? 0 : mouseX * 7);
             const cxRight =
               spacing + currentExp.eyes.right.x + (isSleeping ? 0 : mouseX * 7);
 
-            // Y centers
             const cyLeft =
               currentExp.eyes.left.y + (isSleeping ? 0 : mouseY * 7);
             const cyRight =
               currentExp.eyes.right.y + (isSleeping ? 0 : mouseY * 7);
 
-            // Left Eye
             eyeLeft.setAttribute("x", cxLeft - eyeWLeft / 2);
             eyeLeft.setAttribute("y", cyLeft - eyeHLeft / 2);
             eyeLeft.setAttribute("width", eyeWLeft);
@@ -2491,7 +2427,6 @@
               `rotate(${currentExp.eyes.left.angle} ${cxLeft} ${cyLeft})`,
             );
 
-            // Right Eye
             eyeRight.setAttribute("x", cxRight - eyeWRight / 2);
             eyeRight.setAttribute("y", cyRight - eyeHRight / 2);
             eyeRight.setAttribute("width", eyeWRight);
