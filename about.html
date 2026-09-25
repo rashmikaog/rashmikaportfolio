@@ -38,7 +38,10 @@
     />
     <meta property="og:type" content="website" />
     <meta content="summary_large_image" name="twitter:card" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
     <link
       href="https://cdn.prod.website-files.com/6a53b1d08ae596f96eb79185/css/new-folio-14412e.webflow.shared.bdf204b1d.css"
       rel="stylesheet"
@@ -235,18 +238,75 @@
       }
     </script>
     <style>
+      /* Base font scaling */
       html {
         font-size: calc(100vw / 1244 * 13);
       }
       @media (max-width: 980px) {
         html {
-          font-size: calc(100vw / 375 * 11);
+          font-size: 13px !important;
         }
       }
       @media (max-width: 480px) {
         html {
-          font-size: calc(100vw / 375 * 16);
+          font-size: 12px !important;
         }
+      }
+
+      /* Strict viewport overflow lock */
+      html,
+      body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        position: relative !important;
+      }
+
+      /* Centered Pill Buttons in Footer */
+      .double-btn-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: auto !important;
+        margin: 1.5rem auto 0 auto !important;
+      }
+      .double-btn-wrapper .icon-btn-main {
+        width: auto !important;
+        min-width: 110px !important;
+        padding: 0.65rem 1.4rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 10px !important;
+        text-decoration: none !important;
+      }
+
+      /* Center Bottom Footer */
+      .area-bottom {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+      .summary-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+        text-align: center !important;
+      }
+      .summary-wrapper .column {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
       }
 
       /* Footer Graphic Figure */
@@ -255,6 +315,7 @@
         align-items: center !important;
         justify-content: center !important;
         gap: 16px !important;
+        margin: 1.25rem auto !important;
       }
       .custom-footer-logo {
         width: 32px !important;
@@ -269,6 +330,68 @@
       .custom-footer-logo:hover {
         transform: scale(1.08) !important;
         opacity: 1 !important;
+      }
+
+      /* Mobile Optimizations */
+      @media (max-width: 767px) {
+        .nav {
+          padding-left: 1rem !important;
+          padding-right: 1rem !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+        }
+
+        .hamburger-nav {
+          position: fixed !important;
+          top: 1rem !important;
+          right: 1rem !important;
+          z-index: 9999 !important;
+        }
+
+        .intro {
+          padding: 2rem 1.25rem !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+
+        .intro-header h1 {
+          font-size: 1.75rem !important;
+          line-height: 1.3 !important;
+        }
+
+        .footer-form .form-p {
+          font-size: clamp(2rem, 8vw, 3.5rem) !important;
+          line-height: 1.15 !important;
+        }
+
+        .toolkit-wrap {
+          overflow-x: auto !important;
+          padding: 10px 0 !important;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        .toolkit-list {
+          flex-wrap: wrap !important;
+          justify-content: center !important;
+          gap: 10px !important;
+        }
+
+        .toolkit-item {
+          flex-shrink: 0 !important;
+        }
+
+        .slider-lines__main {
+          padding: 1.5rem 1rem !important;
+        }
+
+        .howler-player {
+          max-width: calc(100vw - 2rem) !important;
+          right: 1rem !important;
+          bottom: 1rem !important;
+        }
       }
     </style>
   </head>
@@ -1003,7 +1126,7 @@
                     <div>IntelliJ IDEA</div>
                   </div>
                 </li>
-                <!-- 7. LibGDX (Working reliable SVG from jsDelivr) -->
+                <!-- 7. LibGDX (Reliable SVG from jsDelivr) -->
                 <li class="toolkit-item">
                   <a
                     data-sound-hover="https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Blobber_digitalminimal_quiet.mp3"
@@ -1109,16 +1232,7 @@
         </div>
       </section>
       <section class="area-bottom">
-        <div
-          id="w-node-a2506fb4-4991-663f-3f2b-7c5aaf763ef2-af763ee3"
-          class="footnote-wrapper is--in-footer"
-        >
-          <p class="p2">v.2.1.2 Updated 08/18/2026</p>
-        </div>
-        <div
-          id="w-node-a2506fb4-4991-663f-3f2b-7c5aaf763ef7-af763ee3"
-          class="summary-wrapper"
-        >
+        <div class="summary-wrapper">
           <div class="column">
             <p class="p1 center">Rashmika Kodithuwakku</p>
             <p class="p1 center">Software Engineer & Data Scientist<br /></p>
