@@ -219,7 +219,7 @@
         position: relative !important;
       }
 
-      /* Hero Avatar Stage */
+      /* Hero Stage Container */
       .hero-video-wrapper {
         position: relative !important;
         display: flex !important;
@@ -241,17 +241,16 @@
         justify-content: center;
         overflow: visible !important;
         touch-action: pan-y !important;
+        cursor: pointer;
       }
 
+      /* Native avatar container override to scale nicely */
+      #cloudee-root > div,
       #cloudee-root svg {
-        width: 100%;
-        height: 100%;
+        width: 100% !important;
+        height: 100% !important;
         overflow: visible !important;
-        cursor: grab;
         user-select: none;
-      }
-      #cloudee-root svg:active {
-        cursor: grabbing;
       }
 
       /* Centered Pill Buttons in Footer */
@@ -897,7 +896,7 @@
       <section id="hero" class="hero-section">
         <section class="display-section">
           <div class="hero-video-wrapper">
-            <!-- ORIGINAL METABALL SILHOUETTE CLOUDEE -->
+            <!-- OFFICIAL ESM ENGINE CONTAINER -->
             <div id="cloudee-root"></div>
           </div>
         </section>
@@ -1361,908 +1360,125 @@
       crossorigin="anonymous"
     ></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
+    <!-- OFFICIAL AVATAR-WEB ENGINE LOADER -->
+    <script type="module">
+      import { createAvatar } from 'https://esm.sh/@bible-strong/avatar-web@0.1.0'
 
-    <script>
-      function initDynamicCurrentTime() {
-        const defaultTimezone = "Asia/Colombo";
-        const formatNumber = (number) => number.toString().padStart(2, "0");
-        const createFormatter = (timezone) => {
-          return new Intl.DateTimeFormat("en-US", {
-            timeZone: timezone,
-            timeZoneName: "short",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: false,
-          });
-        };
-        const parseFormattedTime = (formattedDateTime) => {
-          const match = formattedDateTime.match(/(\d+):(\d+):(\d+)\s*([\w+]+)/);
-          if (match) {
-            return {
-              hours: match[1],
-              minutes: match[2],
-              seconds: match[3],
-              timezone: match[4],
-            };
-          }
-          return null;
-        };
-        const updateTime = () => {
-          document
-            .querySelectorAll("[data-current-time]")
-            .forEach((element) => {
-              const timezone =
-                element.getAttribute("data-current-time") || defaultTimezone;
-              const formatter = createFormatter(timezone);
-              const now = new Date();
-              const formattedDateTime = formatter.format(now);
-              const timeParts = parseFormattedTime(formattedDateTime);
-              if (timeParts) {
-                const { hours, minutes, seconds, timezone } = timeParts;
-                const hoursElem = element.querySelector(
-                  "[data-current-time-hours]",
-                );
-                const minutesElem = element.querySelector(
-                  "[data-current-time-minutes]",
-                );
-                const secondsElem = element.querySelector(
-                  "[data-current-time-seconds]",
-                );
-                const timezoneElem = element.querySelector(
-                  "[data-current-time-timezone]",
-                );
-                if (hoursElem) hoursElem.textContent = hours;
-                if (minutesElem) minutesElem.textContent = minutes;
-                if (secondsElem) secondsElem.textContent = seconds;
-                if (timezoneElem) timezoneElem.textContent = timezone;
-              }
-            });
-        };
-        updateTime();
-        setInterval(updateTime, 1000);
+      // Definition exact match
+      const definition = {
+        "schema": "bible-strong/avatar-definition",
+        "schemaVersion": 1,
+        "name": "Cloudee",
+        "body": {
+          "primary": { "type": "sphere", "width": 159.7871, "height": 159.7871, "depth": 159.7798, "roundness": 1 },
+          "nodes": [
+            { "surface": { "type": "sphere", "width": 81.6, "height": 81.6, "depth": 81.6, "roundness": 1 }, "position": [-54.211, -19.983, -18], "rotation": [0,0,0] },
+            { "surface": { "type": "sphere", "width": 108.641, "height": 87.1, "depth": 90.999, "roundness": 1 }, "position": [-64.069, 18.351, -18], "rotation": [0,0,0] },
+            { "surface": { "type": "sphere", "width": 97.791, "height": 96.838, "depth": 89.564, "roundness": 1 }, "position": [61.232, 18.962, -18], "rotation": [0,0,0] },
+            { "surface": { "type": "sphere", "width": 94.349, "height": 94.345, "depth": 100.535, "roundness": 1 }, "position": [41.489, -37.639, -17.99], "rotation": [0,0,0] }
+          ]
+        },
+        "colors": { "body": "#c9cbcf", "eyes": "#111316" },
+        "expressions": {
+          "neutral": { "head": { "x": 0, "y": 0, "z": 0 }, "eyes": { "left": { "width": 13.94, "height": 45.42, "x": 0, "y": -1.07, "angle": 0 }, "right": { "width": 13.94, "height": 45.42, "x": 0, "y": -1.07, "angle": 0 }, "spacing": 12.76 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "upward-side-glance": { "head": { "x": 7.3, "y": 27.8, "z": -16.1 }, "eyes": { "left": { "width": 16.44, "height": 37.8, "x": 0, "y": -14.57, "angle": 0 }, "right": { "width": 16.44, "height": 37.8, "x": 0, "y": -14.57, "angle": 0 }, "spacing": 32.06 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "downward-gaze": { "head": { "x": -15.06, "y": 0.14, "z": -14.55 }, "eyes": { "left": { "width": 16.34, "height": 49.99, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 16.34, "height": 49.99, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 35.46 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "skeptical-right": { "head": { "x": -16.53, "y": -3.77, "z": -13.73 }, "eyes": { "left": { "width": 17.03, "height": 53.1, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 43.87, "height": 10, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 34.06 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "small-attentive": { "head": { "x": -4.23, "y": 14.36, "z": 11.2 }, "eyes": { "left": { "width": 16.01, "height": 35.02, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 16.01, "height": 35.02, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 28.66 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "wide-downward-gaze": { "head": { "x": -19.21, "y": 15.2, "z": 11.8 }, "eyes": { "left": { "width": 46.03, "height": 46.89, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 47.06, "height": 47.61, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 47.26 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "surprised-left": { "head": { "x": 2.95, "y": -16.05, "z": -20.92 }, "eyes": { "left": { "width": 45.63, "height": 47.16, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 45.63, "height": 47.16, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 48.66 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "sleepy-squint": { "head": { "x": 3.4, "y": 13.23, "z": 8.98 }, "eyes": { "left": { "width": 45.72, "height": 10, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 45.72, "height": 10, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 41.63 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "angry-right": { "head": { "x": 8.06, "y": 17.63, "z": -11.12 }, "eyes": { "left": { "width": 14.85, "height": 35.82, "x": 0, "y": 5.93, "angle": -30.87 }, "right": { "width": 14.85, "height": 35.82, "x": 0, "y": 5.93, "angle": 28.78 }, "spacing": 29.82 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "curious-left": { "head": { "x": -12.3, "y": -17.6, "z": 5.91 }, "eyes": { "left": { "width": 14.55, "height": 43.19, "x": 0, "y": 5.93, "angle": 23.52 }, "right": { "width": 14.55, "height": 43.19, "x": 0, "y": 5.93, "angle": -24.04 }, "spacing": 32.66 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "asymmetric-down-right": { "head": { "x": -20.06, "y": 12.61, "z": -12.7 }, "eyes": { "left": { "width": 36.44, "height": 37.22, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 16.04, "height": 17.62, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 39.46 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "attentive-left": { "head": { "x": 1.43, "y": 6.19, "z": 10.56 }, "eyes": { "left": { "width": 17.78, "height": 53.55, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 17.78, "height": 53.55, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 34.56 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "joyful-wide": { "head": { "x": -2.09, "y": -15.9, "z": -14.47 }, "eyes": { "left": { "width": 28.14, "height": 80.75, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 28.14, "height": 78.6, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 37.17 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "eyes-closed": { "head": { "x": -8.75, "y": -8.74, "z": -10.77 }, "eyes": { "left": { "width": 50.08, "height": 10.92, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 50.08, "height": 10.58, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 47.03 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "joyful-down-right": { "head": { "x": -15.29, "y": 15.01, "z": 12.79 }, "eyes": { "left": { "width": 25.2, "height": 72.14, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 25.2, "height": 72.14, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 46.46 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "skeptical-left": { "head": { "x": 3.53, "y": -7.08, "z": 9.83 }, "eyes": { "left": { "width": 18.25, "height": 54.7, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 42.87, "height": 10, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 39.98 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "far-right-glance": { "head": { "x": 0.32, "y": 35.31, "z": -10.9 }, "eyes": { "left": { "width": 16.4, "height": 35.24, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 16.4, "height": 35.24, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 31.66 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "angry-left": { "head": { "x": -14.75, "y": -19.35, "z": 5.63 }, "eyes": { "left": { "width": 13.55, "height": 44.06, "x": 0, "y": 5.93, "angle": -27.61 }, "right": { "width": 13.55, "height": 44.06, "x": 0, "y": 5.93, "angle": 26.15 }, "spacing": 32.86 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "playful-right": { "head": { "x": -4.4, "y": 14.07, "z": -16.13 }, "eyes": { "left": { "width": 12.99, "height": 38.79, "x": 0, "y": 5.93, "angle": 26.29 }, "right": { "width": 12.99, "height": 38.79, "x": 0, "y": 5.93, "angle": -20.25 }, "spacing": 29.49 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "asymmetric-up-left": { "head": { "x": 6.59, "y": 4.74, "z": 12.84 }, "eyes": { "left": { "width": 36.04, "height": 37.12, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 16.14, "height": 17.52, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 38.16 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "gentle-downward-gaze": { "head": { "x": -6.08, "y": -11.04, "z": -13.97 }, "eyes": { "left": { "width": 16.99, "height": 54.11, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 16.99, "height": 54.11, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 33.96 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "wide-down-left": { "head": { "x": -17.13, "y": 18.07, "z": 13.89 }, "eyes": { "left": { "width": 29.4, "height": 74.52, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 29.4, "height": 74.52, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 48.56 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "surprised-wide-left": { "head": { "x": -5.43, "y": -11.71, "z": -13.47 }, "eyes": { "left": { "width": 45.34, "height": 45.52, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 44.44, "height": 44.82, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 46.76 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "drowsy-closed": { "head": { "x": 10.29, "y": 3.4, "z": 7.58 }, "eyes": { "left": { "width": 49.62, "height": 10.04, "x": 0, "y": 5.93, "angle": 0 }, "right": { "width": 49.62, "height": 10.04, "x": 0, "y": 5.93, "angle": 0 }, "spacing": 46.17 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "suspicious-right": { "head": { "x": -17.8, "y": 10, "z": -10.89 }, "eyes": { "left": { "width": 17.91, "height": 51.31, "x": 0, "y": -3.87, "angle": 0 }, "right": { "width": 47.51, "height": 10, "x": 0, "y": -3.87, "angle": 0 }, "spacing": 37.7 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "shy-downward": { "head": { "x": 7.13, "y": 7.78, "z": 3.94 }, "eyes": { "left": { "width": 15.44, "height": 27.42, "x": 0, "y": 45.93, "angle": 0 }, "right": { "width": 17.14, "height": 28.92, "x": 0, "y": 45.93, "angle": 0 }, "spacing": 28.96 }, "perspective": 1, "motion": { "eyes": "none", "body": "none" } },
+          "angry-brows": { "head": { "x": 10.47, "y": 5.09, "z": 4.7 }, "eyes": { "left": { "width": 21.07, "height": 58.45, "x": 0, "y": 5.93, "angle": -36.24 }, "right": { "width": 21.07, "height": 58.45, "x": 0, "y": 5.93, "angle": 27.73 }, "spacing": 46.46 }, "perspective": 1, "motion": { "eyes": "none", "body": "shake" }, "colors": { "body": "#ba3636", "eyes": "#610000" } },
+          "uneasy-left": { "head": { "x": -12.3, "y": -17.6, "z": 5.91 }, "eyes": { "left": { "width": 14.55, "height": 43.19, "x": 0, "y": 5.93, "angle": 23.52 }, "right": { "width": 14.55, "height": 43.19, "x": 0, "y": 5.93, "angle": -24.04 }, "spacing": 32.66 }, "perspective": 1, "motion": { "eyes": "shake", "body": "slowDrift" }, "colors": { "body": "#adc3ff" } }
+        },
+        "expressionOrder": [
+          "neutral", "upward-side-glance", "downward-gaze", "skeptical-right", "small-attentive",
+          "wide-downward-gaze", "surprised-left", "sleepy-squint", "angry-right", "curious-left",
+          "asymmetric-down-right", "attentive-left", "joyful-wide", "eyes-closed", "joyful-down-right",
+          "skeptical-left", "far-right-glance", "angry-left", "playful-right", "asymmetric-up-left",
+          "gentle-downward-gaze", "wide-down-left", "surprised-wide-left", "drowsy-closed",
+          "suspicious-right", "shy-downward", "angry-brows", "uneasy-left"
+        ],
+        "animations": {
+          "sleeping": { "playbackMode": "loop", "steps": [{ "expression": "eyes-closed", "holdMs": 3600, "transitionMs": 500 }, { "expression": "drowsy-closed", "holdMs": 3600, "transitionMs": 500 }, { "expression": "sleepy-squint", "holdMs": 3600, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 4800, "minIntervalMs": 6500, "maxIntervalMs": 9500, "durationMs": 420 } },
+          "waking": { "playbackMode": "loop", "steps": [{ "expression": "eyes-closed", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 1200, "minIntervalMs": 1800, "maxIntervalMs": 3600, "durationMs": 220 } },
+          "idle": { "playbackMode": "loop", "steps": [{ "expression": "upward-side-glance", "holdMs": 5200, "transitionMs": 500 }, { "expression": "curious-left", "holdMs": 5200, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2600, "minIntervalMs": 3400, "maxIntervalMs": 6200, "durationMs": 280 } },
+          "listening": { "playbackMode": "loop", "steps": [{ "expression": "attentive-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "downward-gaze", "holdMs": 2300, "transitionMs": 500 }, { "expression": "gentle-downward-gaze", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 3200, "minIntervalMs": 4800, "maxIntervalMs": 7200, "durationMs": 240 } },
+          "thinking": { "playbackMode": "loop", "steps": [{ "expression": "curious-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "angry-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "skeptical-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "playful-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "skeptical-right", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "searching": { "playbackMode": "loop", "steps": [{ "expression": "far-right-glance", "holdMs": 2300, "transitionMs": 500 }, { "expression": "asymmetric-down-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "surprised-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "wide-down-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "wide-downward-gaze", "holdMs": 2300, "transitionMs": 500 }, { "expression": "asymmetric-up-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "working": { "playbackMode": "loop", "steps": [{ "expression": "angry-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "angry-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "joyful-wide", "holdMs": 2300, "transitionMs": 500 }, { "expression": "attentive-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "excited": { "playbackMode": "loop", "steps": [{ "expression": "joyful-down-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "playful-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "surprised-wide-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "surprised-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "joyful-wide", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 1200, "minIntervalMs": 1800, "maxIntervalMs": 3600, "durationMs": 220 } },
+          "bored": { "playbackMode": "loop", "steps": [{ "expression": "sleepy-squint", "holdMs": 3600, "transitionMs": 500 }, { "expression": "drowsy-closed", "holdMs": 3600, "transitionMs": 500 }, { "expression": "upward-side-glance", "holdMs": 3600, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 4800, "minIntervalMs": 6500, "maxIntervalMs": 9500, "durationMs": 420 } },
+          "suspicious": { "playbackMode": "loop", "steps": [{ "expression": "skeptical-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "skeptical-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "suspicious-right", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "angry": { "playbackMode": "loop", "steps": [{ "expression": "angry-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "angry-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "drowsy": { "playbackMode": "loop", "steps": [{ "expression": "sleepy-squint", "holdMs": 3600, "transitionMs": 500 }, { "expression": "drowsy-closed", "holdMs": 3600, "transitionMs": 500 }, { "expression": "eyes-closed", "holdMs": 3600, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 4800, "minIntervalMs": 6500, "maxIntervalMs": 9500, "durationMs": 420 } },
+          "happy": { "playbackMode": "loop", "steps": [{ "expression": "joyful-down-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "joyful-wide", "holdMs": 2300, "transitionMs": 500 }, { "expression": "playful-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "gentle-downward-gaze", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "curious": { "playbackMode": "loop", "steps": [{ "expression": "surprised-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "surprised-wide-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "upward-side-glance", "holdMs": 2300, "transitionMs": 500 }, { "expression": "far-right-glance", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "confused": { "playbackMode": "loop", "steps": [{ "expression": "skeptical-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "skeptical-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "curious-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "surprised": { "playbackMode": "loop", "steps": [{ "expression": "surprised-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "surprised-wide-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 1200, "minIntervalMs": 1800, "maxIntervalMs": 3600, "durationMs": 220 } },
+          "proud": { "playbackMode": "loop", "steps": [{ "expression": "far-right-glance", "holdMs": 2300, "transitionMs": 500 }, { "expression": "curious-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "joyful-down-right", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "shy": { "playbackMode": "loop", "steps": [{ "expression": "upward-side-glance", "holdMs": 2300, "transitionMs": 500 }, { "expression": "shy-downward", "holdMs": 2300, "transitionMs": 500 }, { "expression": "eyes-closed", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "sad": { "playbackMode": "loop", "steps": [{ "expression": "sleepy-squint", "holdMs": 3600, "transitionMs": 500 }, { "expression": "eyes-closed", "holdMs": 3600, "transitionMs": 500 }, { "expression": "drowsy-closed", "holdMs": 3600, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 4800, "minIntervalMs": 6500, "maxIntervalMs": 9500, "durationMs": 420 } },
+          "laughing": { "playbackMode": "loop", "steps": [{ "expression": "joyful-down-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "joyful-wide", "holdMs": 2300, "transitionMs": 500 }, { "expression": "playful-right", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 1200, "minIntervalMs": 1800, "maxIntervalMs": 3600, "durationMs": 220 } },
+          "scared": { "playbackMode": "loop", "steps": [{ "expression": "surprised-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "surprised-wide-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 1200, "minIntervalMs": 1800, "maxIntervalMs": 3600, "durationMs": 220 } },
+          "playful": { "playbackMode": "loop", "steps": [{ "expression": "joyful-down-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "playful-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "joyful-wide", "holdMs": 2300, "transitionMs": 500 }, { "expression": "curious-left", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 2100, "minIntervalMs": 2800, "maxIntervalMs": 5000, "durationMs": 260 } },
+          "celebrate": { "playbackMode": "loop", "steps": [{ "expression": "joyful-down-right", "holdMs": 2300, "transitionMs": 500 }, { "expression": "curious-left", "holdMs": 2300, "transitionMs": 500 }, { "expression": "playful-right", "holdMs": 2300, "transitionMs": 500 }], "blink": { "enabled": true, "initialDelayMs": 1200, "minIntervalMs": 1800, "maxIntervalMs": 3600, "durationMs": 220 } }
+        },
+        "animationOrder": [
+          "sleeping", "waking", "idle", "listening", "thinking", "searching", "working",
+          "excited", "bored", "suspicious", "angry", "drowsy", "happy", "curious",
+          "confused", "surprised", "proud", "shy", "sad", "laughing", "scared", "playful", "celebrate"
+        ]
       }
-      document.addEventListener("DOMContentLoaded", () => {
-        initDynamicCurrentTime();
-      });
 
-      gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin, SplitText);
-      function initScrambleOnLoad() {
-        let targets = document.querySelectorAll('[data-scramble="load"]');
-        targets.forEach((target) => {
-          let split = new SplitText(target, {
-            type: "words, chars",
-            wordsClass: "word",
-            charsClass: "char",
-          });
-          gsap.to(split.words, {
-            duration: 1.2,
-            stagger: 0.01,
-            scrambleText: {
-              text: "{original}",
-              chars: "/!<>-_\\[]{}=+*^?#",
-              speed: 0.85,
-            },
-            onComplete: () => split.revert(),
-          });
-        });
-      }
-      function initScrambleOnHover() {
-        let targets = document.querySelectorAll('[data-scramble-hover="link"]');
-        targets.forEach((target) => {
-          let textEl = target.querySelector('[data-scramble-hover="target"]');
-          let originalText = textEl.textContent;
-          let customHoverText = textEl.getAttribute("data-scramble-text");
-          target.addEventListener("mouseenter", () => {
-            gsap.to(textEl, {
-              duration: 1,
-              scrambleText: {
-                text: customHoverText ? customHoverText : originalText,
-                chars: "<>-_\\[]{}=+*^?#",
-              },
-            });
-          });
-          target.addEventListener("mouseleave", () => {
-            gsap.killTweensOf(textEl);
-            textEl.textContent = originalText;
-          });
-        });
-      }
-      function initScrambleLoop() {
-        let targets = document.querySelectorAll('[data-scramble="loop"]');
-        targets.forEach((target) => {
-          let raw = target.getAttribute("data-scramble-words");
-          if (!raw) return;
-          let phrases = raw
-            .split("|")
-            .map((s) => s.trim())
-            .filter(Boolean);
-          if (phrases.length < 2) return;
-          let chars =
-            target.getAttribute("data-scramble-chars") || "<>-_\\[]{}=+*^?#";
-          let speed =
-            parseFloat(target.getAttribute("data-scramble-speed")) || 0.8;
-          let holdTime =
-            parseFloat(target.getAttribute("data-scramble-hold")) || 1.5;
-          let duration =
-            parseFloat(target.getAttribute("data-scramble-duration")) || 1.2;
-          let index = phrases.indexOf(target.textContent.trim());
-          if (index === -1) index = 0;
-          let tl = gsap.timeline({ repeat: -1, delay: holdTime });
-          phrases.forEach((_, i) => {
-            tl.to(target, {
-              duration: duration,
-              scrambleText: {
-                text: phrases[(index + i + 1) % phrases.length],
-                chars: chars,
-                speed: speed,
-              },
-            }).to({}, { duration: holdTime });
-          });
-        });
-      }
-      document.addEventListener("DOMContentLoaded", () => {
-        initScrambleOnLoad();
-        initScrambleOnHover();
-        initScrambleLoop();
-      });
+      // Initialize the engine inside the avatar slot[cite: 15]
+      const avatar = createAvatar('#cloudee-root', {
+        definition,
+        size: '100%',
+        defaultAnimation: 'idle'
+      })[cite: 15]
 
-      function initScalingHamburgerNavigation() {
-        document
-          .querySelectorAll('[data-navigation-toggle="toggle"]')
-          .forEach((toggleBtn) => {
-            toggleBtn.addEventListener("click", () => {
-              const navStatusEl = document.querySelector(
-                "[data-navigation-status]",
-              );
-              if (!navStatusEl) return;
-              if (
-                navStatusEl.getAttribute("data-navigation-status") ===
-                "not-active"
-              ) {
-                navStatusEl.setAttribute("data-navigation-status", "active");
-              } else {
-                navStatusEl.setAttribute(
-                  "data-navigation-status",
-                  "not-active",
-                );
-              }
-            });
-          });
-        document
-          .querySelectorAll('[data-navigation-toggle="close"]')
-          .forEach((closeBtn) => {
-            closeBtn.addEventListener("click", () => {
-              const navStatusEl = document.querySelector(
-                "[data-navigation-status]",
-              );
-              if (!navStatusEl) return;
-              navStatusEl.setAttribute("data-navigation-status", "not-active");
-            });
-          });
-        document.addEventListener("keydown", (e) => {
-          if (e.keyCode === 27) {
-            const navStatusEl = document.querySelector(
-              "[data-navigation-status]",
-            );
-            if (!navStatusEl) return;
-            if (
-              navStatusEl.getAttribute("data-navigation-status") === "active"
-            ) {
-              navStatusEl.setAttribute("data-navigation-status", "not-active");
-            }
-          }
-        });
-      }
-      document.addEventListener("DOMContentLoaded", function () {
-        initScalingHamburgerNavigation();
-      });
+      // Start initial animation
+      avatar.play('idle')[cite: 15]
 
-      function initHowlerJSAudioPlayer() {
-        const howlerElements = document.querySelectorAll("[data-howler]");
-        const soundInstances = {};
-        howlerElements.forEach((element, index) => {
-          const uniqueId = `howler-${index}`;
-          element.id = uniqueId;
-          element.setAttribute("data-howler-status", "not-playing");
-          const audioSrc = element.getAttribute("data-howler-src");
-          const durationElement = element.querySelector(
-            '[data-howler-info="duration"]',
-          );
-          const progressTextElement = element.querySelector(
-            '[data-howler-info="progress"]',
-          );
-          const timelineContainer = element.querySelector(
-            '[data-howler-control="timeline"]',
-          );
-          const timelineBar = element.querySelector(
-            '[data-howler-control="progress"]',
-          );
-          const toggleButton = element.querySelector(
-            '[data-howler-control="toggle-play"]',
-          );
-          const sound = new Howl({
-            src: [audioSrc],
-            html5: true,
-            onload: () => {
-              if (durationElement)
-                durationElement.textContent = formatTime(sound.duration());
-            },
-            onplay: () => {
-              pauseAllExcept(uniqueId);
-              element.setAttribute("data-howler-status", "playing");
-              requestAnimationFrame(updateProgress);
-              if (window.cloudeeSetMusicState) {
-                window.cloudeeSetMusicState(true);
-              }
-            },
-            onpause: () => {
-              element.setAttribute("data-howler-status", "not-playing");
-              if (window.cloudeeSetMusicState) {
-                window.cloudeeSetMusicState(false);
-              }
-            },
-            onstop: () => {
-              element.setAttribute("data-howler-status", "not-playing");
-              if (window.cloudeeSetMusicState) {
-                window.cloudeeSetMusicState(false);
-              }
-            },
-            onend: () => {
-              resetUI();
-              if (window.cloudeeSetMusicState) {
-                window.cloudeeSetMusicState(false);
-              }
-            },
-          });
-          soundInstances[uniqueId] = sound;
-          function updateProgress() {
-            if (!sound.playing()) return;
-            updateUI();
-            requestAnimationFrame(updateProgress);
-          }
-          function updateUI() {
-            const currentTime = sound.seek() || 0;
-            const duration = sound.duration() || 1;
-            if (progressTextElement)
-              progressTextElement.textContent = formatTime(currentTime);
-            if (timelineBar)
-              timelineBar.style.width = `${(currentTime / duration) * 100}%`;
-            timelineContainer?.setAttribute(
-              "aria-valuenow",
-              Math.round((currentTime / duration) * 100),
-            );
-          }
-          function resetUI() {
-            if (timelineBar) timelineBar.style.width = "100%";
-            element.setAttribute("data-howler-status", "not-playing");
-          }
-          function seekToPosition(event) {
-            const rect = timelineContainer.getBoundingClientRect();
-            const percentage = (event.clientX - rect.left) / rect.width;
-            sound.seek(sound.duration() * percentage);
-            if (!sound.playing()) {
-              pauseAllExcept(uniqueId);
-              sound.play();
-              element.setAttribute("data-howler-status", "playing");
-            }
-            updateUI();
-          }
-          function togglePlay() {
-            const isPlaying = sound.playing();
-            sound.playing()
-              ? sound.pause()
-              : (pauseAllExcept(uniqueId), sound.play());
-            toggleButton?.setAttribute("aria-pressed", !isPlaying);
-          }
-          function pauseAllExcept(id) {
-            Object.keys(soundInstances).forEach((otherId) => {
-              if (otherId !== id && soundInstances[otherId].playing()) {
-                soundInstances[otherId].pause();
-                document
-                  .getElementById(otherId)
-                  ?.setAttribute("data-howler-status", "not-playing");
-              }
-            });
-          }
-          function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${minutes}:${secs.toString().padStart(2, "0")}`;
-          }
-          toggleButton?.addEventListener("click", togglePlay);
-          timelineContainer?.addEventListener("click", seekToPosition);
-          sound.on("seek", updateUI);
-          sound.on("play", updateUI);
-        });
-        return soundInstances;
-      }
-      document.addEventListener("DOMContentLoaded", function () {
-        initHowlerJSAudioPlayer();
-      });
+      // Interactive Click Mood Trigger
+      const rootEl = document.getElementById('cloudee-root')
+      const moodCycle = ['proud', 'happy', 'playful', 'curious', 'celebrate']
+      let moodIdx = 0
 
-      (function () {
-        function buildMarquee(h2, text) {
-          h2.dataset.marqueeUpdating = "1";
-          h2.textContent = "";
-          var track = document.createElement("span");
-          track.className = "howler-marquee__track";
-          var s1 = document.createElement("span");
-          s1.textContent = text;
-          var s2 = document.createElement("span");
-          s2.textContent = text;
-          s2.setAttribute("aria-hidden", "true");
-          track.appendChild(s1);
-          track.appendChild(s2);
-          h2.appendChild(track);
-          h2.dataset.marqueeUpdating = "";
-        }
-        function observeText(h2) {
-          var observer = new MutationObserver(function () {
-            if (h2.dataset.marqueeUpdating === "1") return;
-            buildMarquee(h2, h2.textContent);
-            syncPlayState();
-          });
-          observer.observe(h2, {
-            childList: true,
-            characterData: true,
-            subtree: true,
-          });
-        }
-        function syncPlayState() {
-          var player = document.querySelector(".howler-player");
-          var statusEl = document.querySelector(".howler-p.is--player");
-          if (!player) return;
-          var isPlaying =
-            player.getAttribute("data-howler-status") === "playing";
-          document
-            .querySelectorAll(".howler-marquee__track")
-            .forEach(function (track) {
-              track.style.animationPlayState = isPlaying ? "running" : "paused";
-            });
-          if (statusEl) statusEl.textContent = isPlaying ? "Playing" : "Paused";
-        }
-        function observePlayer() {
-          var player = document.querySelector(".howler-player");
-          if (!player) return;
-          var observer = new MutationObserver(syncPlayState);
-          observer.observe(player, {
-            attributes: true,
-            attributeFilter: ["data-howler-status"],
-          });
-        }
-        function init() {
-          document
-            .querySelectorAll(".howler-player__title-h")
-            .forEach(function (h2) {
-              if (h2.dataset.marqueeInit) return;
-              h2.dataset.marqueeInit = "1";
-              buildMarquee(h2, h2.textContent);
-              observeText(h2);
-            });
-          observePlayer();
-          syncPlayState();
-        }
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", init);
+      if (rootEl) {
+        rootEl.addEventListener('click', () => {
+          moodIdx = (moodIdx + 1) % moodCycle.length
+          avatar.play(moodCycle[moodIdx])[cite: 15]
+        })
+      }
+
+      // Sync with portfolio music playback state
+      window.cloudeeSetMusicState = function(playing) {
+        if (playing) {
+          avatar.play('excited')[cite: 15]
         } else {
-          init();
+          avatar.play('idle')[cite: 15]
         }
-      })();
-    </script>
-
-    <!-- AUTHENTIC CLOUDEE SILHOUETTE ENGINE -->
-    <script>
-      (function () {
-        // Cloudee geometry configuration from cloudee.avatar.json
-        const cloudeeDef = {
-          colors: {
-            body: "#c9cbcf",
-            eyes: "#111316",
-          },
-          expressions: {
-            neutral: {
-              head: { x: 0, y: 0, z: 0 },
-              eyes: {
-                left: { width: 14, height: 45, y: -1, angle: 0 },
-                right: { width: 14, height: 45, y: -1, angle: 0 },
-                spacing: 13,
-              },
-            },
-            proud: {
-              head: { x: 0, y: 20, z: -5 },
-              eyes: {
-                left: { width: 16, height: 46, y: -2, angle: 0 },
-                right: { width: 16, height: 46, y: -2, angle: 0 },
-                spacing: 16,
-              },
-            },
-            "upward-side-glance": {
-              head: { x: 7.3, y: 27.8, z: -16.1 },
-              eyes: {
-                left: { width: 16.5, height: 38, y: -14.5, angle: 0 },
-                right: { width: 16.5, height: 38, y: -14.5, angle: 0 },
-                spacing: 32,
-              },
-            },
-            "curious-left": {
-              head: { x: -12.3, y: -17.6, z: 5.9 },
-              eyes: {
-                left: { width: 14.5, height: 43, y: 6, angle: 23.5 },
-                right: { width: 14.5, height: 43, y: 6, angle: -24 },
-                spacing: 32.6,
-              },
-            },
-            "joyful-wide": {
-              head: { x: -2.1, y: -15.9, z: -14.5 },
-              eyes: {
-                left: { width: 28, height: 80, y: 6, angle: 0 },
-                right: { width: 28, height: 79, y: 6, angle: 0 },
-                spacing: 37,
-              },
-            },
-            "joyful-down-right": {
-              head: { x: -15.3, y: 15, z: 12.8 },
-              eyes: {
-                left: { width: 25, height: 72, y: 6, angle: 0 },
-                right: { width: 25, height: 72, y: 6, angle: 0 },
-                spacing: 46.5,
-              },
-            },
-            "playful-right": {
-              head: { x: -4.4, y: 14, z: -16.1 },
-              eyes: {
-                left: { width: 13, height: 39, y: 6, angle: 26.3 },
-                right: { width: 13, height: 39, y: 6, angle: -20.2 },
-                spacing: 29.5,
-              },
-            },
-            "surprised-wide-left": {
-              head: { x: -5.4, y: -11.7, z: -13.5 },
-              eyes: {
-                left: { width: 45, height: 45.5, y: 6, angle: 0 },
-                right: { width: 44.5, height: 45, y: 6, angle: 0 },
-                spacing: 46.8,
-              },
-            },
-            "eyes-closed": {
-              head: { x: -8.8, y: -8.7, z: -10.8 },
-              eyes: {
-                left: { width: 50, height: 9.5, y: 6, angle: 0 },
-                right: { width: 50, height: 9.5, y: 6, angle: 0 },
-                spacing: 47,
-              },
-            },
-            "drowsy-closed": {
-              head: { x: 10.3, y: 3.4, z: 7.6 },
-              eyes: {
-                left: { width: 49.6, height: 9, y: 6, angle: 0 },
-                right: { width: 49.6, height: 9, y: 6, angle: 0 },
-                spacing: 46.2,
-              },
-            },
-            "sleepy-squint": {
-              head: { x: 3.4, y: 13.2, z: 9 },
-              eyes: {
-                left: { width: 45.7, height: 9.5, y: 6, angle: 0 },
-                right: { width: 45.7, height: 9.5, y: 6, angle: 0 },
-                spacing: 41.6,
-              },
-            },
-          },
-          animations: {
-            idle: [
-              { exp: "proud", hold: 4600 },
-              { exp: "upward-side-glance", hold: 4200 },
-              { exp: "neutral", hold: 3800 },
-              { exp: "curious-left", hold: 4000 },
-            ],
-            happy: [
-              { exp: "proud", hold: 2600 },
-              { exp: "joyful-wide", hold: 2600 },
-              { exp: "playful-right", hold: 2400 },
-            ],
-            excited: [
-              { exp: "joyful-down-right", hold: 1600 },
-              { exp: "playful-right", hold: 1600 },
-              { exp: "surprised-wide-left", hold: 1600 },
-              { exp: "joyful-wide", hold: 1800 },
-            ],
-            sleeping: [
-              { exp: "eyes-closed", hold: 3600 },
-              { exp: "drowsy-closed", hold: 3600 },
-              { exp: "sleepy-squint", hold: 3600 },
-            ],
-          },
-        };
-
-        function startCloudee() {
-          const root = document.getElementById("cloudee-root");
-          if (!root) return;
-          root.innerHTML = "";
-
-          const svgNS = "http://www.w3.org/2000/svg";
-          const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("viewBox", "-150 -120 300 240");
-
-          const defs = document.createElementNS(svgNS, "defs");
-          defs.innerHTML = `
-            <!-- Contrast shadow for light backgrounds -->
-            <radialGradient id="cloudeeGroundShadow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(20, 25, 35, 0.16)" />
-              <stop offset="60%" stop-color="rgba(20, 25, 35, 0.04)" />
-              <stop offset="100%" stop-color="transparent" />
-            </radialGradient>
-
-            <!-- Organic Cloud Silhouette with smooth blend curves -->
-            <filter id="metaballSmooth">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
-              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 35 -14" result="contrast" />
-              <feComposite in="SourceGraphic" in2="contrast" operator="atop" />
-            </filter>
-          `;
-          svg.appendChild(defs);
-
-          // Floor Shadow
-          const shadow = document.createElementNS(svgNS, "ellipse");
-          shadow.setAttribute("cx", "0");
-          shadow.setAttribute("cy", "88");
-          shadow.setAttribute("rx", "78");
-          shadow.setAttribute("ry", "16");
-          shadow.setAttribute("fill", "url(#cloudeeGroundShadow)");
-          svg.appendChild(shadow);
-
-          // Group containing the cloud silhouette and facial features
-          const headGroup = document.createElementNS(svgNS, "g");
-
-          // Single, solid metaball body matching Avatar Lab
-          const cloudBody = document.createElementNS(svgNS, "g");
-          cloudBody.setAttribute("filter", "url(#metaballSmooth)");
-
-          // Central core sphere
-          const centerCircle = document.createElementNS(svgNS, "ellipse");
-          centerCircle.setAttribute("cx", "0");
-          centerCircle.setAttribute("cy", "-2");
-          centerCircle.setAttribute("rx", "79.8");
-          centerCircle.setAttribute("ry", "79.8");
-          centerCircle.setAttribute("fill", cloudeeDef.colors.body);
-          cloudBody.appendChild(centerCircle);
-
-          // Node 0: Top-left puff
-          const node0 = document.createElementNS(svgNS, "ellipse");
-          node0.setAttribute("cx", "-54.2");
-          node0.setAttribute("cy", "-19.9");
-          node0.setAttribute("rx", "40.8");
-          node0.setAttribute("ry", "40.8");
-          node0.setAttribute("fill", cloudeeDef.colors.body);
-          cloudBody.appendChild(node0);
-
-          // Node 1: Bottom-left puff
-          const node1 = document.createElementNS(svgNS, "ellipse");
-          node1.setAttribute("cx", "-64");
-          node1.setAttribute("cy", "18.3");
-          node1.setAttribute("rx", "54.3");
-          node1.setAttribute("ry", "43.5");
-          node1.setAttribute("fill", cloudeeDef.colors.body);
-          cloudBody.appendChild(node1);
-
-          // Node 2: Bottom-right puff
-          const node2 = document.createElementNS(svgNS, "ellipse");
-          node2.setAttribute("cx", "61.2");
-          node2.setAttribute("cy", "18.9");
-          node2.setAttribute("rx", "48.9");
-          node2.setAttribute("ry", "48.4");
-          node2.setAttribute("fill", cloudeeDef.colors.body);
-          cloudBody.appendChild(node2);
-
-          // Node 3: Top-right puff
-          const node3 = document.createElementNS(svgNS, "ellipse");
-          node3.setAttribute("cx", "41.5");
-          node3.setAttribute("cy", "-37.6");
-          node3.setAttribute("rx", "47.1");
-          node3.setAttribute("ry", "47.1");
-          node3.setAttribute("fill", cloudeeDef.colors.body);
-          cloudBody.appendChild(node3);
-
-          headGroup.appendChild(cloudBody);
-
-          // Eyes Group
-          const eyesGroup = document.createElementNS(svgNS, "g");
-          const eyeLeft = document.createElementNS(svgNS, "rect");
-          eyeLeft.setAttribute("fill", cloudeeDef.colors.eyes);
-          const eyeRight = document.createElementNS(svgNS, "rect");
-          eyeRight.setAttribute("fill", cloudeeDef.colors.eyes);
-
-          eyesGroup.appendChild(eyeLeft);
-          eyesGroup.appendChild(eyeRight);
-          headGroup.appendChild(eyesGroup);
-
-          svg.appendChild(headGroup);
-          root.appendChild(svg);
-
-          // Interactive Timeline Controller
-          let currentAnimKey = "idle";
-          let timeline = cloudeeDef.animations.idle;
-          let stepIndex = 0;
-          let lastStepTime = performance.now();
-          let priorityLock = performance.now() + 3000;
-
-          let currentExp = JSON.parse(
-            JSON.stringify(cloudeeDef.expressions["proud"]),
-          );
-          let targetExp = JSON.parse(
-            JSON.stringify(cloudeeDef.expressions["proud"]),
-          );
-
-          let mouseX = 0,
-            mouseY = 0,
-            targetMouseX = 0,
-            targetMouseY = 0;
-          let isBlinking = false;
-          let blinkStartTime = 0;
-          let nextBlinkTime = performance.now() + 2600;
-          let lastActivityTime = performance.now();
-          let isSleeping = false;
-          let isMusicPlaying = false;
-
-          function setAnimation(name, duration = 0) {
-            if (!cloudeeDef.animations[name]) return;
-            currentAnimKey = name;
-            timeline = cloudeeDef.animations[name];
-            stepIndex = 0;
-            const exp = cloudeeDef.expressions[timeline[0].exp];
-            if (exp) targetExp = JSON.parse(JSON.stringify(exp));
-            lastStepTime = performance.now();
-            if (duration > 0) {
-              priorityLock = performance.now() + duration;
-            }
-          }
-
-          window.cloudeeSetMusicState = function (playing) {
-            isMusicPlaying = playing;
-            lastActivityTime = performance.now();
-            if (isSleeping) isSleeping = false;
-
-            if (playing) {
-              setAnimation("excited", 9999999);
-            } else {
-              priorityLock = 0;
-              setAnimation("idle");
-            }
-          };
-
-          window.addEventListener("mousemove", (e) => {
-            lastActivityTime = performance.now();
-            if (isSleeping) {
-              isSleeping = false;
-              setAnimation("happy", 2400);
-            }
-            const bounds = root.getBoundingClientRect();
-            const centerX = bounds.left + bounds.width / 2;
-            const centerY = bounds.top + bounds.height / 2;
-            targetMouseX = Math.max(
-              -1,
-              Math.min(1, (e.clientX - centerX) / (window.innerWidth * 0.4)),
-            );
-            targetMouseY = Math.max(
-              -1,
-              Math.min(1, (e.clientY - centerY) / (window.innerHeight * 0.4)),
-            );
-          });
-
-          root.addEventListener("click", () => {
-            lastActivityTime = performance.now();
-            if (isSleeping) {
-              isSleeping = false;
-              setAnimation("happy", 2400);
-            } else if (!isMusicPlaying) {
-              setAnimation("happy", 2800);
-            }
-            isBlinking = true;
-            blinkStartTime = performance.now();
-          });
-
-          function lerp(a, b, t) {
-            return a + (b - a) * t;
-          }
-
-          function render(now) {
-            if (
-              !isSleeping &&
-              !isMusicPlaying &&
-              now > priorityLock &&
-              now - lastActivityTime > 9000
-            ) {
-              isSleeping = true;
-              setAnimation("sleeping");
-            }
-
-            if (
-              !isSleeping &&
-              !isMusicPlaying &&
-              now > priorityLock &&
-              currentAnimKey !== "idle"
-            ) {
-              setAnimation("idle");
-            }
-
-            const currentStep = timeline[stepIndex];
-            if (now - lastStepTime > currentStep.hold) {
-              stepIndex = (stepIndex + 1) % timeline.length;
-              const nextExp = cloudeeDef.expressions[timeline[stepIndex].exp];
-              if (nextExp) targetExp = JSON.parse(JSON.stringify(nextExp));
-              lastStepTime = now;
-            }
-
-            if (!isBlinking && !isSleeping && now > nextBlinkTime) {
-              isBlinking = true;
-              blinkStartTime = now;
-            } else if (isBlinking && now - blinkStartTime > 160) {
-              isBlinking = false;
-              nextBlinkTime = now + Math.random() * 3600 + 2400;
-            }
-
-            const speed = currentAnimKey === "excited" ? 0.12 : 0.08;
-            currentExp.head.x = lerp(
-              currentExp.head.x,
-              targetExp.head.x,
-              speed,
-            );
-            currentExp.head.y = lerp(
-              currentExp.head.y,
-              targetExp.head.y,
-              speed,
-            );
-            currentExp.head.z = lerp(
-              currentExp.head.z,
-              targetExp.head.z,
-              speed,
-            );
-
-            currentExp.eyes.spacing = lerp(
-              currentExp.eyes.spacing,
-              targetExp.eyes.spacing,
-              speed,
-            );
-            currentExp.eyes.left.width = lerp(
-              currentExp.eyes.left.width,
-              targetExp.eyes.left.width,
-              speed,
-            );
-            currentExp.eyes.left.height = lerp(
-              currentExp.eyes.left.height,
-              targetExp.eyes.left.height,
-              speed,
-            );
-            currentExp.eyes.left.y = lerp(
-              currentExp.eyes.left.y,
-              targetExp.eyes.left.y,
-              speed,
-            );
-            currentExp.eyes.left.angle = lerp(
-              currentExp.eyes.left.angle,
-              targetExp.eyes.left.angle,
-              speed,
-            );
-
-            currentExp.eyes.right.width = lerp(
-              currentExp.eyes.right.width,
-              targetExp.eyes.right.width,
-              speed,
-            );
-            currentExp.eyes.right.height = lerp(
-              currentExp.eyes.right.height,
-              targetExp.eyes.right.height,
-              speed,
-            );
-            currentExp.eyes.right.y = lerp(
-              currentExp.eyes.right.y,
-              targetExp.eyes.right.y,
-              speed,
-            );
-            currentExp.eyes.right.angle = lerp(
-              currentExp.eyes.right.angle,
-              targetExp.eyes.right.angle,
-              speed,
-            );
-
-            mouseX = lerp(mouseX, targetMouseX, 0.05);
-            mouseY = lerp(mouseY, targetMouseY, 0.05);
-
-            // Natural subtle floating
-            const freq = isSleeping ? 0.0009 : isMusicPlaying ? 0.004 : 0.002;
-            const amplitude = isSleeping ? 3 : isMusicPlaying ? 9 : 5.5;
-            const floatOffset = Math.sin(now * freq) * amplitude;
-            const floatRoll =
-              Math.cos(now * freq * 0.8) * (isMusicPlaying ? 4 : 1.5);
-
-            const headX =
-              currentExp.head.y * 0.5 + (isSleeping ? 0 : mouseX * 18);
-            const headY =
-              currentExp.head.x * 0.5 +
-              floatOffset +
-              (isSleeping ? 0 : mouseY * 12);
-            const headRot =
-              currentExp.head.z * 0.45 +
-              floatRoll +
-              (isSleeping ? 0 : mouseX * 4);
-
-            headGroup.setAttribute(
-              "transform",
-              `translate(${headX * 0.3}, ${headY}) rotate(${headRot})`,
-            );
-
-            // Synchronize ground shadow
-            const shadowCompression = 1 - floatOffset / 55;
-            shadow.setAttribute("rx", (78 * shadowCompression).toString());
-            shadow.setAttribute("cx", (headX * 0.15).toString());
-
-            // Eye pill shape rendering matching original
-            const eyeHLeft = isBlinking
-              ? 2
-              : Math.max(2, currentExp.eyes.left.height);
-            const eyeHRight = isBlinking
-              ? 2
-              : Math.max(2, currentExp.eyes.right.height);
-            const spacing = currentExp.eyes.spacing;
-
-            const eyeWLeft = currentExp.eyes.left.width;
-            const eyeWRight = currentExp.eyes.right.width;
-
-            const eyeLX = -spacing - eyeWLeft + (isSleeping ? 0 : mouseX * 6);
-            const eyeLY =
-              currentExp.eyes.left.y -
-              eyeHLeft / 2 +
-              (isSleeping ? 0 : mouseY * 6);
-
-            const eyeRX = spacing + (isSleeping ? 0 : mouseX * 6);
-            const eyeRY =
-              currentExp.eyes.right.y -
-              eyeHRight / 2 +
-              (isSleeping ? 0 : mouseY * 6);
-
-            // Left Eye
-            eyeLeft.setAttribute("x", eyeLX);
-            eyeLeft.setAttribute("y", eyeLY);
-            eyeLeft.setAttribute("width", eyeWLeft);
-            eyeLeft.setAttribute("height", eyeHLeft);
-            eyeLeft.setAttribute("rx", eyeWLeft / 2);
-            eyeLeft.setAttribute("ry", eyeWLeft / 2);
-            eyeLeft.setAttribute(
-              "transform",
-              `rotate(${currentExp.eyes.left.angle} ${eyeLX + eyeWLeft / 2} ${eyeLY + eyeHLeft / 2})`,
-            );
-
-            // Right Eye
-            eyeRight.setAttribute("x", eyeRX);
-            eyeRight.setAttribute("y", eyeRY);
-            eyeRight.setAttribute("width", eyeWRight);
-            eyeRight.setAttribute("height", eyeHRight);
-            eyeRight.setAttribute("rx", eyeWRight / 2);
-            eyeRight.setAttribute("ry", eyeWRight / 2);
-            eyeRight.setAttribute(
-              "transform",
-              `rotate(${currentExp.eyes.right.angle} ${eyeRX + eyeWRight / 2} ${eyeRY + eyeHRight / 2})`,
-            );
-
-            requestAnimationFrame(render);
-          }
-
-          requestAnimationFrame(render);
-        }
-
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", startCloudee);
-        } else {
-          startCloudee();
-        }
-      })();
+      }
     </script>
   </body>
 </html>
