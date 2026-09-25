@@ -450,8 +450,6 @@
         }
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
   </head>
   <body class="body">
     <nav class="nav">
@@ -897,7 +895,7 @@
       <section id="hero" class="hero-section">
         <section class="display-section">
           <div class="hero-video-wrapper">
-            <!-- PURE LOCAL CLOUDEE ENGINE -->
+            <!-- GROK BOT AVATAR STAGE -->
             <div id="cloudee-root"></div>
           </div>
         </section>
@@ -1336,6 +1334,7 @@
       </section>
     </footer>
 
+    <!-- DEPENDENCY SCRIPTS (jQuery, Webflow, GSAP, Howler) -->
     <script
       src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6a53b1d08ae596f96eb79185"
       type="text/javascript"
@@ -1361,142 +1360,597 @@
       crossorigin="anonymous"
     ></script>
 
-    <!-- ROBUST SVG CLOUDEE ENGINE WITH TRUE CONTINUOUS SMOOTH HULL -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrambleTextPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/SplitText.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
+
+    <!-- CLOCK SCRIPT -->
+    <script>
+      function initDynamicCurrentTime() {
+        const defaultTimezone = "Asia/Colombo";
+        const formatNumber = (number) => number.toString().padStart(2, "0");
+        const createFormatter = (timezone) => {
+          return new Intl.DateTimeFormat("en-US", {
+            timeZone: timezone,
+            timeZoneName: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+          });
+        };
+        const parseFormattedTime = (formattedDateTime) => {
+          const match = formattedDateTime.match(/(\d+):(\d+):(\d+)\s*([\w+]+)/);
+          if (match) {
+            return {
+              hours: match[1],
+              minutes: match[2],
+              seconds: match[3],
+              timezone: match[4],
+            };
+          }
+          return null;
+        };
+        const updateTime = () => {
+          document
+            .querySelectorAll("[data-current-time]")
+            .forEach((element) => {
+              const timezone =
+                element.getAttribute("data-current-time") || defaultTimezone;
+              const formatter = createFormatter(timezone);
+              const now = new Date();
+              const formattedDateTime = formatter.format(now);
+              const timeParts = parseFormattedTime(formattedDateTime);
+              if (timeParts) {
+                const { hours, minutes, seconds, timezone } = timeParts;
+                const hoursElem = element.querySelector(
+                  "[data-current-time-hours]",
+                );
+                const minutesElem = element.querySelector(
+                  "[data-current-time-minutes]",
+                );
+                const secondsElem = element.querySelector(
+                  "[data-current-time-seconds]",
+                );
+                const timezoneElem = element.querySelector(
+                  "[data-current-time-timezone]",
+                );
+                if (hoursElem) hoursElem.textContent = hours;
+                if (minutesElem) minutesElem.textContent = minutes;
+                if (secondsElem) secondsElem.textContent = seconds;
+                if (timezoneElem) timezoneElem.textContent = timezone;
+              }
+            });
+        };
+        updateTime();
+        setInterval(updateTime, 1000);
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        initDynamicCurrentTime();
+      });
+    </script>
+
+    <!-- SCRAMBLE TEXT SCRIPT -->
+    <script>
+      gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin, SplitText);
+      function initScrambleOnLoad() {
+        let targets = document.querySelectorAll('[data-scramble="load"]');
+        targets.forEach((target) => {
+          let split = new SplitText(target, {
+            type: "words, chars",
+            wordsClass: "word",
+            charsClass: "char",
+          });
+          gsap.to(split.words, {
+            duration: 1.2,
+            stagger: 0.01,
+            scrambleText: {
+              text: "{original}",
+              chars: "/!<>-_\\[]{}=+*^?#",
+              speed: 0.85,
+            },
+            onComplete: () => split.revert(),
+          });
+        });
+      }
+      function initScrambleOnHover() {
+        let targets = document.querySelectorAll('[data-scramble-hover="link"]');
+        targets.forEach((target) => {
+          let textEl = target.querySelector('[data-scramble-hover="target"]');
+          if (!textEl) return;
+          let originalText = textEl.textContent;
+          let customHoverText = textEl.getAttribute("data-scramble-text");
+          target.addEventListener("mouseenter", () => {
+            gsap.to(textEl, {
+              duration: 1,
+              scrambleText: {
+                text: customHoverText ? customHoverText : originalText,
+                chars: "<>-_\\[]{}=+*^?#",
+              },
+            });
+          });
+          target.addEventListener("mouseleave", () => {
+            gsap.killTweensOf(textEl);
+            textEl.textContent = originalText;
+          });
+        });
+      }
+      function initScrambleLoop() {
+        let targets = document.querySelectorAll('[data-scramble="loop"]');
+        targets.forEach((target) => {
+          let raw = target.getAttribute("data-scramble-words");
+          if (!raw) return;
+          let phrases = raw
+            .split("|")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          if (phrases.length < 2) return;
+          let chars =
+            target.getAttribute("data-scramble-chars") || "<>-_\\[]{}=+*^?#";
+          let speed =
+            parseFloat(target.getAttribute("data-scramble-speed")) || 0.8;
+          let holdTime =
+            parseFloat(target.getAttribute("data-scramble-hold")) || 1.5;
+          let duration =
+            parseFloat(target.getAttribute("data-scramble-duration")) || 1.2;
+          let index = phrases.indexOf(target.textContent.trim());
+          if (index === -1) index = 0;
+          let tl = gsap.timeline({ repeat: -1, delay: holdTime });
+          phrases.forEach((_, i) => {
+            tl.to(target, {
+              duration: duration,
+              scrambleText: {
+                text: phrases[(index + i + 1) % phrases.length],
+                chars: chars,
+                speed: speed,
+              },
+            }).to({}, { duration: holdTime });
+          });
+        });
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        initScrambleOnLoad();
+        initScrambleOnHover();
+        initScrambleLoop();
+      });
+
+      function initScalingHamburgerNavigation() {
+        document
+          .querySelectorAll('[data-navigation-toggle="toggle"]')
+          .forEach((toggleBtn) => {
+            toggleBtn.addEventListener("click", () => {
+              const navStatusEl = document.querySelector(
+                "[data-navigation-status]",
+              );
+              if (!navStatusEl) return;
+              if (
+                navStatusEl.getAttribute("data-navigation-status") ===
+                "not-active"
+              ) {
+                navStatusEl.setAttribute("data-navigation-status", "active");
+              } else {
+                navStatusEl.setAttribute(
+                  "data-navigation-status",
+                  "not-active",
+                );
+              }
+            });
+          });
+        document
+          .querySelectorAll('[data-navigation-toggle="close"]')
+          .forEach((closeBtn) => {
+            closeBtn.addEventListener("click", () => {
+              const navStatusEl = document.querySelector(
+                "[data-navigation-status]",
+              );
+              if (!navStatusEl) return;
+              navStatusEl.setAttribute("data-navigation-status", "not-active");
+            });
+          });
+        document.addEventListener("keydown", (e) => {
+          if (e.keyCode === 27) {
+            const navStatusEl = document.querySelector(
+              "[data-navigation-status]",
+            );
+            if (!navStatusEl) return;
+            if (
+              navStatusEl.getAttribute("data-navigation-status") === "active"
+            ) {
+              navStatusEl.setAttribute("data-navigation-status", "not-active");
+            }
+          }
+        });
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        initScalingHamburgerNavigation();
+      });
+    </script>
+
+    <!-- HOWLER AUDIO ENGINE SCRIPT -->
+    <script>
+      function initHowlerJSAudioPlayer() {
+        const howlerElements = document.querySelectorAll("[data-howler]");
+        const soundInstances = {};
+        howlerElements.forEach((element, index) => {
+          const uniqueId = `howler-${index}`;
+          element.id = uniqueId;
+          element.setAttribute("data-howler-status", "not-playing");
+          const audioSrc = element.getAttribute("data-howler-src");
+          const durationElement = element.querySelector(
+            '[data-howler-info="duration"]',
+          );
+          const progressTextElement = element.querySelector(
+            '[data-howler-info="progress"]',
+          );
+          const timelineContainer = element.querySelector(
+            '[data-howler-control="timeline"]',
+          );
+          const timelineBar = element.querySelector(
+            '[data-howler-control="progress"]',
+          );
+          const toggleButton = element.querySelector(
+            '[data-howler-control="toggle-play"]',
+          );
+          const sound = new Howl({
+            src: [audioSrc],
+            html5: true,
+            onload: () => {
+              if (durationElement)
+                durationElement.textContent = formatTime(sound.duration());
+            },
+            onplay: () => {
+              pauseAllExcept(uniqueId);
+              element.setAttribute("data-howler-status", "playing");
+              requestAnimationFrame(updateProgress);
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(true);
+              }
+            },
+            onpause: () => {
+              element.setAttribute("data-howler-status", "not-playing");
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(false);
+              }
+            },
+            onstop: () => {
+              element.setAttribute("data-howler-status", "not-playing");
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(false);
+              }
+            },
+            onend: () => {
+              resetUI();
+              if (window.cloudeeSetMusicState) {
+                window.cloudeeSetMusicState(false);
+              }
+            },
+          });
+          soundInstances[uniqueId] = sound;
+          function updateProgress() {
+            if (!sound.playing()) return;
+            updateUI();
+            requestAnimationFrame(updateProgress);
+          }
+          function updateUI() {
+            const currentTime = sound.seek() || 0;
+            const duration = sound.duration() || 1;
+            if (progressTextElement)
+              progressTextElement.textContent = formatTime(currentTime);
+            if (timelineBar)
+              timelineBar.style.width = `${(currentTime / duration) * 100}%`;
+            timelineContainer?.setAttribute(
+              "aria-valuenow",
+              Math.round((currentTime / duration) * 100),
+            );
+          }
+          function resetUI() {
+            if (timelineBar) timelineBar.style.width = "100%";
+            element.setAttribute("data-howler-status", "not-playing");
+          }
+          function seekToPosition(event) {
+            const rect = timelineContainer.getBoundingClientRect();
+            const percentage = (event.clientX - rect.left) / rect.width;
+            sound.seek(sound.duration() * percentage);
+            if (!sound.playing()) {
+              pauseAllExcept(uniqueId);
+              sound.play();
+              element.setAttribute("data-howler-status", "playing");
+            }
+            updateUI();
+          }
+          function togglePlay() {
+            const isPlaying = sound.playing();
+            sound.playing()
+              ? sound.pause()
+              : (pauseAllExcept(uniqueId), sound.play());
+            toggleButton?.setAttribute("aria-pressed", !isPlaying);
+          }
+          function pauseAllExcept(id) {
+            Object.keys(soundInstances).forEach((otherId) => {
+              if (otherId !== id && soundInstances[otherId].playing()) {
+                soundInstances[otherId].pause();
+                document
+                  .getElementById(otherId)
+                  ?.setAttribute("data-howler-status", "not-playing");
+              }
+            });
+          }
+          function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs.toString().padStart(2, "0")}`;
+          }
+          toggleButton?.addEventListener("click", togglePlay);
+          timelineContainer?.addEventListener("click", seekToPosition);
+          sound.on("seek", updateUI);
+          sound.on("play", updateUI);
+        });
+        return soundInstances;
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        initHowlerJSAudioPlayer();
+      });
+
+      (function () {
+        function buildMarquee(h2, text) {
+          h2.dataset.marqueeUpdating = "1";
+          h2.textContent = "";
+          var track = document.createElement("span");
+          track.className = "howler-marquee__track";
+          var s1 = document.createElement("span");
+          s1.textContent = text;
+          var s2 = document.createElement("span");
+          s2.textContent = text;
+          s2.setAttribute("aria-hidden", "true");
+          track.appendChild(s1);
+          track.appendChild(s2);
+          h2.appendChild(track);
+          h2.dataset.marqueeUpdating = "";
+        }
+        function observeText(h2) {
+          var observer = new MutationObserver(function () {
+            if (h2.dataset.marqueeUpdating === "1") return;
+            buildMarquee(h2, h2.textContent);
+            syncPlayState();
+          });
+          observer.observe(h2, {
+            childList: true,
+            characterData: true,
+            subtree: true,
+          });
+        }
+        function syncPlayState() {
+          var player = document.querySelector(".howler-player");
+          var statusEl = document.querySelector(".howler-p.is--player");
+          if (!player) return;
+          var isPlaying =
+            player.getAttribute("data-howler-status") === "playing";
+          document
+            .querySelectorAll(".howler-marquee__track")
+            .forEach(function (track) {
+              track.style.animationPlayState = isPlaying ? "running" : "paused";
+            });
+          if (statusEl) statusEl.textContent = isPlaying ? "Playing" : "Paused";
+        }
+        function observePlayer() {
+          var player = document.querySelector(".howler-player");
+          if (!player) return;
+          var observer = new MutationObserver(syncPlayState);
+          observer.observe(player, {
+            attributes: true,
+            attributeFilter: ["data-howler-status"],
+          });
+        }
+        function init() {
+          document
+            .querySelectorAll(".howler-player__title-h")
+            .forEach(function (h2) {
+              if (h2.dataset.marqueeInit) return;
+              h2.dataset.marqueeInit = "1";
+              buildMarquee(h2, h2.textContent);
+              observeText(h2);
+            });
+          observePlayer();
+          syncPlayState();
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
+        }
+      })();
+    </script>
+
+    <!-- CURSOR SCRAMBLE & PROJECT HOVER AUDIO SCRIPT -->
+    <script>
+      function initScrambleTextCursor() {
+        const cursor = document.querySelector("[data-cursor]");
+        const cursorTextTarget = document.querySelector(
+          "[data-cursor-text-target]",
+        );
+        if (
+          !cursor ||
+          !cursorTextTarget ||
+          !window.matchMedia("(hover: hover) and (pointer: fine)").matches
+        )
+          return;
+        let mouseX = 0;
+        let mouseY = 0;
+        let hasMouseMoved = false;
+        let activeHoverItem = null;
+        const scrambleCharacters = "XYZxy#&@0$€£";
+        const xTo = gsap.quickTo(cursor, "x", {
+          duration: 0.4,
+          ease: "power3.out",
+        });
+        const yTo = gsap.quickTo(cursor, "y", {
+          duration: 0.4,
+          ease: "power3.out",
+        });
+
+        function updateCursor() {
+          const hoverItem = document
+            .elementFromPoint(mouseX, mouseY)
+            ?.closest("[data-cursor-hover]");
+          const rect = cursor.getBoundingClientRect();
+          const isHovering = !!hoverItem;
+          const isEdge = rect.right >= window.innerWidth;
+          const text = hoverItem?.getAttribute("data-cursor-text") || "";
+          cursor.setAttribute(
+            "data-cursor",
+            isHovering ? (isEdge ? "active-edge" : "active") : "",
+          );
+
+          if (hoverItem !== activeHoverItem) {
+            gsap.to(cursorTextTarget, {
+              duration: 0.6,
+              overwrite: "auto",
+              scrambleText: {
+                text: text,
+                chars: scrambleCharacters,
+                speed: 1.2,
+              },
+            });
+            activeHoverItem = hoverItem;
+          }
+        }
+        window.addEventListener("mousemove", (event) => {
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+          hasMouseMoved = true;
+          xTo(mouseX);
+          yTo(mouseY);
+          requestAnimationFrame(updateCursor);
+        });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!hasMouseMoved) return;
+            requestAnimationFrame(updateCursor);
+          },
+          { passive: true },
+        );
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        initScrambleTextCursor();
+      });
+
+      // Interactive hover audio triggers
+      (function () {
+        const hoverInSound =
+          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Ok%20interesting_hoveroutsoft_quiet.mp3";
+        const hoverOutSound =
+          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Enough%20of%20that_hoverinsoft_quiet.mp3";
+        const clickSound =
+          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Clatz_take1_digitalminimal_quiet2.mp3";
+        const navDelay = 150;
+        function play(src, pitchVariation) {
+          const audio = new Audio(src);
+          if (pitchVariation)
+            audio.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
+          audio.play().catch(function () {});
+        }
+        document.querySelectorAll(".case-btn").forEach(function (btn) {
+          btn.addEventListener("mouseenter", function () {
+            play(hoverInSound, 0.08);
+          });
+          btn.addEventListener("mouseleave", function () {
+            play(hoverOutSound, 0.08);
+          });
+          btn.addEventListener("click", function (e) {
+            const href = btn.getAttribute("href");
+            const isRealLink =
+              btn.tagName === "A" &&
+              href &&
+              !href.startsWith("#") &&
+              btn.target !== "_blank";
+            if (isRealLink && e.button === 0 && !e.metaKey && !e.ctrlKey) {
+              e.preventDefault();
+              play(clickSound, 0.04);
+              setTimeout(function () {
+                window.location.href = btn.href;
+              }, navDelay);
+            } else {
+              play(clickSound, 0.04);
+            }
+          });
+        });
+      })();
+    </script>
+
+    <!-- NATIVE GROK BOT ENGINE (DRIVEN DIRECTLY FROM YOUR JSON DEFINITION) -->
     <script>
       (function () {
-        // Exact definition and expression parameters matching avatar-lab
-        const cloudeeDef = {
-          colors: { body: "#c9cbcf", eyes: "#111316" },
+        // Complete definition for Grok bot[cite: 17]
+        const grokDef = {
+          name: "Grok bot",
+          body: {
+            primary: { width: 240, height: 240 }[cite: 17]
+          },
+          colors: {
+            body: "#000000",
+            eyes: "#ffffff"
+          },[cite: 17]
           expressions: {
-            proud: {
-              head: { x: 0, y: 15, z: -5 },
-              eyes: {
-                left: { width: 14, height: 45, y: -2, angle: 0 },
-                right: { width: 14, height: 45, y: -2, angle: 0 },
-                spacing: 14,
-              },
-            },
-            neutral: {
-              head: { x: 0, y: 0, z: 0 },
-              eyes: {
-                left: { width: 14, height: 45, y: -1, angle: 0 },
-                right: { width: 14, height: 45, y: -1, angle: 0 },
-                spacing: 13,
-              },
-            },
-            "upward-side-glance": {
-              head: { x: 7.3, y: 27.8, z: -16.1 },
-              eyes: {
-                left: { width: 16.5, height: 38, y: -14.5, angle: 0 },
-                right: { width: 16.5, height: 38, y: -14.5, angle: 0 },
-                spacing: 32,
-              },
-            },
-            "curious-left": {
-              head: { x: -12.3, y: -17.6, z: 5.9 },
-              eyes: {
-                left: { width: 14.5, height: 43, y: 6, angle: 23.5 },
-                right: { width: 14.5, height: 43, y: 6, angle: -24 },
-                spacing: 32.6,
-              },
-            },
-            "joyful-wide": {
-              head: { x: -2.1, y: -15.9, z: -14.5 },
-              eyes: {
-                left: { width: 28, height: 80, y: 6, angle: 0 },
-                right: { width: 28, height: 79, y: 6, angle: 0 },
-                spacing: 37,
-              },
-            },
-            "joyful-down-right": {
-              head: { x: -15.3, y: 15, z: 12.8 },
-              eyes: {
-                left: { width: 25, height: 72, y: 6, angle: 0 },
-                right: { width: 25, height: 72, y: 6, angle: 0 },
-                spacing: 46.5,
-              },
-            },
-            "playful-right": {
-              head: { x: -4.4, y: 14, z: -16.1 },
-              eyes: {
-                left: { width: 13, height: 39, y: 6, angle: 26.3 },
-                right: { width: 13, height: 39, y: 6, angle: -20.2 },
-                spacing: 29.5,
-              },
-            },
-            "surprised-wide-left": {
-              head: { x: -5.4, y: -11.7, z: -13.5 },
-              eyes: {
-                left: { width: 45, height: 45.5, y: 6, angle: 0 },
-                right: { width: 44.5, height: 45, y: 6, angle: 0 },
-                spacing: 46.8,
-              },
-            },
-            "eyes-closed": {
-              head: { x: -8.8, y: -8.7, z: -10.8 },
-              eyes: {
-                left: { width: 50, height: 9.5, y: 6, angle: 0 },
-                right: { width: 50, height: 9.5, y: 6, angle: 0 },
-                spacing: 47,
-              },
-            },
-            "drowsy-closed": {
-              head: { x: 10.3, y: 3.4, z: 7.6 },
-              eyes: {
-                left: { width: 49.6, height: 9, y: 6, angle: 0 },
-                right: { width: 49.6, height: 9, y: 6, angle: 0 },
-                spacing: 46.2,
-              },
-            },
-            "sleepy-squint": {
-              head: { x: 3.4, y: 13.2, z: 9 },
-              eyes: {
-                left: { width: 45.7, height: 9.5, y: 6, angle: 0 },
-                right: { width: 45.7, height: 9.5, y: 6, angle: 0 },
-                spacing: 41.6,
-              },
-            },
+            "neutral": { head: { x: 0, y: 0, z: 0 }, eyes: { left: { width: 20, height: 50, y: -7, angle: 0 }, right: { width: 20, height: 50, y: -7, angle: 0 }, spacing: 35 } },[cite: 17]
+            "upward-side-glance": { head: { x: 7.3, y: 27.8, z: -16.1 }, eyes: { left: { width: 22.5, height: 42.4, y: -20.5, angle: 0 }, right: { width: 22.5, height: 42.4, y: -20.5, angle: 0 }, spacing: 54.3 } },[cite: 17]
+            "downward-gaze": { head: { x: -15, y: 0.14, z: -14.55 }, eyes: { left: { width: 22.4, height: 54.6, y: 0, angle: 0 }, right: { width: 22.4, height: 54.6, y: 0, angle: 0 }, spacing: 57.7 } },[cite: 17]
+            "skeptical-right": { head: { x: -16.5, y: -3.8, z: -13.7 }, eyes: { left: { width: 23, height: 57.7, y: 0, angle: 0 }, right: { width: 49.9, height: 12.4, y: 0, angle: 0 }, spacing: 56.3 } },[cite: 17]
+            "small-attentive": { head: { x: -4.2, y: 14.4, z: 11.2 }, eyes: { left: { width: 22.1, height: 39.6, y: 0, angle: 0 }, right: { width: 22.1, height: 39.6, y: 0, angle: 0 }, spacing: 50.9 } },[cite: 17]
+            "wide-downward-gaze": { head: { x: -19.2, y: 15.2, z: 11.8 }, eyes: { left: { width: 52.1, height: 51.5, y: 0, angle: 0 }, right: { width: 53.1, height: 52.2, y: 0, angle: 0 }, spacing: 69.5 } },[cite: 17]
+            "surprised-left": { head: { x: 2.9, y: -16.1, z: -20.9 }, eyes: { left: { width: 51.7, height: 51.7, y: 0, angle: 0 }, right: { width: 51.7, height: 51.7, y: 0, angle: 0 }, spacing: 70.9 } },[cite: 17]
+            "sleepy-squint": { head: { x: 3.4, y: 13.2, z: 9 }, eyes: { left: { width: 51.8, height: 13, y: 0, angle: 0 }, right: { width: 51.8, height: 13, y: 0, angle: 0 }, spacing: 63.9 } },[cite: 17]
+            "angry-right": { head: { x: 8, y: 17.6, z: -11.1 }, eyes: { left: { width: 20.9, height: 40.4, y: 0, angle: -30.8 }, right: { width: 20.9, height: 40.4, y: 0, angle: 28.8 }, spacing: 52 } },[cite: 17]
+            "curious-left": { head: { x: -12.3, y: -17.6, z: 5.9 }, eyes: { left: { width: 20.6, height: 47.8, y: 0, angle: 23.5 }, right: { width: 20.6, height: 47.8, y: 0, angle: -24 }, spacing: 54.9 } },[cite: 17]
+            "joyful-wide": { head: { x: -2.1, y: -15.9, z: -14.5 }, eyes: { left: { width: 34.2, height: 85.3, y: 0, angle: 0 }, right: { width: 34.2, height: 83.2, y: 0, angle: 0 }, spacing: 59.4 } },[cite: 17]
+            "eyes-closed": { head: { x: -8.8, y: -8.7, z: -10.8 }, eyes: { left: { width: 56.1, height: 15.5, y: 0, angle: 0 }, right: { width: 56.1, height: 15.2, y: 0, angle: 0 }, spacing: 69.3 } },[cite: 17]
+            "joyful-down-right": { head: { x: -15.3, y: 15, z: 12.8 }, eyes: { left: { width: 31.3, height: 76.7, y: 0, angle: 0 }, right: { width: 31.3, height: 76.7, y: 0, angle: 0 }, spacing: 68.7 } },[cite: 17]
+            "skeptical-left": { head: { x: 3.5, y: -7.1, z: 9.8 }, eyes: { left: { width: 24.3, height: 59.3, y: 0, angle: 0 }, right: { width: 48.9, height: 13.4, y: 0, angle: 0 }, spacing: 62.2 } },[cite: 17]
+            "playful-right": { head: { x: -4.4, y: 14.1, z: -16.1 }, eyes: { left: { width: 19, height: 43.4, y: 0, angle: 26.3 }, right: { width: 19, height: 43.4, y: 0, angle: -20.2 }, spacing: 51.7 } },[cite: 17]
+            "drowsy-closed": { head: { x: 10.3, y: 3.4, z: 7.6 }, eyes: { left: { width: 55.7, height: 14.6, y: 0, angle: 0 }, right: { width: 55.7, height: 14.6, y: 0, angle: 0 }, spacing: 68.4 } }[cite: 17]
           },
           animations: {
             idle: [
-              { exp: "proud", hold: 4600 },
-              { exp: "upward-side-glance", hold: 4200 },
-              { exp: "neutral", hold: 3800 },
-              { exp: "curious-left", hold: 4000 },
+              { exp: "upward-side-glance", hold: 5200 },[cite: 17]
+              { exp: "curious-left", hold: 5200 },[cite: 17]
+              { exp: "neutral", hold: 4200 }[cite: 17]
             ],
             happy: [
-              { exp: "proud", hold: 2600 },
-              { exp: "joyful-wide", hold: 2600 },
-              { exp: "playful-right", hold: 2400 },
+              { exp: "joyful-down-right", hold: 2300 },[cite: 17]
+              { exp: "joyful-wide", hold: 2300 },[cite: 17]
+              { exp: "playful-right", hold: 2300 }[cite: 17]
             ],
             excited: [
-              { exp: "joyful-down-right", hold: 1600 },
-              { exp: "playful-right", hold: 1600 },
-              { exp: "surprised-wide-left", hold: 1600 },
-              { exp: "joyful-wide", hold: 1800 },
+              { exp: "joyful-down-right", hold: 1600 },[cite: 17]
+              { exp: "playful-right", hold: 1600 },[cite: 17]
+              { exp: "joyful-wide", hold: 1800 }[cite: 17]
             ],
             sleeping: [
-              { exp: "eyes-closed", hold: 3600 },
-              { exp: "drowsy-closed", hold: 3600 },
-              { exp: "sleepy-squint", hold: 3600 },
-            ],
-          },
+              { exp: "eyes-closed", hold: 3600 },[cite: 17]
+              { exp: "drowsy-closed", hold: 3600 },[cite: 17]
+              { exp: "sleepy-squint", hold: 3600 }[cite: 17]
+            ]
+          }
         };
 
-        function initCloudee() {
+        function startGrok() {
           const root = document.getElementById("cloudee-root");
           if (!root) return;
           root.innerHTML = "";
 
           const svgNS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(svgNS, "svg");
-          svg.setAttribute("viewBox", "-140 -105 280 215");
+          // Scaled coordinate frame for 240px spherical bot[cite: 17]
+          svg.setAttribute("viewBox", "-180 -180 360 360");
 
           const defs = document.createElementNS(svgNS, "defs");
           defs.innerHTML = `
-            <radialGradient id="cloudeeGround" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(15, 23, 42, 0.16)" />
-              <stop offset="60%" stop-color="rgba(15, 23, 42, 0.04)" />
+            <radialGradient id="grokShadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(0, 0, 0, 0.25)" />
+              <stop offset="60%" stop-color="rgba(0, 0, 0, 0.06)" />
               <stop offset="100%" stop-color="transparent" />
             </radialGradient>
           `;
@@ -1505,30 +1959,29 @@
           // Ground shadow
           const shadow = document.createElementNS(svgNS, "ellipse");
           shadow.setAttribute("cx", "0");
-          shadow.setAttribute("cy", "78");
-          shadow.setAttribute("rx", "78");
-          shadow.setAttribute("ry", "15");
-          shadow.setAttribute("fill", "url(#cloudeeGround)");
+          shadow.setAttribute("cy", "142");
+          shadow.setAttribute("rx", "100");
+          shadow.setAttribute("ry", "22");
+          shadow.setAttribute("fill", "url(#grokShadow)");
           svg.appendChild(shadow);
 
           // Head Container
           const headGroup = document.createElementNS(svgNS, "g");
 
-          // Exact Flat Cartoon Silhouette Path from Avatar Lab
-          const cloudBody = document.createElementNS(svgNS, "path");
-          cloudBody.setAttribute(
-            "d",
-            "M -48, -48 C -30, -56, 10, -56, 32, -44 C 54, -50, 78, -32, 74, -6 C 88, 6, 88, 30, 72, 44 C 52, 60, 10, 60, -12, 54 C -34, 62, -72, 54, -76, 26 C -92, 14, -92, -14, -74, -28 C -72, -46, -58, -50, -48, -48 Z",
-          );
-          cloudBody.setAttribute("fill", cloudeeDef.colors.body);
-          headGroup.appendChild(cloudBody);
+          // Solid Black Sphere Body (Grok Bot definition)[cite: 17]
+          const bodySphere = document.createElementNS(svgNS, "circle");
+          bodySphere.setAttribute("cx", "0");
+          bodySphere.setAttribute("cy", "0");
+          bodySphere.setAttribute("r", (grokDef.body.primary.width / 2).toString());[cite: 17]
+          bodySphere.setAttribute("fill", grokDef.colors.body);[cite: 17]
+          headGroup.appendChild(bodySphere);
 
-          // Pill Eyes
+          // White Pill Eyes[cite: 17]
           const eyesGroup = document.createElementNS(svgNS, "g");
           const eyeLeft = document.createElementNS(svgNS, "rect");
-          eyeLeft.setAttribute("fill", cloudeeDef.colors.eyes);
+          eyeLeft.setAttribute("fill", grokDef.colors.eyes);[cite: 17]
           const eyeRight = document.createElementNS(svgNS, "rect");
-          eyeRight.setAttribute("fill", cloudeeDef.colors.eyes);
+          eyeRight.setAttribute("fill", grokDef.colors.eyes);[cite: 17]
 
           eyesGroup.appendChild(eyeLeft);
           eyesGroup.appendChild(eyeRight);
@@ -1537,24 +1990,17 @@
           svg.appendChild(headGroup);
           root.appendChild(svg);
 
-          // Animation Controller
+          // Interactive Timeline Controller
           let currentAnim = "idle";
-          let timeline = cloudeeDef.animations.idle;
+          let timeline = grokDef.animations.idle;
           let stepIndex = 0;
           let lastStepTime = performance.now();
           let priorityUntil = performance.now() + 3000;
 
-          let currentExp = JSON.parse(
-            JSON.stringify(cloudeeDef.expressions["proud"]),
-          );
-          let targetExp = JSON.parse(
-            JSON.stringify(cloudeeDef.expressions["proud"]),
-          );
+          let currentExp = JSON.parse(JSON.stringify(grokDef.expressions["neutral"]));
+          let targetExp = JSON.parse(JSON.stringify(grokDef.expressions["neutral"]));
 
-          let mouseX = 0,
-            mouseY = 0,
-            targetMouseX = 0,
-            targetMouseY = 0;
+          let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
           let isBlinking = false;
           let blinkStart = 0;
           let nextBlink = performance.now() + 2600;
@@ -1563,17 +2009,17 @@
           let isMusicPlaying = false;
 
           function setAnim(name, lockMs = 0) {
-            if (!cloudeeDef.animations[name]) return;
+            if (!grokDef.animations[name]) return;
             currentAnim = name;
-            timeline = cloudeeDef.animations[name];
+            timeline = grokDef.animations[name];
             stepIndex = 0;
-            const exp = cloudeeDef.expressions[timeline[0].exp];
+            const exp = grokDef.expressions[timeline[0].exp];
             if (exp) targetExp = JSON.parse(JSON.stringify(exp));
             lastStepTime = performance.now();
             if (lockMs > 0) priorityUntil = performance.now() + lockMs;
           }
 
-          window.cloudeeSetMusicState = function (playing) {
+          window.cloudeeSetMusicState = function(playing) {
             isMusicPlaying = playing;
             lastActivityTime = performance.now();
             if (isSleeping) isSleeping = false;
@@ -1594,14 +2040,8 @@
             const rect = root.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
-            targetMouseX = Math.max(
-              -1,
-              Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.4)),
-            );
-            targetMouseY = Math.max(
-              -1,
-              Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.4)),
-            );
+            targetMouseX = Math.max(-1, Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.4)));
+            targetMouseY = Math.max(-1, Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.4)));
           });
 
           root.addEventListener("click", () => {
@@ -1621,29 +2061,19 @@
           }
 
           function loop(now) {
-            if (
-              !isSleeping &&
-              !isMusicPlaying &&
-              now > priorityUntil &&
-              now - lastActivityTime > 9000
-            ) {
+            if (!isSleeping && !isMusicPlaying && now > priorityUntil && now - lastActivityTime > 9000) {
               isSleeping = true;
               setAnim("sleeping");
             }
 
-            if (
-              !isSleeping &&
-              !isMusicPlaying &&
-              now > priorityUntil &&
-              currentAnim !== "idle"
-            ) {
+            if (!isSleeping && !isMusicPlaying && now > priorityUntil && currentAnim !== "idle") {
               setAnim("idle");
             }
 
             const currentStep = timeline[stepIndex];
             if (now - lastStepTime > currentStep.hold) {
               stepIndex = (stepIndex + 1) % timeline.length;
-              const nextExp = cloudeeDef.expressions[timeline[stepIndex].exp];
+              const nextExp = grokDef.expressions[timeline[stepIndex].exp];
               if (nextExp) targetExp = JSON.parse(JSON.stringify(nextExp));
               lastStepTime = now;
             }
@@ -1656,142 +2086,73 @@
               nextBlink = now + Math.random() * 3600 + 2400;
             }
 
-            const speed = currentAnim === "excited" ? 0.12 : 0.08;
-            currentExp.head.x = lerp(
-              currentExp.head.x,
-              targetExp.head.x,
-              speed,
-            );
-            currentExp.head.y = lerp(
-              currentExp.head.y,
-              targetExp.head.y,
-              speed,
-            );
-            currentExp.head.z = lerp(
-              currentExp.head.z,
-              targetExp.head.z,
-              speed,
-            );
+            const speed = (currentAnim === "excited") ? 0.12 : 0.08;
+            currentExp.head.x = lerp(currentExp.head.x, targetExp.head.x, speed);
+            currentExp.head.y = lerp(currentExp.head.y, targetExp.head.y, speed);
+            currentExp.head.z = lerp(currentExp.head.z, targetExp.head.z, speed);
 
-            currentExp.eyes.spacing = lerp(
-              currentExp.eyes.spacing,
-              targetExp.eyes.spacing,
-              speed,
-            );
-            currentExp.eyes.left.width = lerp(
-              currentExp.eyes.left.width,
-              targetExp.eyes.left.width,
-              speed,
-            );
-            currentExp.eyes.left.height = lerp(
-              currentExp.eyes.left.height,
-              targetExp.eyes.left.height,
-              speed,
-            );
-            currentExp.eyes.left.y = lerp(
-              currentExp.eyes.left.y,
-              targetExp.eyes.left.y,
-              speed,
-            );
-            currentExp.eyes.left.angle = lerp(
-              currentExp.eyes.left.angle,
-              targetExp.eyes.left.angle,
-              speed,
-            );
+            currentExp.eyes.spacing = lerp(currentExp.eyes.spacing, targetExp.eyes.spacing, speed);
+            currentExp.eyes.left.width = lerp(currentExp.eyes.left.width, targetExp.eyes.left.width, speed);
+            currentExp.eyes.left.height = lerp(currentExp.eyes.left.height, targetExp.eyes.left.height, speed);
+            currentExp.eyes.left.y = lerp(currentExp.eyes.left.y, targetExp.eyes.left.y, speed);
+            currentExp.eyes.left.angle = lerp(currentExp.eyes.left.angle, targetExp.eyes.left.angle, speed);
 
-            currentExp.eyes.right.width = lerp(
-              currentExp.eyes.right.width,
-              targetExp.eyes.right.width,
-              speed,
-            );
-            currentExp.eyes.right.height = lerp(
-              currentExp.eyes.right.height,
-              targetExp.eyes.right.height,
-              speed,
-            );
-            currentExp.eyes.right.y = lerp(
-              currentExp.eyes.right.y,
-              targetExp.eyes.right.y,
-              speed,
-            );
-            currentExp.eyes.right.angle = lerp(
-              currentExp.eyes.right.angle,
-              targetExp.eyes.right.angle,
-              speed,
-            );
+            currentExp.eyes.right.width = lerp(currentExp.eyes.right.width, targetExp.eyes.right.width, speed);
+            currentExp.eyes.right.height = lerp(currentExp.eyes.right.height, targetExp.eyes.right.height, speed);
+            currentExp.eyes.right.y = lerp(currentExp.eyes.right.y, targetExp.eyes.right.y, speed);
+            currentExp.eyes.right.angle = lerp(currentExp.eyes.right.angle, targetExp.eyes.right.angle, speed);
 
             mouseX = lerp(mouseX, targetMouseX, 0.05);
             mouseY = lerp(mouseY, targetMouseY, 0.05);
 
-            const freq = isSleeping ? 0.0009 : isMusicPlaying ? 0.004 : 0.002;
-            const amp = isSleeping ? 3 : isMusicPlaying ? 9 : 5.5;
+            // Natural floating physics
+            const freq = isSleeping ? 0.0009 : (isMusicPlaying ? 0.004 : 0.002);
+            const amp = isSleeping ? 4 : (isMusicPlaying ? 12 : 7.5);
             const floatY = Math.sin(now * freq) * amp;
-            const floatRot =
-              Math.cos(now * freq * 0.8) * (isMusicPlaying ? 4 : 1.5);
+            const floatRot = Math.cos(now * freq * 0.8) * (isMusicPlaying ? 5 : 2);
 
-            const posX =
-              currentExp.head.y * 0.5 + (isSleeping ? 0 : mouseX * 16);
-            const posY =
-              currentExp.head.x * 0.5 + floatY + (isSleeping ? 0 : mouseY * 10);
-            const rotZ =
-              currentExp.head.z * 0.4 +
-              floatRot +
-              (isSleeping ? 0 : mouseX * 3);
+            const posX = currentExp.head.y * 0.6 + (isSleeping ? 0 : mouseX * 20);
+            const posY = currentExp.head.x * 0.6 + floatY + (isSleeping ? 0 : mouseY * 14);
+            const rotZ = currentExp.head.z * 0.5 + floatRot + (isSleeping ? 0 : mouseX * 4);
 
-            headGroup.setAttribute(
-              "transform",
-              `translate(${posX * 0.25}, ${posY}) rotate(${rotZ})`,
-            );
+            headGroup.setAttribute("transform", `translate(${posX * 0.25}, ${posY}) rotate(${rotZ})`);
 
-            const shadowScale = 1 - floatY / 55;
-            shadow.setAttribute("rx", (78 * shadowScale).toString());
-            shadow.setAttribute("cx", (posX * 0.12).toString());
+            // Synchronize ground shadow
+            const shadowScale = 1 - floatY / 65;
+            shadow.setAttribute("rx", (100 * shadowScale).toString());
+            shadow.setAttribute("cx", (posX * 0.15).toString());
 
-            // Eye pill shape rendering matching Avatar Lab
-            const eyeHLeft = isBlinking
-              ? 2
-              : Math.max(2, currentExp.eyes.left.height);
-            const eyeHRight = isBlinking
-              ? 2
-              : Math.max(2, currentExp.eyes.right.height);
+            // Eye pill shape rendering matching Grok bot[cite: 17]
+            const eyeHLeft = isBlinking ? 2.5 : Math.max(2.5, currentExp.eyes.left.height);
+            const eyeHRight = isBlinking ? 2.5 : Math.max(2.5, currentExp.eyes.right.height);
             const spacing = currentExp.eyes.spacing;
 
             const eyeWLeft = currentExp.eyes.left.width;
             const eyeWRight = currentExp.eyes.right.width;
 
-            const eyeLX = -spacing - eyeWLeft + (isSleeping ? 0 : mouseX * 5);
-            const eyeLY =
-              currentExp.eyes.left.y -
-              eyeHLeft / 2 +
-              (isSleeping ? 0 : mouseY * 5);
+            const eyeLX = -spacing - eyeWLeft + (isSleeping ? 0 : mouseX * 7);
+            const eyeLY = currentExp.eyes.left.y - eyeHLeft / 2 + (isSleeping ? 0 : mouseY * 7);
 
-            const eyeRX = spacing + (isSleeping ? 0 : mouseX * 5);
-            const eyeRY =
-              currentExp.eyes.right.y -
-              eyeHRight / 2 +
-              (isSleeping ? 0 : mouseY * 5);
+            const eyeRX = spacing + (isSleeping ? 0 : mouseX * 7);
+            const eyeRY = currentExp.eyes.right.y - eyeHRight / 2 + (isSleeping ? 0 : mouseY * 7);
 
+            // Left Eye[cite: 17]
             eyeLeft.setAttribute("x", eyeLX);
             eyeLeft.setAttribute("y", eyeLY);
             eyeLeft.setAttribute("width", eyeWLeft);
             eyeLeft.setAttribute("height", eyeHLeft);
             eyeLeft.setAttribute("rx", eyeWLeft / 2);
             eyeLeft.setAttribute("ry", eyeWLeft / 2);
-            eyeLeft.setAttribute(
-              "transform",
-              `rotate(${currentExp.eyes.left.angle} ${eyeLX + eyeWLeft / 2} ${eyeLY + eyeHLeft / 2})`,
-            );
+            eyeLeft.setAttribute("transform", `rotate(${currentExp.eyes.left.angle} ${eyeLX + eyeWLeft/2} ${eyeLY + eyeHLeft/2})`);
 
+            // Right Eye[cite: 17]
             eyeRight.setAttribute("x", eyeRX);
             eyeRight.setAttribute("y", eyeRY);
             eyeRight.setAttribute("width", eyeWRight);
             eyeRight.setAttribute("height", eyeHRight);
             eyeRight.setAttribute("rx", eyeWRight / 2);
             eyeRight.setAttribute("ry", eyeWRight / 2);
-            eyeRight.setAttribute(
-              "transform",
-              `rotate(${currentExp.eyes.right.angle} ${eyeRX + eyeWRight / 2} ${eyeRY + eyeHRight / 2})`,
-            );
+            eyeRight.setAttribute("transform", `rotate(${currentExp.eyes.right.angle} ${eyeRX + eyeWRight/2} ${eyeRY + eyeHRight/2})`);
 
             requestAnimationFrame(loop);
           }
@@ -1800,9 +2161,9 @@
         }
 
         if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", initCloudee);
+          document.addEventListener("DOMContentLoaded", startGrok);
         } else {
-          initCloudee();
+          startGrok();
         }
       })();
     </script>
