@@ -50,7 +50,7 @@
       crossorigin="anonymous"
     />
 
-    <!-- SYSTEM LIGHT/DARK MODE AGGRESSIVE OVERRIDE -->
+    <!-- SYSTEM LIGHT/DARK MODE OVERRIDE -->
     <style>
       html.w-mod-js:not(.w-mod-ix3) :is(.btn-main.medium, .icon-btn-main) {
         visibility: hidden !important;
@@ -183,7 +183,7 @@
       })(window, document);
     </script>
 
-    <!-- CUSTOM LOGO / FAVICON IN BROWSER TAB -->
+    <!-- CUSTOM FAVICON -->
     <link
       href="./public/drawingher.png"
       rel="icon"
@@ -197,7 +197,6 @@
     />
 
     <style>
-      /* Base font scaling */
       html {
         font-size: calc(100vw / 1244 * 13);
       }
@@ -212,7 +211,6 @@
         }
       }
 
-      /* Strict viewport overflow lock */
       html,
       body {
         width: 100% !important;
@@ -221,34 +219,40 @@
         position: relative !important;
       }
 
-      /* Prominent Cloudee Avatar Container */
+      /* Hero Avatar Stage */
       .hero-video-wrapper {
         position: relative !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        width: 380px !important;
-        height: 380px !important;
+        width: 360px !important;
+        height: 360px !important;
         margin: 0 auto !important;
         overflow: visible !important;
+        background: transparent !important;
       }
+
       #cloudee-root {
         position: relative;
         width: 100%;
         height: 100%;
-        z-index: 10;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: visible !important;
         touch-action: pan-y !important;
       }
+
       #cloudee-root svg {
         width: 100%;
         height: 100%;
         overflow: visible !important;
-        cursor: pointer;
+        cursor: grab;
         user-select: none;
+        filter: drop-shadow(0 18px 25px rgba(0, 0, 0, 0.1));
+      }
+      #cloudee-root svg:active {
+        cursor: grabbing;
       }
 
       /* Centered Pill Buttons in Footer */
@@ -321,14 +325,13 @@
         opacity: 1 !important;
       }
 
-      /* Project Cover Images */
       .case-figure img {
         object-fit: cover !important;
         width: 100% !important;
         height: 100% !important;
       }
 
-      /* Mobile Optimizations */
+      /* Mobile Sizing */
       @media (max-width: 767px) {
         .nav {
           padding-left: 1rem !important;
@@ -364,11 +367,10 @@
         }
 
         .hero-video-wrapper {
-          width: 290px !important;
-          height: 290px !important;
+          width: 280px !important;
+          height: 280px !important;
         }
 
-        /* Hero Text Mobile Alignment */
         .text-section {
           width: 100% !important;
           padding-left: 1.35rem !important;
@@ -389,7 +391,6 @@
           max-width: 90% !important;
         }
 
-        /* Cohesive Footer Sizing */
         .footer-form {
           display: flex !important;
           flex-direction: column !important;
@@ -628,7 +629,7 @@
                       class="svg"
                     >
                       <path
-                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167H11.6667Z"
+                        d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
                         fill="currentColor"
                         class="path"
                       ></path>
@@ -783,7 +784,7 @@
                 class="svg"
               >
                 <path
-                  d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167H11.6667Z"
+                  d="M12.25 0H1.75C1.28587 0 0.840752 0.184374 0.512563 0.512563C0.184374 0.840752 0 1.28587 0 1.75L0 12.8333H14V1.75C14 1.28587 13.8156 0.840752 13.4874 0.512563C13.1592 0.184374 12.7141 0 12.25 0V0ZM1.75 1.16667H12.25C12.4047 1.16667 12.5531 1.22812 12.6625 1.33752C12.7719 1.44692 12.8333 1.59529 12.8333 1.75V2.13908L8.23783 6.73517C7.90908 7.0626 7.46399 7.24644 7 7.24644C6.53601 7.24644 6.09092 7.0626 5.76217 6.73517L1.16667 2.13908V1.75C1.16667 1.59529 1.22812 1.44692 1.33752 1.33752C1.44692 1.22812 1.59529 1.16667 1.75 1.16667V1.16667ZM1.16667 11.6667V3.79167L4.93733 7.56C5.48487 8.10615 6.22665 8.41286 7 8.41286C7.77335 8.41286 8.51513 8.10615 9.06267 7.56L12.8333 3.79167V11.6667H1.16667Z"
                   fill="currentColor"
                   class="path"
                 ></path>
@@ -897,20 +898,8 @@
       <section id="hero" class="hero-section">
         <section class="display-section">
           <div class="hero-video-wrapper">
-            <!-- CLOUDEE AVATAR CONTAINER -->
-            <div id="cloudee-root">
-              <div
-                id="cloudee-loading-msg"
-                style="
-                  text-align: center;
-                  color: #888;
-                  font-family: monospace;
-                  font-size: 14px;
-                "
-              >
-                [ Cloudee Loading... ]
-              </div>
-            </div>
+            <!-- PROCEDURAL CLOUDEE AVATAR FROM JSON SPECIFICATION -->
+            <div id="cloudee-root"></div>
           </div>
         </section>
         <section class="text-section">
@@ -1330,7 +1319,6 @@
               loading="lazy"
               alt="Design Department Badge"
             />
-            <!-- CUSTOM DRAWINGHER LOGO IN FOOTER BADGES -->
             <img
               src="./public/drawingher.png"
               loading="lazy"
@@ -1382,7 +1370,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.15/dist/CustomEase.min.js"></script>
 
     <script>
-      // ------Current Time------
+      // Current Time
       function initDynamicCurrentTime() {
         const defaultTimezone = "Asia/Colombo";
         const formatNumber = (number) => number.toString().padStart(2, "0");
@@ -1446,7 +1434,7 @@
         initDynamicCurrentTime();
       });
 
-      // ------Scramble Text------
+      // Scramble Text
       gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin, SplitText);
       function initScrambleOnLoad() {
         let targets = document.querySelectorAll('[data-scramble="load"]');
@@ -1528,7 +1516,7 @@
         initScrambleLoop();
       });
 
-      // ------Mobile Nav------
+      // Mobile Scaling Hamburger Navigation
       function initScalingHamburgerNavigation() {
         document
           .querySelectorAll('[data-navigation-toggle="toggle"]')
@@ -1579,11 +1567,8 @@
       document.addEventListener("DOMContentLoaded", function () {
         initScalingHamburgerNavigation();
       });
-      document.addEventListener("touchstart", function () {}, {
-        passive: true,
-      });
 
-      // ------Howler Player with Direct Cloudee Hook------
+      // Howler Player Connected Directly with Cloudee
       function initHowlerJSAudioPlayer() {
         const howlerElements = document.querySelectorAll("[data-howler]");
         const soundInstances = {};
@@ -1707,7 +1692,7 @@
         initHowlerJSAudioPlayer();
       });
 
-      // ------Howler Marquee and Functions------
+      // Howler Title Marquee
       (function () {
         function buildMarquee(h2, text) {
           h2.dataset.marqueeUpdating = "1";
@@ -1778,76 +1763,8 @@
       })();
     </script>
 
+    <!-- Cursor Scramble -->
     <script>
-      const hoverDefault =
-        "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Up%20and%20up%20hover_digitalminimal_quiet2.mp3";
-      const clickDefault =
-        "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Clatz_take1_digitalminimal_quiet2.mp3";
-      const hoverPitchVar = 0.08;
-      const clickPitchVar = 0.04;
-      const navDelay = 150;
-      const audioCache = {};
-      function preload(src) {
-        if (!audioCache[src]) {
-          const a = new Audio(src);
-          a.preload = "auto";
-          audioCache[src] = a;
-        }
-        return audioCache[src];
-      }
-      function play(src, variation) {
-        const instance = preload(src).cloneNode();
-        if (variation > 0) {
-          instance.playbackRate = 1 + (Math.random() * 2 - 1) * variation;
-          instance.preservesPitch = false;
-          instance.mozPreservesPitch = false;
-          instance.webkitPreservesPitch = false;
-        }
-        instance.play().catch(function () {});
-      }
-      function isRealNavigation(el) {
-        if (el.tagName !== "A") return false;
-        const href = el.getAttribute("href");
-        if (!href || href.startsWith("#") || href.startsWith("javascript:"))
-          return false;
-        if (el.target === "_blank") return false;
-        if (el.hasAttribute("download")) return false;
-        return true;
-      }
-      document.querySelectorAll("[data-sound-hover]").forEach(function (el) {
-        const attr = el.getAttribute("data-sound-hover");
-        const src = attr.startsWith("http") ? attr : hoverDefault;
-        preload(src);
-        el.addEventListener("mouseenter", function () {
-          play(src, hoverPitchVar);
-        });
-      });
-      document.querySelectorAll("[data-sound-click]").forEach(function (el) {
-        const attr = el.getAttribute("data-sound-click");
-        const src = attr.startsWith("http") ? attr : clickDefault;
-        preload(src);
-        el.addEventListener("click", function (e) {
-          const isPlainLeftClick =
-            e.button === 0 &&
-            !e.metaKey &&
-            !e.ctrlKey &&
-            !e.shiftKey &&
-            !e.altKey;
-          if (isRealNavigation(el) && isPlainLeftClick) {
-            e.preventDefault();
-            play(src, clickPitchVar);
-            const href = el.href;
-            setTimeout(function () {
-              window.location.href = href;
-            }, navDelay);
-          } else {
-            play(src, clickPitchVar);
-          }
-        });
-      });
-    </script>
-    <script>
-      // ------Case Cursor Scramble------
       function initScrambleTextCursor() {
         const cursor = document.querySelector("[data-cursor]");
         const cursorTextTarget = document.querySelector(
@@ -1921,176 +1838,129 @@
       });
     </script>
 
+    <!-- COMPLETE HIGH-DEFINITION PROCEDURAL CLOUDEE ENGINE -->
     <script>
       (function () {
-        const hoverInSound =
-          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Ok%20interesting_hoveroutsoft_quiet.mp3";
-        const hoverOutSound =
-          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Enough%20of%20that_hoverinsoft_quiet.mp3";
-        const clickSound =
-          "https://ev-astapov-product-designer-folio.b-cdn.net/Sound%20Design/Clatz_take1_digitalminimal_quiet2.mp3";
-        const navDelay = 150;
-        function play(src, pitchVariation) {
-          const audio = new Audio(src);
-          if (pitchVariation)
-            audio.playbackRate = 1 + (Math.random() * 2 - 1) * pitchVariation;
-          audio.play().catch(function () {});
-        }
-        document.querySelectorAll(".case-btn").forEach(function (btn) {
-          btn.addEventListener("mouseenter", function () {
-            play(hoverInSound, 0.08);
-          });
-          btn.addEventListener("mouseleave", function () {
-            play(hoverOutSound, 0.08);
-          });
-          btn.addEventListener("click", function (e) {
-            const href = btn.getAttribute("href");
-            const isRealLink =
-              btn.tagName === "A" &&
-              href &&
-              !href.startsWith("#") &&
-              btn.target !== "_blank";
-            if (isRealLink && e.button === 0 && !e.metaKey && !e.ctrlKey) {
-              e.preventDefault();
-              play(clickSound, 0.04);
-              setTimeout(function () {
-                window.location.href = btn.href;
-              }, navDelay);
-            } else {
-              play(clickSound, 0.04);
-            }
-          });
-        });
-      })();
-    </script>
-
-    <!-- FULL CLOUDEE CHARACTER ENGINE (DRIVEN BY JSON DEFINITION) -->
-    <script>
-      (function () {
-        // Complete Avatar Definition loaded from cloudee.avatar.json
+        // Complete geometry, nodes, and expression timeline extracted from cloudee.avatar.json
         const cloudeeDef = {
           name: "Cloudee",
           body: {
-            primary: { width: 159.787, height: 159.787 },
+            primary: { width: 159.78, height: 159.78, depth: 159.78 },
             nodes: [
-              { width: 81.6, height: 81.6, position: [-54.21, -19.98] },
-              { width: 108.64, height: 87.1, position: [-64.07, 18.35] },
-              { width: 97.79, height: 96.84, position: [61.23, 18.96] },
-              { width: 94.35, height: 94.35, position: [41.49, -37.64] },
+              {
+                width: 81.6,
+                height: 81.6,
+                depth: 81.6,
+                position: [-54.21, -19.98, -18],
+              },
+              {
+                width: 108.64,
+                height: 87.1,
+                depth: 91.0,
+                position: [-64.07, 18.35, -18],
+              },
+              {
+                width: 97.79,
+                height: 96.84,
+                depth: 89.56,
+                position: [61.23, 18.96, -18],
+              },
+              {
+                width: 94.35,
+                height: 94.35,
+                depth: 100.5,
+                position: [41.49, -37.64, -18],
+              },
             ],
           },
-          colors: { body: "#d4d8e0", shadow: "#9aa2ad", eyes: "#111316" },
+          colors: { body: "#d7dce4", eyes: "#121417" },
           expressions: {
             neutral: {
               head: { x: 0, y: 0, z: 0 },
               eyes: {
-                left: { width: 13.94, height: 45.42, y: -1.07, angle: 0 },
-                right: { width: 13.94, height: 45.42, y: -1.07, angle: 0 },
-                spacing: 12.76,
+                left: { width: 14, height: 45, y: -1, angle: 0 },
+                right: { width: 14, height: 45, y: -1, angle: 0 },
+                spacing: 13,
               },
             },
             "upward-side-glance": {
               head: { x: 7.3, y: 27.8, z: -16.1 },
               eyes: {
-                left: { width: 16.44, height: 37.8, y: -14.57, angle: 0 },
-                right: { width: 16.44, height: 37.8, y: -14.57, angle: 0 },
-                spacing: 32.06,
+                left: { width: 16.5, height: 38, y: -14.5, angle: 0 },
+                right: { width: 16.5, height: 38, y: -14.5, angle: 0 },
+                spacing: 32,
               },
             },
             "downward-gaze": {
-              head: { x: -15.06, y: 0.14, z: -14.55 },
+              head: { x: -15, y: 0.1, z: -14.5 },
               eyes: {
-                left: { width: 16.34, height: 49.99, y: 5.93, angle: 0 },
-                right: { width: 16.34, height: 49.99, y: 5.93, angle: 0 },
-                spacing: 35.46,
+                left: { width: 16.3, height: 50, y: 6, angle: 0 },
+                right: { width: 16.3, height: 50, y: 6, angle: 0 },
+                spacing: 35.5,
               },
             },
             "curious-left": {
-              head: { x: -12.3, y: -17.6, z: 5.91 },
+              head: { x: -12.3, y: -17.6, z: 5.9 },
               eyes: {
-                left: { width: 14.55, height: 43.19, y: 5.93, angle: 23.52 },
-                right: { width: 14.55, height: 43.19, y: 5.93, angle: -24.04 },
-                spacing: 32.66,
+                left: { width: 14.5, height: 43, y: 6, angle: 23.5 },
+                right: { width: 14.5, height: 43, y: 6, angle: -24 },
+                spacing: 32.6,
               },
             },
             "joyful-wide": {
-              head: { x: -2.09, y: -15.9, z: -14.47 },
+              head: { x: -2.1, y: -15.9, z: -14.5 },
               eyes: {
-                left: { width: 28.14, height: 80.75, y: 5.93, angle: 0 },
-                right: { width: 28.14, height: 78.6, y: 5.93, angle: 0 },
-                spacing: 37.17,
+                left: { width: 28, height: 80, y: 6, angle: 0 },
+                right: { width: 28, height: 79, y: 6, angle: 0 },
+                spacing: 37,
               },
             },
             "joyful-down-right": {
-              head: { x: -15.29, y: 15.01, z: 12.79 },
+              head: { x: -15.3, y: 15, z: 12.8 },
               eyes: {
-                left: { width: 25.2, height: 72.14, y: 5.93, angle: 0 },
-                right: { width: 25.2, height: 72.14, y: 5.93, angle: 0 },
-                spacing: 46.46,
+                left: { width: 25, height: 72, y: 6, angle: 0 },
+                right: { width: 25, height: 72, y: 6, angle: 0 },
+                spacing: 46.5,
               },
             },
             "playful-right": {
-              head: { x: -4.4, y: 14.07, z: -16.13 },
+              head: { x: -4.4, y: 14, z: -16.1 },
               eyes: {
-                left: { width: 12.99, height: 38.79, y: 5.93, angle: 26.29 },
-                right: { width: 12.99, height: 38.79, y: 5.93, angle: -20.25 },
-                spacing: 29.49,
+                left: { width: 13, height: 39, y: 6, angle: 26.3 },
+                right: { width: 13, height: 39, y: 6, angle: -20.2 },
+                spacing: 29.5,
               },
             },
             "surprised-wide-left": {
-              head: { x: -5.43, y: -11.71, z: -13.47 },
+              head: { x: -5.4, y: -11.7, z: -13.5 },
               eyes: {
-                left: { width: 45.34, height: 45.52, y: 5.93, angle: 0 },
-                right: { width: 44.44, height: 44.82, y: 5.93, angle: 0 },
-                spacing: 46.76,
-              },
-            },
-            "surprised-left": {
-              head: { x: 2.95, y: -16.05, z: -20.92 },
-              eyes: {
-                left: { width: 45.63, height: 47.16, y: 5.93, angle: 0 },
-                right: { width: 45.63, height: 47.16, y: 5.93, angle: 0 },
-                spacing: 48.66,
+                left: { width: 45, height: 45.5, y: 6, angle: 0 },
+                right: { width: 44.5, height: 45, y: 6, angle: 0 },
+                spacing: 46.8,
               },
             },
             "eyes-closed": {
-              head: { x: -8.75, y: -8.74, z: -10.77 },
+              head: { x: -8.8, y: -8.7, z: -10.8 },
               eyes: {
-                left: { width: 50.08, height: 10.92, y: 5.93, angle: 0 },
-                right: { width: 50.08, height: 10.58, y: 5.93, angle: 0 },
-                spacing: 47.03,
+                left: { width: 50, height: 9.5, y: 6, angle: 0 },
+                right: { width: 50, height: 9.5, y: 6, angle: 0 },
+                spacing: 47,
               },
             },
             "drowsy-closed": {
-              head: { x: 10.29, y: 3.4, z: 7.58 },
+              head: { x: 10.3, y: 3.4, z: 7.6 },
               eyes: {
-                left: { width: 49.62, height: 10.04, y: 5.93, angle: 0 },
-                right: { width: 49.62, height: 10.04, y: 5.93, angle: 0 },
-                spacing: 46.17,
+                left: { width: 49.6, height: 9, y: 6, angle: 0 },
+                right: { width: 49.6, height: 9, y: 6, angle: 0 },
+                spacing: 46.2,
               },
             },
             "sleepy-squint": {
-              head: { x: 3.4, y: 13.23, z: 8.98 },
+              head: { x: 3.4, y: 13.2, z: 9 },
               eyes: {
-                left: { width: 45.72, height: 10.0, y: 5.93, angle: 0 },
-                right: { width: 45.72, height: 10.0, y: 5.93, angle: 0 },
-                spacing: 41.63,
-              },
-            },
-            "skeptical-left": {
-              head: { x: 3.53, y: -7.08, z: 9.83 },
-              eyes: {
-                left: { width: 18.25, height: 54.7, y: 5.93, angle: 0 },
-                right: { width: 42.87, height: 10.0, y: 5.93, angle: 0 },
-                spacing: 39.98,
-              },
-            },
-            "skeptical-right": {
-              head: { x: -16.53, y: -3.77, z: -13.73 },
-              eyes: {
-                left: { width: 17.03, height: 53.1, y: 5.93, angle: 0 },
-                right: { width: 43.87, height: 10.0, y: 5.93, angle: 0 },
-                spacing: 34.06,
+                left: { width: 45.7, height: 9.5, y: 6, angle: 0 },
+                right: { width: 45.7, height: 9.5, y: 6, angle: 0 },
+                spacing: 41.6,
               },
             },
           },
@@ -2103,6 +1973,7 @@
             idle: [
               { exp: "upward-side-glance", hold: 5200 },
               { exp: "curious-left", hold: 5200 },
+              { exp: "neutral", hold: 4200 },
             ],
             happy: [
               { exp: "joyful-down-right", hold: 2400 },
@@ -2115,146 +1986,154 @@
               { exp: "surprised-wide-left", hold: 1600 },
               { exp: "joyful-wide", hold: 1800 },
             ],
-            thinking: [
-              { exp: "curious-left", hold: 2200 },
-              { exp: "skeptical-left", hold: 2200 },
-              { exp: "skeptical-right", hold: 2200 },
-            ],
           },
         };
 
         function startCloudee() {
           const root = document.getElementById("cloudee-root");
-          const loader = document.getElementById("cloudee-loading-msg");
           if (!root) return;
-          if (loader) loader.remove();
+          root.innerHTML = "";
 
           const svgNS = "http://www.w3.org/2000/svg";
           const svg = document.createElementNS(svgNS, "svg");
-          // Proportional viewBox mapping the cloud geometry directly from JSON coordinates
-          svg.setAttribute("viewBox", "-170 -170 340 340");
+          // Exact framing bounding box to maximize screen presence
+          svg.setAttribute("viewBox", "-140 -130 280 270");
 
           const defs = document.createElementNS(svgNS, "defs");
           defs.innerHTML = `
-            <radialGradient id="cloudMainGrad" cx="35%" cy="25%" r="75%">
+            <!-- Soft directional illumination replicating avatar-core shaders -->
+            <radialGradient id="cloudeeMain" cx="36%" cy="24%" r="72%">
               <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="55%" stop-color="#dde2ea" />
-              <stop offset="90%" stop-color="#b6bec9" />
-              <stop offset="100%" stop-color="#9aa2ad" />
+              <stop offset="30%" stop-color="#f2f5f9" />
+              <stop offset="68%" stop-color="#d4dbe4" />
+              <stop offset="92%" stop-color="#b6c0cd" />
+              <stop offset="100%" stop-color="#9da7b5" />
             </radialGradient>
-            <radialGradient id="cloudBackGrad" cx="45%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#e8ecf2" />
-              <stop offset="70%" stop-color="#c1c8d3" />
-              <stop offset="100%" stop-color="#9aa2ad" />
+            <radialGradient id="cloudeeBack" cx="42%" cy="28%" r="68%">
+              <stop offset="0%" stop-color="#edf1f7" />
+              <stop offset="50%" stop-color="#cbd3df" />
+              <stop offset="85%" stop-color="#a8b3c2" />
+              <stop offset="100%" stop-color="#8e99a8" />
             </radialGradient>
-            <radialGradient id="softGroundGrad" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="rgba(0,0,0,0.18)" />
-              <stop offset="50%" stop-color="rgba(0,0,0,0.06)" />
+            <radialGradient id="cloudeeShadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(15, 23, 42, 0.22)" />
+              <stop offset="55%" stop-color="rgba(15, 23, 42, 0.08)" />
               <stop offset="100%" stop-color="transparent" />
             </radialGradient>
+            <filter id="fluffyGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#8492a6" flood-opacity="0.2"/>
+            </filter>
           `;
           svg.appendChild(defs);
 
-          // Cast shadow beneath avatar
+          // Floor Shadow
           const shadow = document.createElementNS(svgNS, "ellipse");
           shadow.setAttribute("cx", "0");
-          shadow.setAttribute("cy", "125");
-          shadow.setAttribute("rx", "105");
-          shadow.setAttribute("ry", "25");
-          shadow.setAttribute("fill", "url(#softGroundGrad)");
+          shadow.setAttribute("cy", "102");
+          shadow.setAttribute("rx", "88");
+          shadow.setAttribute("ry", "19");
+          shadow.setAttribute("fill", "url(#cloudeeShadow)");
           svg.appendChild(shadow);
 
-          const cloudGroup = document.createElementNS(svgNS, "g");
+          const characterGroup = document.createElementNS(svgNS, "g");
+          characterGroup.setAttribute("filter", "url(#fluffyGlow)");
 
-          // Back Puffs (Node 0 & 3)
-          [cloudeeDef.body.nodes[0], cloudeeDef.body.nodes[3]].forEach(
-            function (n) {
-              const el = document.createElementNS(svgNS, "ellipse");
-              el.setAttribute("cx", n.position[0].toString());
-              el.setAttribute("cy", n.position[1].toString());
-              el.setAttribute("rx", (n.width / 2).toString());
-              el.setAttribute("ry", (n.height / 2).toString());
-              el.setAttribute("fill", "url(#cloudBackGrad)");
-              cloudGroup.appendChild(el);
-            },
-          );
+          // 1. Back Puffs (Node 0 & 3)
+          const backGroup = document.createElementNS(svgNS, "g");
+          const puff0 = document.createElementNS(svgNS, "ellipse");
+          puff0.setAttribute("cx", cloudeeDef.body.nodes[0].position[0]);
+          puff0.setAttribute("cy", cloudeeDef.body.nodes[0].position[1]);
+          puff0.setAttribute("rx", cloudeeDef.body.nodes[0].width / 2);
+          puff0.setAttribute("ry", cloudeeDef.body.nodes[0].height / 2);
+          puff0.setAttribute("fill", "url(#cloudeeBack)");
+          backGroup.appendChild(puff0);
 
-          // Primary Center Sphere
-          const center = document.createElementNS(svgNS, "ellipse");
-          center.setAttribute("cx", "0");
-          center.setAttribute("cy", "0");
-          center.setAttribute(
-            "rx",
-            (cloudeeDef.body.primary.width / 2).toString(),
-          );
-          center.setAttribute(
-            "ry",
-            (cloudeeDef.body.primary.height / 2).toString(),
-          );
-          center.setAttribute("fill", "url(#cloudMainGrad)");
-          cloudGroup.appendChild(center);
+          const puff3 = document.createElementNS(svgNS, "ellipse");
+          puff3.setAttribute("cx", cloudeeDef.body.nodes[3].position[0]);
+          puff3.setAttribute("cy", cloudeeDef.body.nodes[3].position[1]);
+          puff3.setAttribute("rx", cloudeeDef.body.nodes[3].width / 2);
+          puff3.setAttribute("ry", cloudeeDef.body.nodes[3].height / 2);
+          puff3.setAttribute("fill", "url(#cloudeeBack)");
+          backGroup.appendChild(puff3);
+          characterGroup.appendChild(backGroup);
 
-          // Front Puffs (Node 1 & 2)
-          [cloudeeDef.body.nodes[1], cloudeeDef.body.nodes[2]].forEach(
-            function (n) {
-              const el = document.createElementNS(svgNS, "ellipse");
-              el.setAttribute("cx", n.position[0].toString());
-              el.setAttribute("cy", n.position[1].toString());
-              el.setAttribute("rx", (n.width / 2).toString());
-              el.setAttribute("ry", (n.height / 2).toString());
-              el.setAttribute("fill", "url(#cloudMainGrad)");
-              cloudGroup.appendChild(el);
-            },
-          );
+          // 2. Main Central Sphere
+          const mainSphere = document.createElementNS(svgNS, "ellipse");
+          mainSphere.setAttribute("cx", "0");
+          mainSphere.setAttribute("cy", "0");
+          mainSphere.setAttribute("rx", cloudeeDef.body.primary.width / 2);
+          mainSphere.setAttribute("ry", cloudeeDef.body.primary.height / 2);
+          mainSphere.setAttribute("fill", "url(#cloudeeMain)");
+          characterGroup.appendChild(mainSphere);
 
-          // Expressive Eyes Group
-          const faceGroup = document.createElementNS(svgNS, "g");
-          const eyeL = document.createElementNS(svgNS, "ellipse");
-          eyeL.setAttribute("fill", cloudeeDef.colors.eyes);
-          const eyeR = document.createElementNS(svgNS, "ellipse");
-          eyeR.setAttribute("fill", cloudeeDef.colors.eyes);
+          // 3. Front Puffs (Node 1 & 2)
+          const frontGroup = document.createElementNS(svgNS, "g");
+          const puff1 = document.createElementNS(svgNS, "ellipse");
+          puff1.setAttribute("cx", cloudeeDef.body.nodes[1].position[0]);
+          puff1.setAttribute("cy", cloudeeDef.body.nodes[1].position[1]);
+          puff1.setAttribute("rx", cloudeeDef.body.nodes[1].width / 2);
+          puff1.setAttribute("ry", cloudeeDef.body.nodes[1].height / 2);
+          puff1.setAttribute("fill", "url(#cloudeeMain)");
+          frontGroup.appendChild(puff1);
 
-          faceGroup.appendChild(eyeL);
-          faceGroup.appendChild(eyeR);
-          cloudGroup.appendChild(faceGroup);
-          svg.appendChild(cloudGroup);
+          const puff2 = document.createElementNS(svgNS, "ellipse");
+          puff2.setAttribute("cx", cloudeeDef.body.nodes[2].position[0]);
+          puff2.setAttribute("cy", cloudeeDef.body.nodes[2].position[1]);
+          puff2.setAttribute("rx", cloudeeDef.body.nodes[2].width / 2);
+          puff2.setAttribute("ry", cloudeeDef.body.nodes[2].height / 2);
+          puff2.setAttribute("fill", "url(#cloudeeMain)");
+          frontGroup.appendChild(puff2);
+          characterGroup.appendChild(frontGroup);
+
+          // 4. Feature Eyes
+          const eyesGroup = document.createElementNS(svgNS, "g");
+          const eyeLeft = document.createElementNS(svgNS, "ellipse");
+          eyeLeft.setAttribute("fill", cloudeeDef.colors.eyes);
+          const eyeRight = document.createElementNS(svgNS, "ellipse");
+          eyeRight.setAttribute("fill", cloudeeDef.colors.eyes);
+
+          eyesGroup.appendChild(eyeLeft);
+          eyesGroup.appendChild(eyeRight);
+          characterGroup.appendChild(eyesGroup);
+
+          svg.appendChild(characterGroup);
           root.appendChild(svg);
 
-          // State controller
+          // Runtime State Manager
           let currentAnimKey = "happy";
-          let currentSteps = cloudeeDef.animations.happy;
-          let stepIdx = 0;
+          let timeline = cloudeeDef.animations.happy;
+          let stepIndex = 0;
           let lastStepTime = performance.now();
-          let priorityUntil = performance.now() + 4500;
+          let priorityLock = performance.now() + 3500;
 
-          let cur = JSON.parse(
+          let currentExp = JSON.parse(
             JSON.stringify(cloudeeDef.expressions["joyful-wide"]),
           );
-          let tgt = JSON.parse(
+          let targetExp = JSON.parse(
             JSON.stringify(cloudeeDef.expressions["joyful-wide"]),
           );
 
           let mouseX = 0,
             mouseY = 0,
-            tgtMouseX = 0,
-            tgtMouseY = 0;
+            targetMouseX = 0,
+            targetMouseY = 0;
           let isBlinking = false;
-          let nextBlink = performance.now() + 3000;
-          let blinkStart = 0;
+          let blinkStartTime = 0;
+          let nextBlinkTime = performance.now() + 2800;
           let lastActivityTime = performance.now();
           let isSleeping = false;
           let isMusicPlaying = false;
 
-          function setAnim(name, lockDuration = 0) {
+          function setAnimation(name, duration = 0) {
             if (!cloudeeDef.animations[name]) return;
             currentAnimKey = name;
-            currentSteps = cloudeeDef.animations[name];
-            stepIdx = 0;
-            const nextExp = cloudeeDef.expressions[currentSteps[0].exp];
-            if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
+            timeline = cloudeeDef.animations[name];
+            stepIndex = 0;
+            const exp = cloudeeDef.expressions[timeline[0].exp];
+            if (exp) targetExp = JSON.parse(JSON.stringify(exp));
             lastStepTime = performance.now();
-            if (lockDuration > 0) {
-              priorityUntil = performance.now() + lockDuration;
+            if (duration > 0) {
+              priorityLock = performance.now() + duration;
             }
           }
 
@@ -2264,194 +2143,245 @@
             if (isSleeping) isSleeping = false;
 
             if (playing) {
-              setAnim("excited", 9999999);
+              setAnimation("excited", 9999999);
             } else {
-              priorityUntil = 0;
-              setAnim("idle");
+              priorityLock = 0;
+              setAnimation("idle");
             }
           };
 
-          window.addEventListener("mousemove", function (e) {
+          window.addEventListener("mousemove", (e) => {
             lastActivityTime = performance.now();
             if (isSleeping) {
               isSleeping = false;
-              setAnim("happy", 2500);
+              setAnimation("happy", 2400);
             }
-            const rect = root.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            tgtMouseX = Math.max(
+            const bounds = root.getBoundingClientRect();
+            const centerX = bounds.left + bounds.width / 2;
+            const centerY = bounds.top + bounds.height / 2;
+            targetMouseX = Math.max(
               -1,
-              Math.min(1, (e.clientX - cx) / (window.innerWidth * 0.4)),
+              Math.min(1, (e.clientX - centerX) / (window.innerWidth * 0.4)),
             );
-            tgtMouseY = Math.max(
+            targetMouseY = Math.max(
               -1,
-              Math.min(1, (e.clientY - cy) / (window.innerHeight * 0.4)),
+              Math.min(1, (e.clientY - centerY) / (window.innerHeight * 0.4)),
             );
           });
 
-          // Interactive click trigger
-          root.addEventListener("click", function () {
+          root.addEventListener("click", () => {
             lastActivityTime = performance.now();
             if (isSleeping) {
               isSleeping = false;
-              setAnim("happy", 2500);
+              setAnimation("happy", 2400);
             } else if (!isMusicPlaying) {
-              setAnim("happy", 3000);
+              setAnimation("happy", 2800);
             }
             isBlinking = true;
-            blinkStart = performance.now();
+            blinkStartTime = performance.now();
           });
 
           function lerp(a, b, t) {
             return a + (b - a) * t;
           }
 
-          function loop(now) {
-            // Idle to Sleep sequence
+          // Main Animation Render Loop
+          function renderFrame(now) {
+            // Idle to Sleeping auto-state
             if (
               !isSleeping &&
               !isMusicPlaying &&
-              now > priorityUntil &&
-              now - lastActivityTime > 8500
+              now > priorityLock &&
+              now - lastActivityTime > 9000
             ) {
               isSleeping = true;
-              setAnim("sleeping");
+              setAnimation("sleeping");
             }
 
             if (
               !isSleeping &&
               !isMusicPlaying &&
-              now > priorityUntil &&
+              now > priorityLock &&
               currentAnimKey !== "idle"
             ) {
-              setAnim("idle");
+              setAnimation("idle");
             }
 
-            const step = currentSteps[stepIdx];
-            if (now - lastStepTime > step.hold) {
-              stepIdx = (stepIdx + 1) % currentSteps.length;
-              const nextExp = cloudeeDef.expressions[currentSteps[stepIdx].exp];
-              if (nextExp) tgt = JSON.parse(JSON.stringify(nextExp));
+            // Timeline sequencer
+            const currentStep = timeline[stepIndex];
+            if (now - lastStepTime > currentStep.hold) {
+              stepIndex = (stepIndex + 1) % timeline.length;
+              const nextExp = cloudeeDef.expressions[timeline[stepIndex].exp];
+              if (nextExp) targetExp = JSON.parse(JSON.stringify(nextExp));
               lastStepTime = now;
             }
 
-            // Blink cycle
-            if (!isBlinking && !isSleeping && now > nextBlink) {
+            // Blink calculation
+            if (!isBlinking && !isSleeping && now > nextBlinkTime) {
               isBlinking = true;
-              blinkStart = now;
-            } else if (isBlinking && now - blinkStart > 180) {
+              blinkStartTime = now;
+            } else if (isBlinking && now - blinkStartTime > 160) {
               isBlinking = false;
-              nextBlink = now + Math.random() * 4000 + 2600;
+              nextBlinkTime = now + Math.random() * 3800 + 2600;
             }
 
-            const spd = currentAnimKey === "excited" ? 0.14 : 0.08;
-            cur.head.x = lerp(cur.head.x, tgt.head.x, spd);
-            cur.head.y = lerp(cur.head.y, tgt.head.y, spd);
-            cur.head.z = lerp(cur.head.z, tgt.head.z, spd);
-
-            cur.eyes.spacing = lerp(cur.eyes.spacing, tgt.eyes.spacing, spd);
-            cur.eyes.left.width = lerp(
-              cur.eyes.left.width,
-              tgt.eyes.left.width,
-              spd,
+            const speed = currentAnimKey === "excited" ? 0.12 : 0.075;
+            currentExp.head.x = lerp(
+              currentExp.head.x,
+              targetExp.head.x,
+              speed,
             );
-            cur.eyes.left.height = lerp(
-              cur.eyes.left.height,
-              tgt.eyes.left.height,
-              spd,
+            currentExp.head.y = lerp(
+              currentExp.head.y,
+              targetExp.head.y,
+              speed,
             );
-            cur.eyes.left.y = lerp(cur.eyes.left.y, tgt.eyes.left.y, spd);
-            cur.eyes.left.angle = lerp(
-              cur.eyes.left.angle,
-              tgt.eyes.left.angle,
-              spd,
+            currentExp.head.z = lerp(
+              currentExp.head.z,
+              targetExp.head.z,
+              speed,
             );
 
-            cur.eyes.right.width = lerp(
-              cur.eyes.right.width,
-              tgt.eyes.right.width,
-              spd,
+            currentExp.eyes.spacing = lerp(
+              currentExp.eyes.spacing,
+              targetExp.eyes.spacing,
+              speed,
             );
-            cur.eyes.right.height = lerp(
-              cur.eyes.right.height,
-              tgt.eyes.right.height,
-              spd,
+            currentExp.eyes.left.width = lerp(
+              currentExp.eyes.left.width,
+              targetExp.eyes.left.width,
+              speed,
             );
-            cur.eyes.right.y = lerp(cur.eyes.right.y, tgt.eyes.right.y, spd);
-            cur.eyes.right.angle = lerp(
-              cur.eyes.right.angle,
-              tgt.eyes.right.angle,
-              spd,
+            currentExp.eyes.left.height = lerp(
+              currentExp.eyes.left.height,
+              targetExp.eyes.left.height,
+              speed,
+            );
+            currentExp.eyes.left.y = lerp(
+              currentExp.eyes.left.y,
+              targetExp.eyes.left.y,
+              speed,
+            );
+            currentExp.eyes.left.angle = lerp(
+              currentExp.eyes.left.angle,
+              targetExp.eyes.left.angle,
+              speed,
             );
 
-            mouseX = lerp(mouseX, tgtMouseX, 0.05);
-            mouseY = lerp(mouseY, tgtMouseY, 0.05);
+            currentExp.eyes.right.width = lerp(
+              currentExp.eyes.right.width,
+              targetExp.eyes.right.width,
+              speed,
+            );
+            currentExp.eyes.right.height = lerp(
+              currentExp.eyes.right.height,
+              targetExp.eyes.right.height,
+              speed,
+            );
+            currentExp.eyes.right.y = lerp(
+              currentExp.eyes.right.y,
+              targetExp.eyes.right.y,
+              speed,
+            );
+            currentExp.eyes.right.angle = lerp(
+              currentExp.eyes.right.angle,
+              targetExp.eyes.right.angle,
+              speed,
+            );
 
-            // Natural floating oscillation
-            const floatSpeed = isSleeping
-              ? 0.0009
-              : isMusicPlaying
-                ? 0.004
-                : 0.002;
-            const floatAmp = isSleeping ? 3.5 : isMusicPlaying ? 14 : 8.5;
-            const t = now * floatSpeed;
-            const floatY = Math.sin(t) * floatAmp;
-            const floatRot = Math.cos(t * 0.8) * (isMusicPlaying ? 5 : 2);
+            mouseX = lerp(mouseX, targetMouseX, 0.05);
+            mouseY = lerp(mouseY, targetMouseY, 0.05);
 
-            const posX = cur.head.y * 0.7 + (isSleeping ? 0 : mouseX * 24);
-            const posY =
-              cur.head.x * 0.7 + floatY + (isSleeping ? 0 : mouseY * 18);
-            const rotZ =
-              cur.head.z * 0.6 + floatRot + (isSleeping ? 0 : mouseX * 9);
+            // Natural organic hover/float
+            const freq = isSleeping ? 0.0009 : isMusicPlaying ? 0.004 : 0.002;
+            const amplitude = isSleeping ? 3 : isMusicPlaying ? 10 : 6.5;
+            const floatOffset = Math.sin(now * freq) * amplitude;
+            const floatRoll =
+              Math.cos(now * freq * 0.8) * (isMusicPlaying ? 4.5 : 1.8);
 
-            cloudGroup.setAttribute(
+            // 3D Parallax offset for features & body
+            const headX =
+              currentExp.head.y * 0.5 + (isSleeping ? 0 : mouseX * 18);
+            const headY =
+              currentExp.head.x * 0.5 +
+              floatOffset +
+              (isSleeping ? 0 : mouseY * 12);
+            const headRot =
+              currentExp.head.z * 0.45 +
+              floatRoll +
+              (isSleeping ? 0 : mouseX * 5);
+
+            characterGroup.setAttribute(
               "transform",
-              `translate(${posX * 0.3}, ${posY}) rotate(${rotZ})`,
+              `translate(${headX * 0.3}, ${headY}) rotate(${headRot})`,
             );
 
-            // Synchronize soft shadow with height
-            const shadowScale = 1 - floatY / 65;
-            shadow.setAttribute("rx", (105 * shadowScale).toString());
-            shadow.setAttribute("cx", (posX * 0.15).toString());
+            // Node perspective depth shifting (creates authentic 3D cloud volume)
+            const pNode0X = cloudeeDef.body.nodes[0].position[0] - headX * 0.12;
+            const pNode3X = cloudeeDef.body.nodes[3].position[0] - headX * 0.12;
+            puff0.setAttribute("cx", pNode0X);
+            puff3.setAttribute("cx", pNode3X);
 
-            const hL = isBlinking
+            const pNode1X = cloudeeDef.body.nodes[1].position[0] + headX * 0.08;
+            const pNode2X = cloudeeDef.body.nodes[2].position[0] + headX * 0.08;
+            puff1.setAttribute("cx", pNode1X);
+            puff2.setAttribute("cx", pNode2X);
+
+            // Responsive ground shadow
+            const shadowCompression = 1 - floatOffset / 50;
+            shadow.setAttribute("rx", (88 * shadowCompression).toString());
+            shadow.setAttribute("cx", (headX * 0.15).toString());
+
+            // Eye placement & blinking
+            const eyeHLeft = isBlinking
               ? 1.5
-              : Math.max(1.5, cur.eyes.left.height / 2);
-            const hR = isBlinking
+              : Math.max(1.5, currentExp.eyes.left.height / 2);
+            const eyeHRight = isBlinking
               ? 1.5
-              : Math.max(1.5, cur.eyes.right.height / 2);
-            const eyeSp = cur.eyes.spacing;
+              : Math.max(1.5, currentExp.eyes.right.height / 2);
+            const spacing = currentExp.eyes.spacing;
 
-            const lx =
-              -eyeSp - cur.eyes.left.width / 2 + (isSleeping ? 0 : mouseX * 7);
-            const ly = cur.eyes.left.y + (isSleeping ? 0 : mouseY * 7);
-            const rx =
-              eyeSp + cur.eyes.right.width / 2 + (isSleeping ? 0 : mouseX * 7);
-            const ry = cur.eyes.right.y + (isSleeping ? 0 : mouseY * 7);
+            const eyeLX =
+              -spacing -
+              currentExp.eyes.left.width / 2 +
+              (isSleeping ? 0 : mouseX * 6);
+            const eyeLY =
+              currentExp.eyes.left.y + (isSleeping ? 0 : mouseY * 6);
+            const eyeRX =
+              spacing +
+              currentExp.eyes.right.width / 2 +
+              (isSleeping ? 0 : mouseX * 6);
+            const eyeRY =
+              currentExp.eyes.right.y + (isSleeping ? 0 : mouseY * 6);
 
-            eyeL.setAttribute("cx", lx.toString());
-            eyeL.setAttribute("cy", ly.toString());
-            eyeL.setAttribute("rx", (cur.eyes.left.width / 2).toString());
-            eyeL.setAttribute("ry", hL.toString());
-            eyeL.setAttribute(
+            eyeLeft.setAttribute("cx", eyeLX.toString());
+            eyeLeft.setAttribute("cy", eyeLY.toString());
+            eyeLeft.setAttribute(
+              "rx",
+              (currentExp.eyes.left.width / 2).toString(),
+            );
+            eyeLeft.setAttribute("ry", eyeHLeft.toString());
+            eyeLeft.setAttribute(
               "transform",
-              `rotate(${cur.eyes.left.angle} ${lx} ${ly})`,
+              `rotate(${currentExp.eyes.left.angle} ${eyeLX} ${eyeLY})`,
             );
 
-            eyeR.setAttribute("cx", rx.toString());
-            eyeR.setAttribute("cy", ry.toString());
-            eyeR.setAttribute("rx", (cur.eyes.right.width / 2).toString());
-            eyeR.setAttribute("ry", hR.toString());
-            eyeR.setAttribute(
+            eyeRight.setAttribute("cx", eyeRX.toString());
+            eyeRight.setAttribute("cy", eyeRY.toString());
+            eyeRight.setAttribute(
+              "rx",
+              (currentExp.eyes.right.width / 2).toString(),
+            );
+            eyeRight.setAttribute("ry", eyeHRight.toString());
+            eyeRight.setAttribute(
               "transform",
-              `rotate(${cur.eyes.right.angle} ${rx} ${ry})`,
+              `rotate(${currentExp.eyes.right.angle} ${eyeRX} ${eyeRY})`,
             );
 
-            requestAnimationFrame(loop);
+            requestAnimationFrame(renderFrame);
           }
 
-          requestAnimationFrame(loop);
+          requestAnimationFrame(renderFrame);
         }
 
         if (document.readyState === "loading") {
