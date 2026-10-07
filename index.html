@@ -55,24 +55,12 @@
         visibility: hidden !important;
       }
 
-      /* Base Custom Styles (Dark Theme Default) */
+      /* Base Custom Styles for Language Switcher */
       .lang-menu-container {
         position: relative;
-        margin-left: 15px;
-        font-family: inherit;
-      }
-      .lang-btn {
-        background: transparent;
-        border: none;
-        cursor: pointer;
+        margin-left: 10px;
         display: flex;
         align-items: center;
-        gap: 6px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: #ffffff;
-        padding: 6px 10px;
-        letter-spacing: 1px;
       }
       .lang-dropdown {
         position: absolute;
@@ -85,7 +73,7 @@
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         display: none;
         flex-direction: column;
-        min-width: 70px;
+        min-width: 60px;
         z-index: 100;
         overflow: hidden;
       }
@@ -223,10 +211,7 @@
           color: #666666 !important;
         }
 
-        /* Light Theme overrides for Language Switcher */
-        .lang-btn {
-          color: #111111;
-        }
+        /* Light Theme overrides for Language Dropdown */
         .lang-dropdown {
           background-color: #ffffff;
           border-color: #e5e5e5;
@@ -865,38 +850,30 @@
 
         <!-- CUSTOM LANGUAGE MENU -->
         <div class="lang-menu-container">
-          <button
-            class="lang-btn"
+          <div
+            class="nav-btn w-inline-block"
             id="langBtn"
-            aria-haspopup="true"
-            aria-expanded="false"
+            style="cursor: pointer"
           >
-            <span id="langFlag">🇬🇧</span> <span id="langText">EN</span>
-            <span style="font-size: 0.7em">▼</span>
-          </button>
-          <div class="lang-dropdown" id="langDropdown">
-            <button
-              class="lang-dropdown-item"
-              onclick="changeLang('en', '🇬🇧', 'EN')"
+            <p
+              class="p1 is--menu"
+              style="margin: 0; display: flex; align-items: center; gap: 4px"
             >
+              <span id="langText">EN</span>
+              <span style="font-size: 0.7em">▼</span>
+            </p>
+          </div>
+          <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-dropdown-item" onclick="changeLang('en', 'EN')">
               EN
             </button>
-            <button
-              class="lang-dropdown-item"
-              onclick="changeLang('fr', '🇫🇷', 'FR')"
-            >
+            <button class="lang-dropdown-item" onclick="changeLang('fr', 'FR')">
               FR
             </button>
-            <button
-              class="lang-dropdown-item"
-              onclick="changeLang('zh', '🇨🇳', 'ZH')"
-            >
+            <button class="lang-dropdown-item" onclick="changeLang('zh', 'ZH')">
               ZH
             </button>
-            <button
-              class="lang-dropdown-item"
-              onclick="changeLang('es', '🇪🇸', 'ES')"
-            >
+            <button class="lang-dropdown-item" onclick="changeLang('es', 'ES')">
               ES
             </button>
           </div>
@@ -1950,7 +1927,6 @@
     <script>
       const langBtn = document.getElementById("langBtn");
       const langDropdown = document.getElementById("langDropdown");
-      const langFlag = document.getElementById("langFlag");
       const langText = document.getElementById("langText");
 
       // Toggle dropdown
@@ -1967,9 +1943,8 @@
       });
 
       // Change Language Function
-      function changeLang(code, flag, text) {
+      function changeLang(code, text) {
         // 1. Update the UI Button
-        langFlag.textContent = flag;
         langText.textContent = text;
         langDropdown.classList.remove("show");
 
