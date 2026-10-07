@@ -86,11 +86,7 @@
         border: none;
         cursor: pointer;
         text-align: center;
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #ffffff;
         width: 100%;
-        letter-spacing: 1px;
         transition: background-color 0.2s ease;
       }
       .lang-dropdown-item:hover {
@@ -217,7 +213,7 @@
           border-color: #e5e5e5;
         }
         .lang-dropdown-item {
-          color: #111111;
+          color: #111111 !important;
         }
         .lang-dropdown-item:hover {
           background-color: #f0f0f0;
@@ -857,23 +853,35 @@
           >
             <p
               class="p1 is--menu"
-              style="margin: 0; display: flex; align-items: center; gap: 2px"
+              style="display: flex; align-items: center; gap: 4px; margin: 0"
             >
               <span id="langText">EN</span>
-              <span style="font-size: 0.2em">▼</span>
+              <span style="font-size: 0.6em; margin-top: 2px">▼</span>
             </p>
           </div>
           <div class="lang-dropdown" id="langDropdown">
-            <button class="lang-dropdown-item" onclick="changeLang('en', 'EN')">
+            <button
+              class="lang-dropdown-item p1 is--menu"
+              onclick="changeLang('en', 'EN')"
+            >
               EN
             </button>
-            <button class="lang-dropdown-item" onclick="changeLang('fr', 'FR')">
+            <button
+              class="lang-dropdown-item p1 is--menu"
+              onclick="changeLang('fr', 'FR')"
+            >
               FR
             </button>
-            <button class="lang-dropdown-item" onclick="changeLang('zh', 'ZH')">
+            <button
+              class="lang-dropdown-item p1 is--menu"
+              onclick="changeLang('zh', 'ZH')"
+            >
               ZH
             </button>
-            <button class="lang-dropdown-item" onclick="changeLang('es', 'ES')">
+            <button
+              class="lang-dropdown-item p1 is--menu"
+              onclick="changeLang('es', 'ES')"
+            >
               ES
             </button>
           </div>
