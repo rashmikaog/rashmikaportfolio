@@ -55,6 +55,60 @@
         visibility: hidden !important;
       }
 
+      /* Base Custom Styles (Dark Theme Default) */
+      .lang-menu-container {
+        position: relative;
+        margin-left: 15px;
+        font-family: inherit;
+      }
+      .lang-btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #ffffff;
+        padding: 6px 10px;
+        letter-spacing: 1px;
+      }
+      .lang-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 12px;
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 6px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        display: none;
+        flex-direction: column;
+        min-width: 70px;
+        z-index: 100;
+        overflow: hidden;
+      }
+      .lang-dropdown.show {
+        display: flex;
+      }
+      .lang-dropdown-item {
+        padding: 10px 16px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        text-align: center;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #ffffff;
+        width: 100%;
+        letter-spacing: 1px;
+        transition: background-color 0.2s ease;
+      }
+      .lang-dropdown-item:hover {
+        background-color: #333333;
+      }
+
       @media (prefers-color-scheme: light) {
         body,
         .body,
@@ -167,6 +221,21 @@
         .text-muted,
         .p2.dark-gray {
           color: #666666 !important;
+        }
+
+        /* Light Theme overrides for Language Switcher */
+        .lang-btn {
+          color: #111111;
+        }
+        .lang-dropdown {
+          background-color: #ffffff;
+          border-color: #e5e5e5;
+        }
+        .lang-dropdown-item {
+          color: #111111;
+        }
+        .lang-dropdown-item:hover {
+          background-color: #f0f0f0;
         }
       }
     </style>
@@ -793,6 +862,46 @@
             </a>
           </li>
         </ul>
+
+        <!-- CUSTOM LANGUAGE MENU -->
+        <div class="lang-menu-container">
+          <button
+            class="lang-btn"
+            id="langBtn"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <span id="langFlag">🇬🇧</span> <span id="langText">EN</span>
+            <span style="font-size: 0.7em">▼</span>
+          </button>
+          <div class="lang-dropdown" id="langDropdown">
+            <button
+              class="lang-dropdown-item"
+              onclick="changeLang('en', '🇬🇧', 'EN')"
+            >
+              EN
+            </button>
+            <button
+              class="lang-dropdown-item"
+              onclick="changeLang('fr', '🇫🇷', 'FR')"
+            >
+              FR
+            </button>
+            <button
+              class="lang-dropdown-item"
+              onclick="changeLang('zh', '🇨🇳', 'ZH')"
+            >
+              ZH
+            </button>
+            <button
+              class="lang-dropdown-item"
+              onclick="changeLang('es', '🇪🇸', 'ES')"
+            >
+              ES
+            </button>
+          </div>
+        </div>
+
         <div class="divider-vrt hide"></div>
       </div>
     </nav>
@@ -1835,6 +1944,39 @@
           });
         });
       })();
+    </script>
+
+    <!-- CUSTOM LANGUAGE MENU LOGIC -->
+    <script>
+      const langBtn = document.getElementById("langBtn");
+      const langDropdown = document.getElementById("langDropdown");
+      const langFlag = document.getElementById("langFlag");
+      const langText = document.getElementById("langText");
+
+      // Toggle dropdown
+      langBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        langDropdown.classList.toggle("show");
+      });
+
+      // Close dropdown if clicking outside
+      window.addEventListener("click", () => {
+        if (langDropdown.classList.contains("show")) {
+          langDropdown.classList.remove("show");
+        }
+      });
+
+      // Change Language Function
+      function changeLang(code, flag, text) {
+        // 1. Update the UI Button
+        langFlag.textContent = flag;
+        langText.textContent = text;
+        langDropdown.classList.remove("show");
+
+        // 2. Add your custom translation logic here
+        // E.g., updating innerText of elements containing a data-key attribute
+        console.log(`Language switched to: ${code}`);
+      }
     </script>
   </body>
 </html>
