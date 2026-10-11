@@ -55,6 +55,20 @@
         visibility: hidden !important;
       }
 
+      /* Fix navbar and button text wrapping for translations */
+      .nav-btn p,
+      .hamburger-nav__p,
+      .icon-btn-main p {
+        white-space: nowrap !important;
+      }
+
+      /* Fix footer form alignment for longer translations */
+      .form-animation-wrapper {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        text-align: center !important;
+      }
+
       /* Base Custom Styles for Language Switcher */
       .lang-menu-container {
         position: relative;
